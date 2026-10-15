@@ -1,8 +1,8 @@
 {
-  "name": "CloudStream TR+ v37",
-  "description": "CloudStreamHub aggregator - kisisel Android 12 test deposu",
+  "name": "CloudStream TR+",
+  "description": "CloudStream TR+ sağlayıcı deposu. Paket sürümü oynatma doğrulaması anlamına gelmez.",
   "manifestVersion": 1,
   "pluginLists": [
-    "https://raw.githubusercontent.com/Metehanncakr-00/cloudstream-trplus/main/plugins.json"
+    "https://raw.githubusercontent.com/Metehanncakr-00/cloudstream-trplus/builds/plugins.json"
   ]
 }
