@@ -1,0 +1,27 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/Metehanncakr-00/cloudstream-trplus/main/CloudStreamHub.cs3",
+    "status": 1,
+    "version": 37,
+    "apiVersion": 1,
+    "name": "CloudStreamHub TR+ v37",
+    "internalName": "CloudStreamHub",
+    "authors": [
+      "CloudStreamTR",
+      "Emre-Kahveci",
+      "TR+ yerel gelistirme"
+    ],
+    "description": "CloudStreamHub v37 - Turkce onceligi, kaynak eslestirme ve baglanti iyilestirmeleri. Android 12 test edilmedi.",
+    "repositoryUrl": "https://github.com/Metehanncakr-00/cloudstream-trplus",
+    "tvTypes": [
+      "Movie",
+      "TvSeries",
+      "Anime",
+      "AnimeMovie",
+      "Cartoon",
+      "Documentary"
+    ],
+    "language": "tr",
+    "iconUrl": "https://raw.githubusercontent.com/Emre-Kahveci/CloudStreamHub/main/assets/icon.png"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "name": "CloudStream TR+ v37",
+  "description": "CloudStreamHub aggregator - kisisel Android 12 test deposu",
+  "manifestVersion": 1,
+  "pluginLists": [
+    "https://raw.githubusercontent.com/Metehanncakr-00/cloudstream-trplus/main/plugins.json"
+  ]
+}
