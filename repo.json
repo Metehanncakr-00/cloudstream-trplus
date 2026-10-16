@@ -1,6 +1,6 @@
 {
   "name": "CloudStream TR+",
-  "description": "CloudStream TR+ sağlayıcı deposu. Paket sürümü oynatma doğrulaması anlamına gelmez.",
+  "description": "Türkçe öncelikli CloudStream TR+ eklenti deposu. Kaynak, derleme ve gerçek oynatma doğrulaması ayrı raporlanır.",
   "manifestVersion": 1,
   "pluginLists": [
     "https://raw.githubusercontent.com/Metehanncakr-00/cloudstream-trplus/builds/plugins.json"
