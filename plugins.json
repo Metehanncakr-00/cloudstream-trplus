@@ -85,10 +85,10 @@
     },
     {
         "iconUrl": "https://raw.githubusercontent.com/Emre-Kahveci/CloudStreamHub/main/assets/icon.png",
-        "fileHash": "sha256-0243b7f720fe06acc6d13480b910832bf2dda8949a84aa784c8367e0a3101a10",
+        "fileHash": "sha256-befa3befbd8b2033b79237f5a3481ff3f88fdbaa3a339b13dbd85c1b31e63153",
         "apiVersion": 1,
         "repositoryUrl": "https://github.com/Metehanncakr-00/cloudstream-trplus",
-        "fileSize": 610839,
+        "fileSize": 628686,
         "status": 1,
         "language": "tr",
         "authors": [
@@ -103,7 +103,7 @@
             "Cartoon",
             "Documentary"
         ],
-        "version": 43,
+        "version": 44,
         "internalName": "CloudStreamHub",
         "description": "CloudStreamHub Aggregator - TMDB Ke\u015fif & CloudStream Sa\u011flay\u0131c\u0131lar\u0131n\u0131 Birle\u015ftiren Eklenti",
         "url": "https://raw.githubusercontent.com/Metehanncakr-00/cloudstream-trplus/builds/CloudStreamHub.cs3",
