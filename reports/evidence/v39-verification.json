@@ -1,0 +1,73 @@
+{
+  "verificationStatus": "PASS",
+  "verificationHistory": ["Initial finite-scope PASS with successful full automated gates", "FAIL after independently proving V39-DIZIYOU-NESTED-DEADLINE", "PASS after DiziYou-only budget correction, inspected default-budget virtual-time regression, affected retests/rebuilds and refreshed artifact/release gates"],
+  "criticalCorrectionVerification": {
+    "productEditsByVerifier": false,
+    "source": "DiziYou.kt:349-350 now defaults discovery to 8000 ms and preflight to 6000 ms; shared cancellation and bounded delivery remain unchanged",
+    "regression": "DiziYouDeliveryTest.kt:25-52 defaultBudgetsRetainAllUnknownCandidatesBeforeHubDeadline uses actual defaults (no budget overrides), a 30000 ms outer timeout, two native plus six distinct fallback links, fallback discovery awaiting cancellation, and injected HTTP probes awaiting cancellation. It asserts eight probes and eight distinct delivered candidates including both natives, with every callback before the deadline.",
+    "budgetClosure": "Buffered default phases consume at most 14 seconds rather than 30, reserving 16 seconds within Hub's existing 30-second envelope for preceding work and follow-up probes. This fixes deterministic budget exhaustion; it does not guarantee arbitrary slow upstream requests or device playback.",
+    "command": ".\\gradlew.bat :DiziYou:testDebugUnitTest :CloudStreamHub:testDebugUnitTest :DiziYou:make :CloudStreamHub:make makePluginsJson --console=plain",
+    "log": "reports/evidence/v39-critical-final.log",
+    "exitCode": 0,
+    "affectedJUnit": {"DiziYou": {"passed": 15, "failures": 0, "errors": 0, "skipped": 0}, "CloudStreamHub": {"passed": 106, "failures": 0, "errors": 0, "skipped": 0}},
+    "fullSuiteRerun": false,
+    "priorFullSuiteEvidence": "259 Kotlin passed plus one optional live skip and 208 Python passed remain historical successful evidence for unaffected code; not represented as a fresh full 260-pass command",
+    "refreshedGates": {"canonicalArtifactValidator": "PASS: 35 physical modules, 26 enabled providers, 26 metadata entries", "strictPackagerValidate": "PASS: 26 actual cs3 packages; validation only", "releaseSafety": "PASS: exact 26-ID published inventory, no exceptions or errors", "localManifestSha256": "9df70fd666d9425fddc191e56a47ba9226e6cdb9ebb533aa2db372cea9ade688", "publishedManifestSha256": "265a4dcb3ca6ac18d934f0c39baeb1e8a2d5bda5c4bf5cad2cc8373754cfe368"}
+  },
+  "previousGateConclusion": "PASS before the added nested-default-deadline acceptance check; all recorded successful automated gate results remain unchanged and were not rerun",
+  "scope": "Frozen finite v39 implementation; not completion of the five-phase master contract",
+  "head": "0beda1f3e445e50d86576111f6b1879287a3d777",
+  "branch": "trplus/development",
+  "productFilesEditedByVerifier": false,
+  "commitPushPublishPerformed": false,
+  "newDistributionPrepared": false,
+  "autoRequired": [
+    {"command": "git diff HEAD --check", "status": "PASS"},
+    {"command": "git status --short", "status": "INSPECTED", "note": "Existing uncommitted implementation and historical delivery preserved"},
+    {"command": "python tools/validate_repo.py", "status": "PASS", "physicalModules": 35, "enabledProviders": 26, "errors": 0},
+    {"command": "python tools/verify_version_bumps.py --base v36-baseline", "status": "PASS"},
+    {"command": ".\\gradlew.bat testDebugUnitTest --parallel --continue make makePluginsJson --console=plain", "status": "PASS", "exitCode": 0, "javaHome": "C:\\Users\\Metehan\\AppData\\Local\\Temp\\opencode\\trplus-jdk17\\jdk-17.0.20.1+1", "liveEnvironment": "BLENDER_LIVE_TEST unset", "log": "reports/evidence/v39-gradle.log", "junit": {"tests": 260, "passed": 259, "failures": 0, "errors": 0, "skipped": 1}, "moduleCounts": {"BlenderOpenMovies": {"tests": 14, "passed": 13, "skipped": 1}, "DiziYou": {"tests": 14, "passed": 14}, "DiziKorea": {"tests": 3, "passed": 3}}},
+    {"command": "C:\\Users\\Metehan\\AppData\\Local\\Temp\\opencode\\trplus-validation-venv\\Scripts\\python.exe -m pytest -q tools/tests --ignore=tools/tests/test_upstream_intelligence.py -p no:cacheprovider --junitxml=reports/evidence/v39-pytest.xml", "status": "PASS", "passed": 208, "warnings": 53, "log": "reports/evidence/v39-pytest.log", "excluded": "User-forbidden commit-producing fixtures in test_upstream_intelligence.py; excluded file not inspected"},
+    {"command": "python tools/validate_repo.py --verify-artifacts", "status": "PASS", "canonicalArtifacts": 26},
+    {"command": "prepare_trplus_distribution.validate(root, 'Metehanncakr-00/cloudstream-trplus')", "status": "PASS", "cs3Count": 26, "registryEntriesIncludingNonphysicalDisabled": 37, "note": "Validation only; no packaging call"},
+    {"command": "python tools/verify_release_safety.py --local build/plugins.json --published backups/published-builds-20261016T175412Z/plugins.json --mode test --report reports/evidence/v39-release-safety.json", "status": "PASS", "localCount": 26, "publishedCount": 26, "missingIds": [], "newIds": [], "exceptions": [], "allSameIdVersionsStrictlyIncreased": true, "embeddedManifestVersions": {"CloudStreamHub": 39, "BlenderOpenMovies": 3}}
+  ],
+  "finiteFindingClosures": [
+    {"finding": "Cancellation during callback stops delivery", "status": "VERIFIED", "source": "BoundedLinkDelivery.kt:79-82 checks coroutine activity before each callback; Blender loadLinks delegates to it", "test": "cancellationFromFirstCallbackStopsFurtherDelivery"},
+    {"finding": "Indeterminate preflight retains native fallback", "status": "VERIFIED", "source": "BoundedLinkDelivery.kt:64-78 retains absent/INDETERMINATE results, filters INVALID; Blender rejects detected manifest mismatch", "test": "unknownPreflightRemainsFallbackWithoutClaimingPlayback"},
+    {"finding": "Known Big Buck Bunny UUID aliases do not create equal title/year search identities", "status": "VERIFIED", "source": "BlenderCatalog.kt:70-75 canonicalizes curated aliases, including merged search pages, without merging arbitrary unknown-year titles", "test": "knownAliasesCannotProduceEqualTitleYearCandidatesWithDistinctUrls"},
+    {"finding": "API resolution id 818 with label 1080p ranks as reported 1080", "status": "VERIFIED", "source": "BlenderCatalog.kt:77-84 uses bounded exact numeric p-label before numeric ID", "test": "reportedQualityLabelOverridesNonstandardIdWithoutInventingMarketingQuality"}
+  ],
+  "preservedHashes": {
+    "backups/cloudstream-v36-original-20261016-111427.zip": "ce29af53dc53552a7c810e7fefc8e446a6dd07640d7c79cb1e4aa2b27ea06c7d",
+    "backups/v36-baseline-built-sdk35.zip": "35df2ba4a7d9c4e965de9f007a66c80820fb36960da4b3d571148127af488fd6",
+    "cloudstream-trplus-final/cloudstream-trplus-main.zip": "ead424eadffdff736ab8a5b3cf23cccd6f6a944c3151618cebd1261850045f89",
+    "cloudstream-trplus-final/cloudstream-trplus-builds.zip": "bb7c105b90f88876dac6666df77520e73f6583fff46c311d0e3d3cea27ede82e",
+    "backups/published-builds-20261016T175412Z/plugins.json": "265a4dcb3ca6ac18d934f0c39baeb1e8a2d5bda5c4bf5cad2cc8373754cfe368"
+  },
+  "publishedBackup": {"sha256sumsEntriesVerified": 28, "packagesMatchingPublishedMetadataHashAndSize": 26, "diagnosticCorrection": "An initial metadata cross-check assumed packages at snapshot root; corrected to existing packages/ subdirectory. SHA256SUMS had already passed. No data changed."},
+  "manualRequired": {"status": "UNVERIFIED_MANUAL", "checks": ["Android 12 host automatic source/audio selection", "Audible language and codec compatibility", "Android TV track/UI behavior"], "deviceEvidence": "Prior adb list empty; no repeat device/live research"},
+  "optionalDiagnostic": {"liveNetworkRepeats": 0, "blenderLiveTest": "SKIPPED as intended", "d8Warnings": "Known baseline metadata compatibility warnings; not suppressed and not evidence of device success"},
+  "remainingMasterContract": ["Other standalone providers are not all migrated to bounded shared delivery", "Remaining individual provider/category runtime repairs and permitted integrations", "Full category/episode/device acceptance", "Independent final reviewer and new v39 local distribution preparation remain parent tasks"],
+  "blockingFindingsInFiniteScope": [
+    {
+      "id": "V39-DIZIYOU-NESTED-DEADLINE",
+      "severity": "HIGH",
+      "status": "CLOSED_VERIFIED",
+      "title": "Default DiziYou buffered delivery exhausts enclosing Hub deadline before first callback",
+      "evidence": [
+        "HubLinkSelection.kt:67-70 sets HubProviderTimeout to 30000 ms",
+        "CloudStreamHub.kt:420-448 starts that timeout before provider search/load; lines 534-538 invoke provider.loadLinks inside it",
+        "DiziYou.kt:339 fetches the episode document inside the same deadline; lines 349-350 default to 20000 ms discovery plus 10000 ms preflight",
+        "DiziYou.kt:277-323 constructs two distinct native HTTP candidates; lines 355-362 collect those and all fallback extractor callbacks before shared delivery",
+        "BoundedParallelResolver.kt:27 defaults earlyExitOnFirstSuccess to false and line 78 awaits resolver jobs, allowing a fallback that emits six distinct HTTP links then awaits cancellation to consume the discovery budget",
+        "BoundedLinkDelivery.kt:37-54 completes discovery before preflight; lines 55-70 use concurrency four and a 5000 ms probe timeout; lines 75-82 wait for the whole preflight phase before any callback"
+      ],
+      "concreteCondition": "A valid player ID gives two native links; one fallback extractor emits six distinct HTTP links then remains pending until the 20-second discovery timeout. All eight HTTP probes suspend for their five-second per-probe timeout. Four permits require two waves, consuming the ten-second preflight budget. Even without scheduling overhead, delivery cannot begin before 30 seconds after discovery began; Hub's deadline began earlier, before search/load/document retrieval, so it cancels first. This is a control-flow proof for that reproducible input/transport condition, not a claim that current upstream always has those timings.",
+      "impact": "No DiziYou stream callbacks reach Hub, including already-discovered native fallbacks; prior progressive native delivery did not wait for fallback discovery/probes. Hub also requires its own downstream preflight time.",
+      "existingTestGap": "DiziYouDeliveryTest covers fast default discovery or shortened discovery/preflight overrides, not eight candidates under default budgets nested inside Hub's 30-second deadline",
+      "minimalCorrectionDirection": "Reduce DiziYou-only default discovery/preflight budgets, e.g. 8000/6000 ms, leaving room for enclosing search/load/document and Hub downstream checks; add a virtual-time regression using actual defaults, two native plus six fallback candidates, slow probes, and a 30000 ms enclosing timeout. Verify at least a native fallback reaches the delivery boundary before cancellation, plus downstream Hub preflight where feasible. Do not enlarge shared global budgets or bypass external cancellation.",
+      "validationMethod": "Actual-source deadline composition inspection; no network, source edits, or repeated build/test gates"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "id": 105,
+      "title": "Geleceğe Dönüş",
+      "original_title": "Back to the Future",
+      "overview": "Marty McFly zamanda 1955 yılına gider.",
+      "poster_path": "/back_to_future.jpg",
+      "media_type": "movie",
+      "release_date": "1985-07-03",
+      "vote_average": 8.3
+    },
+    {
+      "id": 1399,
+      "name": "Game of Thrones",
+      "original_name": "Game of Thrones",
+      "overview": "Westeros taht mücadeleleri.",
+      "poster_path": "/got.jpg",
+      "media_type": "tv",
+      "first_air_date": "2011-04-17",
+      "vote_average": 8.4
+    }
+  ],
+  "total_pages": 10,
+  "total_results": 200
+}

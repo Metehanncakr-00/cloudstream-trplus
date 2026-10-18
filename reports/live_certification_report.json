@@ -1,0 +1,422 @@
+[
+  {
+    "provider": "AnimeciX",
+    "L1": "PASS",
+    "L2": "FAIL",
+    "L3": "UNVERIFIED",
+    "L4": "UNVERIFIED",
+    "L5": "UNVERIFIED",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_HOMEPAGE",
+    "failureStage": "L2_homepage",
+    "failureCategory": "SELECTOR_MISMATCH_OR_EMPTY",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Homepage content discovery failed: NO_HOMEPAGE_ITEMS_PARSED"
+    ]
+  },
+  {
+    "provider": "BelgeselX",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "FAIL",
+    "L5": "UNVERIFIED",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_LOAD",
+    "failureStage": "L4_load",
+    "failureCategory": "DETAIL_PAGE_ERROR",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Detail load failed: SOFT_404_PAGE: 404 — Sayfa Bulunamadı | Belgeselx"
+    ]
+  },
+  {
+    "provider": "DiziPal",
+    "L1": "FAIL",
+    "L2": "UNVERIFIED",
+    "L3": "UNVERIFIED",
+    "L4": "UNVERIFIED",
+    "L5": "UNVERIFIED",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_DOMAIN",
+    "failureStage": "L1_domain",
+    "failureCategory": "UNTRUSTED_REDIRECT",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Untrusted redirect candidate: dizipalorjinal8.com"
+    ]
+  },
+  {
+    "provider": "FilmMakinesi",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "PASS",
+    "L5": "PASS",
+    "L6": "FAIL",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_EXTRACTOR",
+    "failureStage": "L6_extractor",
+    "failureCategory": "FAIL_EXTRACTOR",
+    "sourceHost": "filmizle.in",
+    "streamType": "UNKNOWN",
+    "mediaReachability": "FAIL",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "L6 extractor failed for embed: https://filmizle.in/player/film.php?id=tt21263544"
+    ]
+  },
+  {
+    "provider": "HDFilmCehennemi",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "PASS",
+    "L5": "PASS",
+    "L6": "PASS",
+    "L7": "PASS",
+    "L8": "PASS",
+    "certificationClass": "VERIFIED_L8",
+    "failureStage": null,
+    "failureCategory": null,
+    "sourceHost": "hdfilmcehennemi.mobi",
+    "streamType": "HLS",
+    "mediaReachability": "PASS",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Verified end-to-end first segment reachability"
+    ]
+  },
+  {
+    "provider": "KultFilmler",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "PASS",
+    "L5": "PASS",
+    "L6": "PASS",
+    "L7": "PASS",
+    "L8": "PASS",
+    "certificationClass": "VERIFIED_L8",
+    "failureStage": null,
+    "failureCategory": null,
+    "sourceHost": "vidpapi.xyz",
+    "streamType": "HLS",
+    "mediaReachability": "PASS",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Verified end-to-end first segment reachability"
+    ]
+  },
+  {
+    "provider": "TurkAnime",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "PASS",
+    "L5": "PASS",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_PLAYER_DISCOVERY",
+    "failureStage": "L5_player_discovery",
+    "failureCategory": "NO_VALID_EMBED_URL_EXTRACTED",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Player discovered marker found, but no usable embed URL could be extracted from DOM"
+    ]
+  },
+  {
+    "provider": "YesilCamTv",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "PASS",
+    "L5": "PASS",
+    "L6": "PASS",
+    "L7": "PASS",
+    "L8": "PASS",
+    "certificationClass": "VERIFIED_L8",
+    "failureStage": null,
+    "failureCategory": null,
+    "sourceHost": "rumble.com",
+    "streamType": "HLS",
+    "mediaReachability": "PASS",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Verified end-to-end first segment reachability"
+    ]
+  },
+  {
+    "provider": "SezonlukDizi",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "PASS",
+    "L5": "FAIL",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_PLAYER_DISCOVERY",
+    "failureStage": "L5_player_discovery",
+    "failureCategory": "NO_EMBED_OR_IFRAME_FOUND",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "No playable player container, iframe, or stream URL discovered on detail/episode page"
+    ]
+  },
+  {
+    "provider": "SinemaCX",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "PASS",
+    "L5": "PASS",
+    "L6": "PASS",
+    "L7": "PASS",
+    "L8": "PASS",
+    "certificationClass": "VERIFIED_L8",
+    "failureStage": null,
+    "failureCategory": null,
+    "sourceHost": "player.filmizle.in",
+    "streamType": "HLS",
+    "mediaReachability": "PASS",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Verified end-to-end first segment reachability"
+    ]
+  },
+  {
+    "provider": "DiziMom",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "PASS",
+    "L5": "FAIL",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_PLAYER_DISCOVERY",
+    "failureStage": "L5_player_discovery",
+    "failureCategory": "NO_EMBED_OR_IFRAME_FOUND",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "No playable player container, iframe, or stream URL discovered on detail/episode page"
+    ]
+  },
+  {
+    "provider": "DiziYou",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "PASS",
+    "L5": "PASS",
+    "L6": "FAIL",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_EXTRACTOR",
+    "failureStage": "L6_extractor",
+    "failureCategory": "FAIL_EXTRACTOR",
+    "sourceHost": "www.diziyou.one",
+    "streamType": "UNKNOWN",
+    "mediaReachability": "FAIL",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "L6 extractor failed for embed: https://www.diziyou.one/player/13021.html?next=https%3A%2F%2Fwww.diziyou.one%2Farcane-1-sezon-2-bolum%2F"
+    ]
+  },
+  {
+    "provider": "Dizilla",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "PASS",
+    "L5": "FAIL",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_PLAYER_DISCOVERY",
+    "failureStage": "L5_player_discovery",
+    "failureCategory": "NO_EMBED_OR_IFRAME_FOUND",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "No playable player container, iframe, or stream URL discovered on detail/episode page"
+    ]
+  },
+  {
+    "provider": "FullHDFilmizlesene",
+    "L1": "PASS",
+    "L2": "PASS",
+    "L3": "PASS",
+    "L4": "PASS",
+    "L5": "PASS",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_PLAYER_DISCOVERY",
+    "failureStage": "L5_player_discovery",
+    "failureCategory": "NO_VALID_EMBED_URL_EXTRACTED",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Player discovered marker found, but no usable embed URL could be extracted from DOM"
+    ]
+  },
+  {
+    "provider": "FilmModu",
+    "L1": "PASS",
+    "L2": "FAIL",
+    "L3": "UNVERIFIED",
+    "L4": "UNVERIFIED",
+    "L5": "UNVERIFIED",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_HOMEPAGE",
+    "failureStage": "L2_homepage",
+    "failureCategory": "SELECTOR_MISMATCH_OR_EMPTY",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Homepage content discovery failed: NO_HOMEPAGE_ITEMS_PARSED"
+    ]
+  },
+  {
+    "provider": "JetFilmIzle",
+    "L1": "FAIL",
+    "L2": "UNVERIFIED",
+    "L3": "UNVERIFIED",
+    "L4": "UNVERIFIED",
+    "L5": "UNVERIFIED",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_DOMAIN",
+    "failureStage": "L1_domain",
+    "failureCategory": "UNTRUSTED_REDIRECT",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Untrusted redirect candidate: jetfilmizle.now"
+    ]
+  },
+  {
+    "provider": "CizgiMax",
+    "L1": "PASS",
+    "L2": "FAIL",
+    "L3": "UNVERIFIED",
+    "L4": "UNVERIFIED",
+    "L5": "UNVERIFIED",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_HOMEPAGE",
+    "failureStage": "L2_homepage",
+    "failureCategory": "SELECTOR_MISMATCH_OR_EMPTY",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Homepage content discovery failed: NO_HOMEPAGE_ITEMS_PARSED"
+    ]
+  },
+  {
+    "provider": "DDizi",
+    "L1": "FAIL",
+    "L2": "UNVERIFIED",
+    "L3": "UNVERIFIED",
+    "L4": "UNVERIFIED",
+    "L5": "UNVERIFIED",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_DOMAIN",
+    "failureStage": "L1_domain",
+    "failureCategory": "UNTRUSTED_REDIRECT",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Untrusted redirect candidate: www.ddizi.im"
+    ]
+  },
+  {
+    "provider": "Sinewix",
+    "L1": "FAIL",
+    "L2": "UNVERIFIED",
+    "L3": "UNVERIFIED",
+    "L4": "UNVERIFIED",
+    "L5": "UNVERIFIED",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_DOMAIN",
+    "failureStage": "L1_domain",
+    "failureCategory": "NETWORK_ERROR",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Domain unreachable: fail (HTTP_None)"
+    ]
+  },
+  {
+    "provider": "CloudStreamHub",
+    "L1": "FAIL",
+    "L2": "UNVERIFIED",
+    "L3": "UNVERIFIED",
+    "L4": "UNVERIFIED",
+    "L5": "UNVERIFIED",
+    "L6": "UNVERIFIED",
+    "L7": "UNVERIFIED",
+    "L8": "UNVERIFIED",
+    "certificationClass": "FAIL_DOMAIN",
+    "failureStage": "L1_domain",
+    "failureCategory": "UNTRUSTED_REDIRECT",
+    "sourceHost": null,
+    "streamType": "UNKNOWN",
+    "mediaReachability": "UNVERIFIED",
+    "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+    "notes": [
+      "Untrusted redirect candidate: developer.themoviedb.org"
+    ]
+  }
+]

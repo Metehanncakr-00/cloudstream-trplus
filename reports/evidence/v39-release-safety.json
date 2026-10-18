@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "mode": "test",
+  "published": false,
+  "localManifestSha256": "9df70fd666d9425fddc191e56a47ba9226e6cdb9ebb533aa2db372cea9ade688",
+  "publishedManifestSha256": "265a4dcb3ca6ac18d934f0c39baeb1e8a2d5bda5c4bf5cad2cc8373754cfe368",
+  "localCount": 26,
+  "publishedCount": 26,
+  "missingIds": [],
+  "newIds": [],
+  "allowedMissingIds": [],
+  "allowedNewIds": [],
+  "releaseInventoryComplete": true,
+  "errors": []
+}

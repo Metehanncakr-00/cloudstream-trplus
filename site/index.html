@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudStream TR — Eklenti Deposu ve Durum Paneli</title>
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --surface: #151d30;
+            --surface-border: #1e293b;
+            --primary: #38bdf8;
+            --primary-hover: #0284c7;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --badge-ok: #10b981;
+            --badge-bg: rgba(16, 185, 129, 0.15);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        .actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: var(--primary);
+            color: #0f172a;
+            font-weight: 700;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: var(--primary-hover);
+            color: #ffffff;
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        .btn-outline:hover {
+            background: var(--primary);
+            color: #0f172a;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        h2 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        th, td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--surface-border);
+        }
+        th { color: var(--text-muted); font-weight: 600; }
+        .badge {
+            background: var(--badge-bg);
+            color: var(--badge-ok);
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .code-box {
+            background: #060911;
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #38bdf8;
+            overflow-x: auto;
+            border: 1px solid #1e293b;
+        }
+        footer {
+            text-align: center;
+            margin-top: 48px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CloudStream TR</h1>
+            <p class="subtitle">Canlandırılmış Türkçe Eklenti Ekosistemi & Durum Paneli</p>
+            <div class="actions">
+                <a class="btn" href="cloudstreamrepo://raw.githubusercontent.com/Emre-Kahveci/CloudStreamHub/builds/repo.json">CloudStream'e Tek Tıkla Ekle</a>
+                <a class="btn btn-outline" href="https://github.com/Emre-Kahveci/CloudStreamHub" target="_blank">GitHub Deposu</a>
+            </div>
+        </header>
+
+        <div class="card">
+            <h2>Hızlı Kurulum Adımları</h2>
+            <ol style="margin-left: 20px; color: var(--text-muted);">
+                <li style="margin-bottom: 8px;">Cihazınızda <strong>CloudStream</strong> uygulamasını açın.</li>
+                <li style="margin-bottom: 8px;"><strong>Ayarlar (Settings) &rarr; Eklentiler (Extensions) &rarr; Depo Ekle (Add Repository)</strong> bölümüne gidin.</li>
+                <li style="margin-bottom: 8px;">Aşağıdaki depo URL'sini yapıştırın ve ekleyin:</li>
+            </ol>
+            <div class="code-box" style="margin-top: 14px;">
+                https://raw.githubusercontent.com/Emre-Kahveci/CloudStreamHub/builds/repo.json
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Aktif Eklentiler</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Eklenti</th>
+                        <th>Sürüm</th>
+                        <th>Tür</th>
+                        <th>Canonical Domain</th>
+                        <th>Durum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>KultFilmler</strong></td>
+                        <td>32</td>
+                        <td>Movie, TvSeries</td>
+                        <td><a href="https://kultfilmler.net" target="_blank" style="color: #38bdf8;">kultfilmler.net</a></td>
+                        <td><span class="badge">Aktif (L5)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>YesilCamTv</strong></td>
+                        <td>10</td>
+                        <td>Movie</td>
+                        <td><a href="https://yesilcamtv.com.tr" target="_blank" style="color: #38bdf8;">yesilcamtv.com.tr</a></td>
+                        <td><span class="badge">Aktif (L5)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>CloudStream TR &copy; 2026. Açık kaynaklı ve kamuya açık kaynakları destekler.</p>
+        </footer>
+    </div>
+</body>
+</html>

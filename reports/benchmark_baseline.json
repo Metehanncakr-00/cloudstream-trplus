@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "mode": "live",
+  "timestamp": "2026-09-17T19:29:54.891594+00:00",
+  "benchmarks": {
+    "AnimeciX": {
+      "p50": 870.02,
+      "p95": 870.02,
+      "mean": 870.02,
+      "min": 870.02,
+      "max": 870.02,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "BelgeselX": {
+      "p50": 595.37,
+      "p95": 595.37,
+      "mean": 595.37,
+      "min": 595.37,
+      "max": 595.37,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "DiziPal": {
+      "p50": 1177.85,
+      "p95": 1177.85,
+      "mean": 1177.85,
+      "min": 1177.85,
+      "max": 1177.85,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "FilmMakinesi": {
+      "p50": 292.37,
+      "p95": 292.37,
+      "mean": 292.37,
+      "min": 292.37,
+      "max": 292.37,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "HDFilmCehennemi": {
+      "p50": 265.27,
+      "p95": 265.27,
+      "mean": 265.27,
+      "min": 265.27,
+      "max": 265.27,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "KultFilmler": {
+      "p50": 380.22,
+      "p95": 380.22,
+      "mean": 380.22,
+      "min": 380.22,
+      "max": 380.22,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "TurkAnime": {
+      "p50": 692.23,
+      "p95": 692.23,
+      "mean": 692.23,
+      "min": 692.23,
+      "max": 692.23,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "YesilCamTv": {
+      "p50": 394.91,
+      "p95": 394.91,
+      "mean": 394.91,
+      "min": 394.91,
+      "max": 394.91,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "SezonlukDizi": {
+      "p50": 432.96,
+      "p95": 432.96,
+      "mean": 432.96,
+      "min": 432.96,
+      "max": 432.96,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "SinemaCX": {
+      "p50": 543.17,
+      "p95": 543.17,
+      "mean": 543.17,
+      "min": 543.17,
+      "max": 543.17,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "DiziMom": {
+      "p50": 462.33,
+      "p95": 462.33,
+      "mean": 462.33,
+      "min": 462.33,
+      "max": 462.33,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "DiziYou": {
+      "p50": 512.97,
+      "p95": 512.97,
+      "mean": 512.97,
+      "min": 512.97,
+      "max": 512.97,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "Dizilla": {
+      "p50": 968.91,
+      "p95": 968.91,
+      "mean": 968.91,
+      "min": 968.91,
+      "max": 968.91,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "FullHDFilmizlesene": {
+      "p50": 253.3,
+      "p95": 253.3,
+      "mean": 253.3,
+      "min": 253.3,
+      "max": 253.3,
+      "requestCount": 1,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    }
+  }
+}

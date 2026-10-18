@@ -1,0 +1,26 @@
+{
+  "remote": "https://github.com/Metehanncakr-00/cloudstream-trplus",
+  "referenceCommit": "6b16f8698e8d4959ad395fd49fa731285c9caf28",
+  "comparedOriginalSourceFiles": 238,
+  "identical": 0,
+  "different": 1,
+  "missing": 237,
+  "differentExamples": [
+    "repo.json"
+  ],
+  "missingExamples": [
+    "build.gradle.kts",
+    "buildscript-gradle.lockfile",
+    "settings.gradle.kts",
+    "AnimeciX/build.gradle.kts",
+    "AnimeciX/gradle.lockfile",
+    "Animeler/build.gradle.kts",
+    "Animeler/gradle.lockfile",
+    "BelgeselX/build.gradle.kts",
+    "BelgeselX/gradle.lockfile",
+    "CizgiMax/build.gradle.kts",
+    "CloudStreamHub/build.gradle.kts",
+    "CloudStreamHub/gradle.lockfile"
+  ],
+  "attachedToWorkspace": false
+}

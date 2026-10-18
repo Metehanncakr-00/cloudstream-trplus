@@ -1,0 +1,529 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": 1,
+  "description": "Canonical domains, allowed hosts, and content integrity markers for CloudStream Turkish providers",
+  "providers": {
+    "BlenderOpenMovies": {
+      "canonical": "https://video.blender.org",
+      "allowedHosts": ["video.blender.org"],
+      "expectedMarkers": ["Blender", "blender_open_movies"],
+      "lastChecked": "2026-10-16",
+      "status": "active",
+      "notes": "Official public PeerTube channel API and same-host Sintel MP4 byte probes verified; device playback and audio language remain unverified."
+    },
+    "KultFilmler": {
+      "canonical": "https://kultfilmler.net",
+      "allowedHosts": [
+        "kultfilmler.net",
+        "www.kultfilmler.net"
+      ],
+      "expectedMarkers": [
+        "Kült Filmler",
+        "kultfilmler"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "YesilCamTv": {
+      "canonical": "https://yesilcamtv.com.tr",
+      "allowedHosts": [
+        "yesilcamtv.com.tr",
+        "www.yesilcamtv.com.tr"
+      ],
+      "expectedMarkers": [
+        "Yeşilçam",
+        "yesilcam"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "AnimeciX": {
+      "canonical": "https://animecix.tv",
+      "allowedHosts": [
+        "animecix.tv",
+        "www.animecix.tv",
+        "animecix.net"
+      ],
+      "expectedMarkers": [
+        "AnimeciX",
+        "animecix"
+      ],
+      "lastChecked": null,
+      "status": "unsupported"
+    },
+    "Animeler": {
+      "canonical": "https://animeler.pw",
+      "allowedHosts": [
+        "animeler.pw",
+        "www.animeler.pw",
+        "animeler.me"
+      ],
+      "expectedMarkers": [
+        "Animeler",
+        "animeler",
+        "Anime"
+      ],
+      "lastChecked": null,
+      "status": "unsupported"
+    },
+    "Dizilla": {
+      "canonical": "https://dizilla.now",
+      "allowedHosts": [
+        "dizilla.now",
+        "dizilla.to",
+        "www.dizilla.now"
+      ],
+      "expectedMarkers": [
+        "Dizilla",
+        "dizilla"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "DiziBox": {
+      "canonical": "https://www.dizibox.live",
+      "allowedHosts": [
+        "dizibox.live",
+        "www.dizibox.live",
+        "www.dizibox.de"
+      ],
+      "expectedMarkers": [
+        "Dizibox",
+        "dizibox"
+      ],
+      "lastChecked": null,
+      "status": "blocked",
+      "notes": "Blocked by upstream Cloudflare 1000s Box / ASN firewall rule; requires personal trusted cookies which violate security policy"
+    },
+    "FilmModu": {
+      "canonical": "https://www.filmmodu.one",
+      "allowedHosts": [
+        "filmmodu.one",
+        "www.filmmodu.one"
+      ],
+      "expectedMarkers": [
+        "Film Modu",
+        "filmmodu"
+      ],
+      "lastChecked": null,
+      "status": "unsupported"
+    },
+    "HDFilmCehennemi": {
+      "canonical": "https://www.hdfilmcehennemi.nl",
+      "allowedHosts": [
+        "hdfilmcehennemi.nl",
+        "www.hdfilmcehennemi.nl"
+      ],
+      "expectedMarkers": [
+        "HDFilmCehennemi",
+        "hdfilmcehennemi"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "TrtDizi": {
+      "canonical": "https://www.trt1.com.tr",
+      "allowedHosts": [
+        "trt1.com.tr",
+        "www.trt1.com.tr",
+        "trtcocuk.net.tr",
+        "www.trtcocuk.net.tr",
+        "trtizle.com",
+        "www.trtizle.com"
+      ],
+      "expectedMarkers": [
+        "TRT 1",
+        "trt"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "DiziPal": {
+      "canonical": "https://dizipalorjinal7.com",
+      "allowedHosts": [
+        "dizipalorjinal7.com",
+        "www.dizipalorjinal7.com",
+        "dizipal1430.com",
+        "www.dizipal1430.com",
+        "dizipal.com"
+      ],
+      "expectedMarkers": [
+        "DiziPal",
+        "dizipal"
+      ],
+      "lastChecked": null,
+      "status": "dead"
+    },
+    "TurkAnime": {
+      "canonical": "https://www.turkanime.tv",
+      "allowedHosts": [
+        "turkanime.tv",
+        "www.turkanime.tv",
+        "turkanime.co"
+      ],
+      "expectedMarkers": [
+        "TurkAnime",
+        "Türkanime",
+        "turkanime"
+      ],
+      "lastChecked": null,
+      "status": "dead"
+    },
+    "BelgeselX": {
+      "canonical": "https://belgeselx.com",
+      "allowedHosts": [
+        "belgeselx.com",
+        "www.belgeselx.com"
+      ],
+      "expectedMarkers": [
+        "BelgeselX",
+        "belgeselx"
+      ],
+      "lastChecked": null,
+      "status": "dead"
+    },
+    "FilmMakinesi": {
+      "canonical": "https://filmmakinesi.to",
+      "allowedHosts": [
+        "filmmakinesi.to",
+        "www.filmmakinesi.to",
+        "filmmakinesi.co"
+      ],
+      "expectedMarkers": [
+        "FilmMakinesi",
+        "filmmakinesi"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "FourKHDHub": {
+      "canonical": "https://4khdhub.one",
+      "allowedHosts": [
+        "4khdhub.one",
+        "www.4khdhub.one"
+      ],
+      "expectedMarkers": [
+        "4KHDHub",
+        "4khdhub"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "SezonlukDizi": {
+      "canonical": "https://sezonlukdizi.cc",
+      "allowedHosts": [
+        "sezonlukdizi.cc",
+        "www.sezonlukdizi.cc"
+      ],
+      "expectedMarkers": [
+        "Sezonluk Dizi",
+        "sezonlukdizi"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "SinemaCX": {
+      "canonical": "https://sinemacc.com",
+      "allowedHosts": [
+        "www.sinema.gg",
+        "sinema.gg",
+        "sinemacc.com",
+        "www.sinemacc.com"
+      ],
+      "expectedMarkers": [
+        "Sinema",
+        "sinema",
+        "sinemacc",
+        "sinemacx"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "DiziMom": {
+      "canonical": "https://www.dizimom.beer",
+      "allowedHosts": [
+        "www.dizimom.beer",
+        "dizimom.diy",
+        "www.dizimom.diy"
+      ],
+      "expectedMarkers": [
+        "DiziMom",
+        "dizimom"
+      ],
+      "lastChecked": null,
+      "status": "dead"
+    },
+    "DiziYou": {
+      "canonical": "https://www.diziyou.one",
+      "allowedHosts": [
+        "www.diziyou.one",
+        "diziyou.one"
+      ],
+      "expectedMarkers": [
+        "DiziYou",
+        "diziyou"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "FullHDFilmizlesene": {
+      "canonical": "https://www.fullhdfilmizlesene.now",
+      "allowedHosts": [
+        "www.fullhdfilmizlesene.now",
+        "fullhdfilmizlesene.now",
+        "www.fullhdfilmizlesene.pw",
+        "fullhdfilmizlesene.pw",
+        "img.fullhdfilmizlesene.now",
+        "rapidvid.org"
+      ],
+      "expectedMarkers": [
+        "FullHDFilmizlesene",
+        "fullhdfilmizlesene"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "JetFilmIzle": {
+      "canonical": "https://jetfilmizle.now",
+      "allowedHosts": [
+        "jetfilmizle.now",
+        "www.jetfilmizle.now",
+        "jetfilmizle.vip",
+        "www.jetfilmizle.vip",
+        "jetfilmizle.top"
+      ],
+      "expectedMarkers": [
+        "JetFilmIzle",
+        "jetfilmizle"
+      ],
+      "lastChecked": null,
+      "status": "unsupported"
+    },
+    "CizgiMax": {
+      "canonical": "https://cizgimax.online",
+      "allowedHosts": [
+        "cizgimax.online",
+        "www.cizgimax.online"
+      ],
+      "expectedMarkers": [
+        "CizgiMax",
+        "cizgimax"
+      ],
+      "lastChecked": null,
+      "status": "dead"
+    },
+    "DDizi": {
+      "canonical": "https://www.ddizi.im",
+      "allowedHosts": [
+        "ddizi.im",
+        "www.ddizi.im",
+        "ddizi.pro",
+        "www.ddizi.pro"
+      ],
+      "expectedMarkers": [
+        "DDizi",
+        "ddizi"
+      ],
+      "lastChecked": null,
+      "status": "dead"
+    },
+    "Sinewix": {
+      "canonical": "https://sinewix.net",
+      "allowedHosts": [
+        "sinewix.net",
+        "www.sinewix.net"
+      ],
+      "expectedMarkers": [
+        "Sinewix",
+        "sinewix"
+      ],
+      "lastChecked": null,
+      "status": "dead"
+    },
+    "CloudStreamHub": {
+      "canonical": "https://api.themoviedb.org",
+      "allowedHosts": [
+        "api.themoviedb.org",
+        "image.tmdb.org",
+        "developer.themoviedb.org"
+      ],
+      "expectedMarkers": [
+        "CloudStreamHub",
+        "themoviedb"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "DiziKorea": {
+      "canonical": "https://dizikorea3.com",
+      "allowedHosts": [
+        "dizikorea3.com",
+        "dizikorea.com",
+        "dizikorea2.com"
+      ],
+      "expectedMarkers": [
+        "DiziKorea",
+        "dizikorea",
+        "Kore"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "DramaDizilerim": {
+      "canonical": "https://dramadizilerim.com",
+      "allowedHosts": [
+        "dramadizilerim.com",
+        "www.dramadizilerim.com"
+      ],
+      "expectedMarkers": [
+        "Drama Dizilerim",
+        "dramadizilerim",
+        "Dizi"
+      ],
+      "lastChecked": null,
+      "status": "unsupported"
+    },
+    "WebDramaTurkey": {
+      "canonical": "https://webdramaturkey2.com",
+      "allowedHosts": [
+        "webdramaturkey2.com",
+        "webdramaturkey.com",
+        "www.webdramaturkey2.com"
+      ],
+      "expectedMarkers": [
+        "Web Drama Turkey",
+        "webdramaturkey",
+        "Diziler"
+      ],
+      "lastChecked": null,
+      "status": "unsupported"
+    },
+    "SetFilmIzle": {
+      "canonical": "https://www.setfilmizle.ltd",
+      "allowedHosts": [
+        "setfilmizle.ltd",
+        "www.setfilmizle.ltd"
+      ],
+      "expectedMarkers": [
+        "Set Film izle",
+        "setfilmizle",
+        "Film"
+      ],
+      "lastChecked": null,
+      "status": "unsupported"
+    },
+    "DiziLife": {
+      "canonical": "https://dizi74.life",
+      "allowedHosts": [
+        "dizi74.life",
+        "dizi.life",
+        "dizilife.com"
+      ],
+      "expectedMarkers": [
+        "dizi.life",
+        "DiziLife",
+        "Diziler"
+      ],
+      "lastChecked": null,
+      "status": "dead"
+    },
+    "HDFilmDelisi": {
+      "canonical": "https://hdfilmdelisi.one",
+      "allowedHosts": [
+        "hdfilmdelisi.one",
+        "www.hdfilmdelisi.one"
+      ],
+      "expectedMarkers": [
+        "HDFilmDelisi",
+        "hdfilmdelisi",
+        "Film"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "Dizigecesi": {
+      "canonical": "https://dizigecesi.com",
+      "allowedHosts": [
+        "dizigecesi.com",
+        "www.dizigecesi.com"
+      ],
+      "expectedMarkers": [
+        "Dizigecesi",
+        "dizigecesi",
+        "Dizi"
+      ],
+      "lastChecked": null,
+      "status": "dead"
+    },
+    "RareFilmm": {
+      "canonical": "https://rarefilmm.com",
+      "allowedHosts": [
+        "rarefilmm.com",
+        "www.rarefilmm.com"
+      ],
+      "expectedMarkers": [
+        "rarefilmm",
+        "RareFilmm",
+        "Films"
+      ],
+      "lastChecked": null,
+      "status": "unsupported"
+    },
+    "FilmHane": {
+      "canonical": "https://www.filmhane.shop",
+      "allowedHosts": [
+        "filmhane.shop",
+        "www.filmhane.shop"
+      ],
+      "expectedMarkers": [
+        "FilmHane",
+        "filmhane",
+        "Film"
+      ],
+      "lastChecked": null,
+      "status": "dead"
+    },
+    "StarTV": {
+      "canonical": "https://www.startv.com.tr",
+      "allowedHosts": [
+        "www.startv.com.tr",
+        "startv.com.tr"
+      ],
+      "expectedMarkers": [
+        "Star",
+        "startv"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "DiziIzle": {
+      "canonical": "https://www.diziizle.you",
+      "allowedHosts": [
+        "www.diziizle.you",
+        "diziizle.you"
+      ],
+      "expectedMarkers": [
+        "bl-liste",
+        "film-dizi"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "YTS": {
+      "canonical": "https://yts.gg",
+      "allowedHosts": [
+        "yts.gg",
+        "web.yts.gg",
+        "yts.mx",
+        "yts.rs",
+        "yts.do"
+      ],
+      "expectedMarkers": [
+        "YTS",
+        "yts"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    }
+  }
+}

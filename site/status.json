@@ -1,0 +1,51 @@
+{
+  "generatedAt": "2026-09-11T23:00:58.622786+00:00",
+  "repository": "Emre-Kahveci/CloudStreamHub",
+  "activeProviderCount": 2,
+  "totalProviders": 3,
+  "providers": [
+    {
+      "name": "KultFilmler",
+      "module": "KultFilmler",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie"
+      ],
+      "version": 32,
+      "canonicalDomain": "https://kultfilmler.net",
+      "domainStatus": "healthy",
+      "buildStatus": "pass",
+      "healthStatus": "healthy"
+    },
+    {
+      "name": "YesilCamTv",
+      "module": "YesilCamTv",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie"
+      ],
+      "version": 10,
+      "canonicalDomain": "https://yesilcamtv.com.tr",
+      "domainStatus": "healthy",
+      "buildStatus": "pass",
+      "healthStatus": "healthy"
+    },
+    {
+      "name": "TrtDizi",
+      "module": "TrtDizi",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "TvSeries",
+        "Live"
+      ],
+      "version": null,
+      "canonicalDomain": "https://www.trt1.com.tr",
+      "domainStatus": "healthy",
+      "buildStatus": "not_built",
+      "healthStatus": "healthy"
+    }
+  ]
+}

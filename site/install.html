@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudStream TR — Otomatik Kurulum</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .card {
+            background: #1e293b;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            max-width: 480px;
+            width: 100%;
+        }
+        h1 { font-size: 1.6rem; margin-bottom: 12px; color: #38bdf8; }
+        p { color: #94a3b8; font-size: 0.95rem; line-height: 1.5; margin-bottom: 24px; }
+        .btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #1d4ed8; }
+        .url-box {
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            word-break: break-all;
+            margin-top: 20px;
+            border: 1px solid #334155;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>CloudStream TR Kurulumu</h1>
+        <p>Eğer CloudStream cihazınızda yüklüyse aşağıdaki butona tıklayarak repository'yi doğrudan uygulamaya ekleyebilirsiniz.</p>
+        <a id="installBtn" class="btn" href="cloudstreamrepo://raw.githubusercontent.com/Emre-Kahveci/CloudStreamHub/builds/repo.json">CloudStream'e Ekle</a>
+        
+        <div class="url-box" id="rawUrl">
+            https://raw.githubusercontent.com/Emre-Kahveci/CloudStreamHub/builds/repo.json
+        </div>
+    </div>
+
+    <script>
+        // Otomatik redirect denemesi
+        window.addEventListener('DOMContentLoaded', () => {
+            const installUri = "cloudstreamrepo://raw.githubusercontent.com/Emre-Kahveci/CloudStreamHub/builds/repo.json";
+            setTimeout(() => {
+                window.location.href = installUri;
+            }, 800);
+        });
+    </script>
+</body>
+</html>

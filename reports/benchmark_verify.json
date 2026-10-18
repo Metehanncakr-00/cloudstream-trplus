@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "mode": "offline_repeatable",
+  "timestamp": "2026-09-16T22:48:16.970195+00:00",
+  "benchmarks": {
+    "CPU_microbenchmark_search_json": {
+      "p50": 0.1,
+      "p95": 0.1,
+      "mean": 0.08,
+      "min": 0.07,
+      "max": 0.1,
+      "requestCount": 0,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "CPU_microbenchmark_scx_decoding": {
+      "p50": 0.42,
+      "p95": 0.42,
+      "mean": 0.38,
+      "min": 0.35,
+      "max": 0.42,
+      "requestCount": 0,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    },
+    "provider_fixture_homepage_discovery": {
+      "p50": 40.33,
+      "p95": 40.33,
+      "mean": 39.0,
+      "min": 37.68,
+      "max": 40.33,
+      "requestCount": 2,
+      "successRate": 1.0,
+      "timeoutRate": 0.0
+    }
+  }
+}

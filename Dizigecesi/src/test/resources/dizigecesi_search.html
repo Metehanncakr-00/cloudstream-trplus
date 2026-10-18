@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="tr" style="--app-zoom:1;--app-height:100dvh;--app-width:100vw;--app-scroll-width:0">
+<head>
+    <title>Dizigecesi - Yabancı Dizi İzle, Yabancı Film İzle</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Dizigecesi ile yüksek kalitede Türkçe altyazılı yabancı dizileri kesintisiz ve reklamsız izleyebilirsiniz. Yabancı dizi izle, yabancı film izle, yabancı diziler, yabancı filmler.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+	<link rel="icon" href="https://dizigecesi.com/public/data/favicon.ico" type="image/x-icon">
+	<link rel="canonical" href="https://dizigecesi.com/tr">
+	<meta name="format-detection" content="telephone=no">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, minimum-scale=0.5">
+  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  	<link rel="stylesheet" href="https://dizigecesi.com/public/assets/css/style.css?v=1.0.4" type="text/css" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    <meta name="monetag" content="1487c388eb14d0614cb00210ec606913">
+	<style>
+      .flag-icon { width: 30px; height: 24px; }
+      .flag-icon-xl { width: 32px; height: 28px; }
+	</style>
+
+	<script type="text/javascript">
+        var _URL = "https://dizigecesi.com";
+        var _ASSETS = "https://dizigecesi.com/public/assets";
+                var _Auth = false;
+		window._AuthInfo = {
+			id: null,
+			username: '',
+			account_type: 'guest'
+		};
+        		
+        var __ = function(msgid) {
+            return window.i18n[msgid] || msgid;
+        };
+        window.i18n = {
+            'No comments yet': 'Yorum yok',
+            'You must sign in': 'Üye girişi yapmalısınız.',
+            'Follow': 'Takip et',
+            'Following': 'Takip ediliyor',
+            'Show more': 'Daha fazla',
+            'Show less': 'Daha az',
+            'no results': 'Sonuç bulunamadı',
+            'Results': 'Sonuçlar',
+            'Comment': 'Yorum',
+            'Actors': 'Oyuncular',
+        };
+    </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0L2X056J2K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-0L2X056J2K');
+    </script>
+    
+    <script src="https://statbest.in/wbdrma/a2.js"></script>
+</head>
+<style>
+.card-list__member-name{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+</style>
+<body>
+  <header class="header">
+    <div class="header-container container">
+      <button class="header-mobile lg:hidden" data-toggle=".mobile-menu" aria-label="Menü">
+        <svg width="1em" height="1em" data-element="Icon" data-icon="rr:menu-burger">
+          <symbol id="ai:rr:menu-burger" viewBox="0 0 24 24">
+            <rect fill="currentColor" y="11" width="24" height="2" rx="1" />
+            <rect fill="currentColor" y="4" width="24" height="2" rx="1" />
+            <rect fill="currentColor" y="18" width="24" height="2" rx="1" />
+          </symbol>
+          <use href="#ai:rr:menu-burger"></use>
+        </svg>
+      </button>
+      <a class="header-logo" href="https://dizigecesi.com" aria-label="Logo">
+        <img src="https://dizigecesi.com/public/data/header.png" alt="Dizigecesi">
+      </a>
+      <button class="header-mobile lg:hidden" data-toggle=".mobile-search" aria-label="Arama">
+        <svg width="1em" height="1em" data-element="Icon" data-icon="rr:search">
+          <symbol id="ai:rr:search" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
+          </symbol>
+          <use href="#ai:rr:search"></use>
+        </svg>
+      </button>
+      <nav class="header-navigation">
+        <a tabindex="-1" href="https://dizigecesi.com/tr" class="header-navigation__link selected">
+          Anasayfa
+        </a>
+        <a tabindex="-1" href="https://dizigecesi.com/diziler" class="header-navigation__link ">
+          Diziler
+        </a>
+        <a tabindex="-1" href="https://dizigecesi.com/filmler" class="header-navigation__link ">
+          Filmler
+        </a>
+        <a tabindex="-1" href="https://dizigecesi.com/populer" class="header-navigation__link ">
+          Popüler
+        </a>
+		<a tabindex="-1" href="https://dizigecesi.com/listeler" class="header-navigation__link ">
+          Listeler
+        </a>
+        <a tabindex="-1" href="https://dizigecesi.com/turler" class="header-navigation__link ">
+          Türler
+        </a>
+      </nav>
+      <div class="header-actions">
+        <form method="post" action="/arama">
+          <input type="hidden" name="_ACTION" value="search">
+          <input type="hidden" name="_TOKEN" value="$2y$10$nmEsIV8GdHRnG/t/YnKiDONs78qTpN.amhxRqnzb59KGQZ6CMWgmy">
+          <label class="header-search" for="search">
+            <svg width="1em" height="1em" viewBox="0 0 24 24" data-element="Icon" data-icon="rr:search">
+              <use href="#ai:rr:search"></use>
+            </svg>
+            <input required id="search" type="text" placeholder="Ara" name="q">
+          </label>
+        </form>
+
+                <a href="/giris" class="button button--size-base button--color-primary button--variant-outline"><span
+            class="button__content">
+            Giriş Yap
+          </span>
+        </a>
+        <a href="/kayit"
+          class="button button--size-base button--color-primary button--variant-solid -ml-2"><span
+            class="button__content">
+            Kayıt Ol
+          </span>
+        </a>
+              </div>
+    </div>
+  </header>
+  <div class="mobile-menu">
+    <div class="mobile-menu__heading">
+      <a href="https://dizigecesi.com" class="mobile-menu__heading-logo" aria-label="Logo">
+        <img src="https://dizigecesi.com/public/data/header.png" alt="Logo">
+      </a>
+      <button data-toggle=".mobile-menu" class="mobile-menu__heading-button">
+        <svg width="1em" height="1em" data-element="Icon" data-icon="rr:cross">
+          <symbol id="ai:rr:cross" viewBox="0 0 24 24">
+            <path fill="currentColor"
+              d="M23.707.293h0a1,1,0,0,0-1.414,0L12,10.586,1.707.293a1,1,0,0,0-1.414,0h0a1,1,0,0,0,0,1.414L10.586,12,.293,22.293a1,1,0,0,0,0,1.414h0a1,1,0,0,0,1.414,0L12,13.414,22.293,23.707a1,1,0,0,0,1.414,0h0a1,1,0,0,0,0-1.414L13.414,12,23.707,1.707A1,1,0,0,0,23.707.293Z" />
+          </symbol>
+          <use href="#ai:rr:cross"></use>
+        </svg>
+      </button>
+    </div>
+	<nav class="mobile-menu__navigation">
+	  <a href="https://dizigecesi.com/tr" class="selected">
+		<span>Anasayfa</span>
+		<svg width="1em" height="1em" data-element="Icon" data-icon="rr:angle-right">
+		  <use href="#ai:rr:angle-right"></use>
+		</svg>
+	  </a>
+	  <a href="https://dizigecesi.com/diziler" >
+		<span>Diziler</span>
+		<svg width="1em" height="1em" viewBox="0 0 24 24"><use href="#ai:rr:angle-right"></use></svg>
+	  </a>
+	  <a href="https://dizigecesi.com/filmler" >
+		<span>Filmler</span>
+		<svg width="1em" height="1em" viewBox="0 0 24 24"><use href="#ai:rr:angle-right"></use></svg>
+	  </a>
+	  <a href="https://dizigecesi.com/populer" >
+		<span>Popüler</span>
+		<svg width="1em" height="1em" viewBox="0 0 24 24"><use href="#ai:rr:angle-right"></use></svg>
+	  </a>
+	  <a href="https://dizigecesi.com/listeler" >
+		<span>Listeler</span>
+		<svg width="1em" height="1em" viewBox="0 0 24 24"><use href="#ai:rr:angle-right"></use></svg>
+	  </a>
+	  <a href="https://dizigecesi.com/turler" >
+		<span>Türler</span>
+		<svg width="1em" height="1em" viewBox="0 0 24 24"><use href="#ai:rr:angle-right"></use></svg>
+	  </a>
+	</nav>
+
+    <div class="mobile-menu__actions">
+      <a href="https://dizigecesi.com/giris" class="button button--size-base button--color-primary button--variant-outline"><span
+          class="button__content">
+          Giriş Yap
+        </span>
+      </a>
+      <a href="https://dizigecesi.com/kayit" class="button button--size-base button--color-primary button--variant-solid -ml-2"><span
+          class="button__content">
+          Kayıt Ol
+        </span>
+      </a>
+    </div>
+ 
+  </div>
+  <form class="mobile-search" method="post" action="/arama">
+    <input type="hidden" name="_ACTION" value="search">
+    <input type="hidden" name="_TOKEN" value="$2y$10$nmEsIV8GdHRnG/t/YnKiDONs78qTpN.amhxRqnzb59KGQZ6CMWgmy">
+    <label for="mobile-search">
+      <svg width="1em" height="1em" viewBox="0 0 24 24" data-element="Icon" data-icon="rr:search">
+        <use href="#ai:rr:search"></use>
+      </svg>
+      <input required id="mobile-search" type="text" placeholder="Ara" name="q">
+    </label>
+    <button type="button" data-toggle=".mobile-search">
+      <svg width="1em" height="1em" viewBox="0 0 24 24" data-element="Icon" data-icon="rr:cross">
+        <use href="#ai:rr:cross"></use>
+      </svg>
+    </button>
+  </form>
+
+<section class="home-hero" style="height:12rem!important;">
+<div style="display: none;">dizi gecesi, yabancı dizi izle, yabancı diziler, türkçe altyazılı yabancı dizi, yabancı film izle, yabancı filmler, dizigecesi, yabancı dizi seyret, türkçe altyazılı yabancı diziler.</div>
+</section>
+
+<div class="container flex flex-col gap-18 <xl:gap-14 <lg:gap-10">
+
+
+<section class="home-slider swiper">
+    <div class="swiper-wrapper">
+                <div class="home-slider-item swiper-slide">
+            <a class="home-slider-item__image" href="https://dizigecesi.com/dizi/spartacus">
+                <img src="https://dizigecesi.com/public/upload/cover/cover-spartacus.jpeg" alt="Spartacus" loading="lazy" width="560" height="840" decoding="async">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            </a>
+            <div class="home-slider-item__content">
+                <div class="home-slider-item__content-tags">
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Aksiyon                    </a>
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Dram                    </a>
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Macera                    </a>
+                                    </div>
+                <a class="home-slider-item__content-title" href="https://dizigecesi.com/dizi/spartacus">
+                    Spartacus                </a>
+                <p class="home-slider-item__content-description">
+                    Romalılara karşı bir isyan başlatan gladyatör Spartacus’un hayatı.                </p>
+            </div>
+        </div>
+                <div class="home-slider-item swiper-slide">
+            <a class="home-slider-item__image" href="https://dizigecesi.com/dizi/the-big-bang-theory">
+                <img src="https://dizigecesi.com/public/upload/cover/cover-the-big-bang-theory.jpeg" alt="The Big Bang Theory" loading="lazy" width="560" height="840" decoding="async">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            </a>
+            <div class="home-slider-item__content">
+                <div class="home-slider-item__content-tags">
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Komedi                    </a>
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Romantik                    </a>
+                                    </div>
+                <a class="home-slider-item__content-title" href="https://dizigecesi.com/dizi/the-big-bang-theory">
+                    The Big Bang Theory                </a>
+                <p class="home-slider-item__content-description">
+                    Oyuncu olma hayali kuran Penny, Pasadena’da sosyal açıdan garip ama son derece zeki iki fizikçi, Sheldon Cooper ve Leonard Hofstadter’ın karşı dairesine taşınır ve onlara laboratuvarın dışındaki hayat hakkında aslında ne kadar az şey bildiklerini gösterir.                </p>
+            </div>
+        </div>
+                <div class="home-slider-item swiper-slide">
+            <a class="home-slider-item__image" href="https://dizigecesi.com/dizi/grey-s-anatomy">
+                <img src="https://dizigecesi.com/public/upload/cover/cover-grey-s-anatomy.jpeg" alt="Grey&#039;s Anatomy" loading="lazy" width="560" height="840" decoding="async">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            </a>
+            <div class="home-slider-item__content">
+                <div class="home-slider-item__content-tags">
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Dram                    </a>
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Romantik                    </a>
+                                    </div>
+                <a class="home-slider-item__content-title" href="https://dizigecesi.com/dizi/grey-s-anatomy">
+                    Grey&#039;s Anatomy                </a>
+                <p class="home-slider-item__content-description">
+                    Beş cerrahi asistanın ve onları yöneten doktorların kişisel ve profesyonel yaşamlarına odaklanan bir drama.                </p>
+            </div>
+        </div>
+                <div class="home-slider-item swiper-slide">
+            <a class="home-slider-item__image" href="https://dizigecesi.com/dizi/the-vampire-diaries">
+                <img src="https://dizigecesi.com/public/upload/cover/cover-the-vampire-diaries.jpeg" alt="The Vampire Diaries" loading="lazy" width="560" height="840" decoding="async">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            </a>
+            <div class="home-slider-item__content">
+                <div class="home-slider-item__content-tags">
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Dram                    </a>
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Fantastik                    </a>
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Gerilim                    </a>
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Romantik                    </a>
+                                    </div>
+                <a class="home-slider-item__content-title" href="https://dizigecesi.com/dizi/the-vampire-diaries">
+                    The Vampire Diaries                </a>
+                <p class="home-slider-item__content-description">
+                    Virginia’daki Mystic Falls kasabasında geçen hikâyede, kasaba sakinlerinin hayatları, aşkları, tehlikeleri ve felaketleri anlatılıyor. Bu kasabanın altında tarif edilemez dehşette yaratıklar gizlenirken, genç bir kız kendini iki vampir kardeş arasında kalmış halde bulur.                </p>
+            </div>
+        </div>
+                <div class="home-slider-item swiper-slide">
+            <a class="home-slider-item__image" href="https://dizigecesi.com/dizi/dexter">
+                <img src="https://dizigecesi.com/public/upload/cover/cover-dexter.jpeg" alt="Dexter" loading="lazy" width="560" height="840" decoding="async">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            </a>
+            <div class="home-slider-item__content">
+                <div class="home-slider-item__content-tags">
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Aksiyon                    </a>
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Gerilim                    </a>
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Gizem                    </a>
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Korku                    </a>
+                                        <a class="home-slider-item__content-tag" href="#">
+                        Suç                    </a>
+                                    </div>
+                <a class="home-slider-item__content-title" href="https://dizigecesi.com/dizi/dexter">
+                    Dexter                </a>
+                <p class="home-slider-item__content-description">
+                    O zeki. O sevimli. O, gündüzleri suçları çözen ve geceleri onları işleyen, Amerika&#039;nın en sevilen seri katili Dexter Morgan.
+                </p>
+            </div>
+        </div>
+            </div>
+
+    <div class="home-slider-actions">
+        <div class="home-slider-actions__pagination"></div>
+        <div class="home-slider-actions__navigations">
+            <button class="home-slider-actions__navigation" data-prev>
+                <svg width="1em" height="1em" data-element="Icon" data-icon="rr:angle-small-left">
+                    <symbol id="ai:rr:angle-small-left" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M10.6,12.71a1,1,0,0,1,0-1.42l4.59-4.58a1,1,0,0,0,0-1.42,1,1,0,0,0-1.41,0L9.19,9.88a3,3,0,0,0,0,4.24l4.59,4.59a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.42Z"></path>
+                    </symbol>
+                    <use href="#ai:rr:angle-small-left"></use>
+                </svg>
+            </button>
+            <button class="home-slider-actions__navigation" data-next>
+                <svg width="1em" height="1em" data-element="Icon" data-icon="rr:angle-small-right">
+                    <symbol id="ai:rr:angle-small-right" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M15.4,9.88,10.81,5.29a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42L14,11.29a1,1,0,0,1,0,1.42L9.4,17.29a1,1,0,0,0,1.41,1.42l4.59-4.59A3,3,0,0,0,15.4,9.88Z"></path>
+                    </symbol>
+                    <use href="#ai:rr:angle-small-right"></use>
+                </svg>
+            </button>
+        </div>
+    </div>
+</section>
+
+<script type="module">
+    import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
+
+    const swiper = new Swiper(".swiper", {
+        loop: true,
+        autoHeight: true,
+        autoplay: {
+            delay: 5000
+        },
+        mousewheel: {
+            forceToAxis: true
+        },
+        pagination: {
+            el: ".home-slider-actions__pagination",
+            clickable: false
+        },
+        navigation: {
+            prevEl: ".home-slider-actions__navigation[data-prev]",
+            nextEl: ".home-slider-actions__navigation[data-next]"
+        }
+    });
+</script>
+<section class="section">
+    <div class="section-title">
+        Son Yüklemeler
+    </div>
+    <div class="section-body flex flex-col gap-10" data-column="false">
+        <div class="home-grid-5">
+                </div>
+    </div>
+	<div class="section-body flex flex-col items-center" style="margin-top: 10px;">
+		<button id="yukle" class="button button--size-xl button--color-secondary button--variant-solid">
+			<svg width="1em" height="1em" data-element="Icon" class="button__icon button__icon--left" data-icon="rr:add">
+				<symbol id="ai:rr:add" viewBox="0 0 24 24">
+				  <path fill="currentColor"
+					d="m12 0a12 12 0 1 0 12 12 12.013 12.013 0 0 0 -12-12zm0 22a10 10 0 1 1 10-10 10.011 10.011 0 0 1 -10 10zm5-10a1 1 0 0 1 -1 1h-3v3a1 1 0 0 1 -2 0v-3h-3a1 1 0 0 1 0-2h3v-3a1 1 0 0 1 2 0v3h3a1 1 0 0 1 1 1z" />
+				</symbol>
+				<use href="#ai:rr:add"></use>
+			</svg>
+			Daha Fazla Göster
+		</button>
+	</div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let rows = document.querySelectorAll(".card-episode");
+    let visibleCount = 10;
+
+    rows.forEach((row, index) => {
+        if (index >= visibleCount) row.style.display = "none";
+    });
+
+    document.getElementById("yukle").addEventListener("click", function() {
+        let hiddenRows = Array.from(rows).filter(row => row.style.display === "none");
+        hiddenRows.slice(0, 10).forEach(row => row.style.display = "block");
+        if (hiddenRows.length <= 10) this.style.display = "none";
+    });
+});
+</script>
+<section class="section">
+    <div class="section-title">
+        Yeni Diziler
+    </div>
+    <div class="section-body home-grid-5" data-column="false">
+                    <a href="https://dizigecesi.com/dizi/we-own-this-city" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/we-own-this-city.jpeg" 
+                        alt="We Own This City" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        We Own This City                    </span>
+                    <span class="card-series__content-description">
+                        Suç                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/dizi/watchmen" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/watchmen.jpeg" 
+                        alt="Watchmen" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Watchmen                    </span>
+                    <span class="card-series__content-description">
+                        Dram                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/dizi/the-undoing" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/the-undoing.jpeg" 
+                        alt="The Undoing" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        The Undoing                    </span>
+                    <span class="card-series__content-description">
+                        Dram                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/dizi/the-staircase" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/the-staircase.jpeg" 
+                        alt="The Staircase" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        The Staircase                    </span>
+                    <span class="card-series__content-description">
+                        Dram                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/dizi/bana-bir-kahraman-goster" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/bana-bir-kahraman-goster.jpeg" 
+                        alt="Bana Bir Kahraman Göster" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Bana Bir Kahraman Göster                    </span>
+                    <span class="card-series__content-description">
+                        Suç                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/dizi/scenes-from-a-marriage" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/scenes-from-a-marriage.jpeg" 
+                        alt="Scenes from a Marriage" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Scenes from a Marriage                    </span>
+                    <span class="card-series__content-description">
+                        Dram                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/dizi/mind-over-murder" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/mind-over-murder.jpeg" 
+                        alt="Mind Over Murder" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Mind Over Murder                    </span>
+                    <span class="card-series__content-description">
+                        Belgesel                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/dizi/lovecraft-country" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/lovecraft-country.jpeg" 
+                        alt="Lovecraft Country" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Lovecraft Country                    </span>
+                    <span class="card-series__content-description">
+                        Dram                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/dizi/john-adams" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/john-adams.jpeg" 
+                        alt="John Adams" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        John Adams                    </span>
+                    <span class="card-series__content-description">
+                        Dram                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/dizi/i-may-destroy-you" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-gb" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/i-may-destroy-you.jpeg" 
+                        alt="I May Destroy You" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        I May Destroy You                    </span>
+                    <span class="card-series__content-description">
+                        Dram                    </span>
+                </span>
+            </a>
+                </div>
+</section><section class="section">
+    <div class="section-title">
+        Yeni Filmler
+    </div>
+    <div class="section-body home-grid-5" data-column="false">
+                    <a href="https://dizigecesi.com/film/young-woman-and-the-sea" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/young-woman-and-the-sea.jpeg" 
+                        alt="Young Woman and the Sea" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Young Woman and the Sea                    </span>
+                    <span class="card-series__content-description">
+                        Dram                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/film/swiped" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/swiped.jpeg" 
+                        alt="Swiped" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Swiped                    </span>
+                    <span class="card-series__content-description">
+                        Dram                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/film/sophie-and-the-baron" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/sophie-and-the-baron.jpeg" 
+                        alt="Sophie and the Baron" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Sophie and the Baron                    </span>
+                    <span class="card-series__content-description">
+                        Belgesel                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/film/predator-killer-of-killers" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/predator-killer-of-killers.jpeg" 
+                        alt="Predator: Killer of Killers" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Predator: Killer of Killers                    </span>
+                    <span class="card-series__content-description">
+                        Aksiyon                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/film/people-and-places-camp-alec" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/people-and-places-camp-alec.jpeg" 
+                        alt="People and Places, Camp Alec" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        People and Places, Camp Alec                    </span>
+                    <span class="card-series__content-description">
+                        Belgesel                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/film/control-freak" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/control-freak.jpeg" 
+                        alt="Control Freak" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Control Freak                    </span>
+                    <span class="card-series__content-description">
+                        Korku                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/film/cape-town-un-genc-denizcileri" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/cape-town-un-genc-denizcileri.jpeg" 
+                        alt="Cape Town&#039;un Genç Denizcileri" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Cape Town&#039;un Genç Denizcileri                    </span>
+                    <span class="card-series__content-description">
+                        Belgesel                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/film/a-hero-s-journey-the-making-of-percy-jackson-and-the-olympians" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/a-hero-s-journey-the-making-of-percy-jackson-and-the-olympians.jpeg" 
+                        alt="A Hero&#039;s Journey: The Making of Percy Jackson and the Olympians" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        A Hero&#039;s Journey: The Making of Percy Jackson and the Olympians                    </span>
+                    <span class="card-series__content-description">
+                        Belgesel                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/film/zootropolis-hayvanlar-ehri" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-us" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/zootropolis-hayvanlar-ehri.jpeg" 
+                        alt="Zootropolis: Hayvanlar Şehri" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Zootropolis: Hayvanlar Şehri                    </span>
+                    <span class="card-series__content-description">
+                        Animasyon                    </span>
+                </span>
+            </a>
+                        <a href="https://dizigecesi.com/film/anadan-dogma" class="card-series">
+                <span class="card-series__image">
+                    <span class="flag-icon flag-icon-gb" style="position: absolute; top: 5px; right: 5px; z-index: 101;"></span>
+                    <img class="card-series__image-media" 
+                        src="https://dizigecesi.com/public/upload/cover/anadan-dogma.jpeg" 
+                        alt="Anadan Doğma" loading="lazy">
+                    <div class="loading">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                            <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </span>
+                <span class="card-series__content">
+                    <span class="card-series__content-title">
+                        Anadan Doğma                    </span>
+                    <span class="card-series__content-description">
+                        Komedi                    </span>
+                </span>
+            </a>
+                </div>
+</section>
+<section class="section section--scrollable">
+    <div class="section-title">Türler</div>
+    <div class="section-body" data-column="true" style="--column:5">
+                    <a href="https://dizigecesi.com/tur/aile" class="card-category">
+                <span class="card-category__images">
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/ant-man-and-the-wasp.jpeg" alt="Aile">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/law-order-special-victims-unit.jpeg" alt="Aile">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/ballard.jpeg" alt="Aile">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/bodies.jpeg" alt="Aile">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                </span>
+                <span class="card-category__content">
+                    <span class="card-category__content-title">Aile</span>
+                    <span class="card-category__content-icon">
+                        <svg width="1em" height="1em" viewBox="0 0 24 24">
+                            <use href="#ai:rr:arrow-small-right"></use>
+                        </svg>
+                    </span>
+                </span>
+            </a>
+                    <a href="https://dizigecesi.com/tur/aksiyon" class="card-category">
+                <span class="card-category__images">
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/watchmen.jpeg" alt="Aksiyon">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/big-bet.jpeg" alt="Aksiyon">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/marvel-zombies.jpeg" alt="Aksiyon">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/toxic-town.jpeg" alt="Aksiyon">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                </span>
+                <span class="card-category__content">
+                    <span class="card-category__content-title">Aksiyon</span>
+                    <span class="card-category__content-icon">
+                        <svg width="1em" height="1em" viewBox="0 0 24 24">
+                            <use href="#ai:rr:arrow-small-right"></use>
+                        </svg>
+                    </span>
+                </span>
+            </a>
+                    <a href="https://dizigecesi.com/tur/animasyon" class="card-category">
+                <span class="card-category__images">
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/teen-wolf.jpeg" alt="Animasyon">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/the-resident.jpeg" alt="Animasyon">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/disenchantment.jpeg" alt="Animasyon">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/rick-and-morty.jpeg" alt="Animasyon">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                </span>
+                <span class="card-category__content">
+                    <span class="card-category__content-title">Animasyon</span>
+                    <span class="card-category__content-icon">
+                        <svg width="1em" height="1em" viewBox="0 0 24 24">
+                            <use href="#ai:rr:arrow-small-right"></use>
+                        </svg>
+                    </span>
+                </span>
+            </a>
+                    <a href="https://dizigecesi.com/tur/belgesel" class="card-category">
+                <span class="card-category__images">
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/the-waterfront.jpeg" alt="Belgesel">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/daredevil.jpeg" alt="Belgesel">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/the-defenders.jpeg" alt="Belgesel">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/first-kill.jpeg" alt="Belgesel">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                </span>
+                <span class="card-category__content">
+                    <span class="card-category__content-title">Belgesel</span>
+                    <span class="card-category__content-icon">
+                        <svg width="1em" height="1em" viewBox="0 0 24 24">
+                            <use href="#ai:rr:arrow-small-right"></use>
+                        </svg>
+                    </span>
+                </span>
+            </a>
+                    <a href="https://dizigecesi.com/tur/bilim-kurgu" class="card-category">
+                <span class="card-category__images">
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/black-mirror.jpeg" alt="Bilim Kurgu">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/grey-s-anatomy.jpeg" alt="Bilim Kurgu">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/thunder-force.jpeg" alt="Bilim Kurgu">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                    <div class="card-category__images-item">
+                        <img src="https://dizigecesi.com/public/upload/cover/chris-hemsworth-ile-limit-yok.jpeg" alt="Bilim Kurgu">
+                        <div class="loading">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12Z" fill="currentColor"></path>
+                                <path d="M21.5263 17.5C22.4917 15.8278 23 13.9309 23 12C23 10.0691 22.4917 8.17221 21.5263 6.5C20.5608 4.82779 19.1722 3.43917 17.5 2.47372C15.8278 1.50827 13.9309 1 12 1L12 3.75C13.4482 3.75 14.8708 4.1312 16.125 4.85529C17.3792 5.57938 18.4206 6.62084 19.1447 7.875C19.8688 9.12916 20.25 10.5518 20.25 12C20.25 13.4482 19.8688 14.8708 19.1447 16.125L21.5263 17.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                                </span>
+                <span class="card-category__content">
+                    <span class="card-category__content-title">Bilim Kurgu</span>
+                    <span class="card-category__content-icon">
+                        <svg width="1em" height="1em" viewBox="0 0 24 24">
+                            <use href="#ai:rr:arrow-small-right"></use>
+                        </svg>
+                    </span>
+                </span>
+            </a>
+            </div>
+</section>
+</div>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://dizigecesi.com",
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://dizigecesi.com/arama/{search_term}",
+        "query-input": "required name=search_term"
+    }
+}
+</script>
+
+<div class="modal" id="m" tabindex="-1" aria-labelledby="m" aria-hidden="true" data-backdrop="static">
+    <button class="modal-close" data-dismiss="modal">
+        <svg class="icon">
+            <use xlink:href="https://dizigecesi.com/public/assets/img/sprite.svg#close" />
+        </svg>
+    </button>
+    <div class="modal-dialog modal-dialog-centered">
+    </div>
+</div>
+
+<div class="modal" id="lg" tabindex="-1" aria-labelledby="m" aria-hidden="true" data-backdrop="static">
+    <button class="modal-close" data-dismiss="modal">
+        <svg class="icon">
+            <use xlink:href="https://dizigecesi.com/public/assets/img/sprite.svg#close" />
+        </svg>
+    </button>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+    </div>
+</div>
+
+<footer class="footer"  style="margin-top: 5rem;"  >
+    <div class="footer-container container">
+      <div class="footer-top">
+        <a class="footer-top__logo" href="https://dizigecesi.com" aria-label="Logo">
+            <img src="https://dizigecesi.com/public/data/footer.png" style="max-width:200px;"/>
+        </a>
+        <div class="footer-top__social">
+          <a href="https://twitter.com/dizigecesicom" aria-label="Twitter" class="footer-top__social">
+            <svg width="1em" height="1em" data-element="Icon" data-icon="ri:twitter-fill">
+              <symbol id="ai:ri:twitter-fill" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                  d="M22.213 5.656a8.4 8.4 0 0 1-2.402.658A4.2 4.2 0 0 0 21.649 4c-.82.488-1.719.83-2.655 1.015a4.182 4.182 0 0 0-7.126 3.814a11.87 11.87 0 0 1-8.621-4.37a4.17 4.17 0 0 0-.566 2.103c0 1.45.739 2.731 1.86 3.481a4.2 4.2 0 0 1-1.894-.523v.051a4.185 4.185 0 0 0 3.355 4.102a4.2 4.2 0 0 1-1.89.072A4.185 4.185 0 0 0 8.02 16.65a8.4 8.4 0 0 1-6.192 1.732a11.83 11.83 0 0 0 6.41 1.88c7.694 0 11.9-6.373 11.9-11.9q0-.271-.012-.541a8.5 8.5 0 0 0 2.086-2.164" />
+              </symbol>
+              <use href="#ai:ri:twitter-fill"></use>
+
+            </svg>
+          </a>
+          <a href="https://instagram.com/dizigecesicom" aria-label="Instagram" class="footer-top__social">
+            <svg width="1em" height="1em" data-element="Icon" data-icon="ri:instagram-line">
+              <symbol id="ai:ri:instagram-line" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                  d="M12.001 9a3 3 0 1 0 0 6a3 3 0 0 0 0-6m0-2a5 5 0 1 1 0 10a5 5 0 0 1 0-10m6.5-.25a1.25 1.25 0 0 1-2.5 0a1.25 1.25 0 0 1 2.5 0M12.001 4c-2.474 0-2.878.007-4.029.058c-.784.037-1.31.142-1.798.332a2.9 2.9 0 0 0-1.08.703a2.9 2.9 0 0 0-.704 1.08c-.19.49-.295 1.015-.331 1.798C4.007 9.075 4 9.461 4 12c0 2.475.007 2.878.058 4.029c.037.783.142 1.31.331 1.797c.17.435.37.748.702 1.08c.337.336.65.537 1.08.703c.494.191 1.02.297 1.8.333C9.075 19.994 9.461 20 12 20c2.475 0 2.878-.007 4.029-.058c.782-.037 1.308-.142 1.797-.331a2.9 2.9 0 0 0 1.08-.703c.337-.336.538-.649.704-1.08c.19-.492.296-1.018.332-1.8c.052-1.103.058-1.49.058-4.028c0-2.474-.007-2.878-.058-4.029c-.037-.782-.143-1.31-.332-1.798a2.9 2.9 0 0 0-.703-1.08a2.9 2.9 0 0 0-1.08-.704c-.49-.19-1.016-.295-1.798-.331C14.926 4.006 14.54 4 12 4m0-2c2.717 0 3.056.01 4.123.06c1.064.05 1.79.217 2.427.465c.66.254 1.216.598 1.772 1.153a4.9 4.9 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428c.047 1.066.06 1.405.06 4.122s-.01 3.056-.06 4.122s-.218 1.79-.465 2.428a4.9 4.9 0 0 1-1.153 1.772a4.9 4.9 0 0 1-1.772 1.153c-.637.247-1.363.415-2.427.465c-1.067.047-1.406.06-4.123.06s-3.056-.01-4.123-.06c-1.064-.05-1.789-.218-2.427-.465a4.9 4.9 0 0 1-1.772-1.153a4.9 4.9 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.012 15.056 2 14.717 2 12s.01-3.056.06-4.122s.217-1.79.465-2.428a4.9 4.9 0 0 1 1.153-1.772A4.9 4.9 0 0 1 5.45 2.525c.637-.248 1.362-.415 2.427-.465C8.945 2.013 9.284 2 12.001 2" />
+              </symbol>
+              <use href="#ai:ri:instagram-line"></use>
+            </svg>
+          </a>
+        </div>
+        
+        <div class="footer-top__navigation" style="display: none;">
+            <div class="footer-top__navigation-title">
+                Öne Çıkanlar            </div>
+            <nav class="footer-top__navigation-links">
+                            </nav>
+        </div>
+
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom__legal">
+          <p>
+            Sitemizde yer alan tüm içerikler video paylaşım siteleri aracılığıyla paylaşılmaktadır.
+            Sitemiz kendi sunucularında herhangi bir video içeriği barındırmadığından bu konuda bir 
+            telif hakkı sorumluluğu kabul etmemektedir.
+          </p>
+          <p>
+            Sitemizde bulunan bir dizinin telif haklarınızı ihlal ettiğini düşünüyorsanız bizimle
+            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0a63646c654a6e6370636d6f696f796324696567">[email&#160;protected]</a> adresi üzerinden mail yoluyla
+            iletişime geçebilirsiniz.
+          </p>
+        </div>
+        <div class="footer-bottom__content">
+          <nav class="footer-bottom__navigation">
+            <a href="https://dizigecesi.com/sayfa/iletisim">İletişim</a>
+            <a href="https://dizigecesi.com/sayfa/kullanim-kosullari">Kullanım Koşulları</a>
+            <a href="https://dizigecesi.com/sayfa/gizlilik-politikasi">Gizlilik Politikası</a>
+            <a href="https://webdramaturkey2.com/" title="webdramaturkey">webdramaturkey</a>
+            <a href="https://bldramaturkey.co/" title="bldramaturkey">bldramaturkey</a>
+          </nav>
+          <div class="footer-bottom__copyright">Dizigecesi © 2025</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://dizigecesi.com/app/theme/assets/js/jquery.min.js?v=1.0.4"></script>
+  <script src="https://dizigecesi.com/app/theme/assets/js/bootstrap.bundle.js?v=1.0.4"></script>
+  <script src="https://dizigecesi.com/app/theme/assets/js/jquery.lazy.js?v=1.0.4"></script>
+  <script src="https://dizigecesi.com/app/theme/assets/js/jquery.snackbar.js?v=1.0.4"></script>
+  <script src="https://dizigecesi.com/app/theme/assets/js/jquery.typeahead.js?v=1.0.4"></script>
+  <script src="https://dizigecesi.com/app/theme/assets/js/jquery.selectize.js?v=1.0.4"></script>
+  <script src="https://dizigecesi.com/app/theme/assets/js/jquery.tmpl.js?v=1.0.4"></script>
+      <script src="https://dizigecesi.com/app/theme/assets/js/app.js?v=1.0.4"></script>
+
+  <script type="module" src="https://dizigecesi.com/public/assets/js/entry.mjs"></script>
+  
+  <script type="module">const f = function (i) { let t = { ...{ el: "select", className: "custom-select", expandChar: "▾", width: !1, injectCSS: !0 }, ...typeof i == "string" ? { el: i } : i }; function m(s) { let l = s.options, e = s.options.selectedIndex; return l[e].innerHTML } function o(s, l, e) { l.innerHTML = m(s), s.style.width = l.offsetWidth + e.offsetWidth + "px", s.style.height = l.offsetHeight + "px" } let d = document.querySelectorAll(t.el), r = `custom-select-css-${t.className}`; if (d.length && document.querySelector("style#" + r) === null && t.injectCSS) { let s = t.width ? ` width: ${t.width} ` : "", l = `.${t.className} { position: relative; display: inline-flex; align-items: center; ${s}} `; l += `.${t.className} .selection { flex: 1 1 auto; } `, l += `.${t.className} .arrow:after { content: '${t.expandChar}' } `, l += `.${t.className} select { all: revert; position: absolute; cursor: pointer; opacity: 0 } `; let e = document.createElement("style"); e.id = r, e.type = "text/css", e.appendChild(document.createTextNode(l)); let n = document.getElementsByTagName("head")[0]; n.insertBefore(e, n.firstChild) } Array.from(d).forEach((s, l) => { let e = s, n = document.createElement("span"); n.classList.add(...s.classList), n.classList.add(t.className); let a = document.createElement("span"); a.classList.add("selection"); let c = document.createElement("span"); c.classList.add("arrow"), e.classList.remove(...e.classList), e.parentNode.insertBefore(n, e), n.appendChild(a), n.appendChild(c), n.appendChild(e), o(e, a, c), e.addEventListener("change", function (p) { o(p.target, a, c) }) }) }; f({ el: ".filters-form select", className: "filters-form__select" });</script>
+  <script type="module">document.addEventListener("click", function (o) { const t = o.target.closest("[data-toggle]"); if (t) { const e = document.querySelector(t.getAttribute("data-toggle")); e && e.classList.toggle("show") } });</script>
+  <script type="module">let e = document.documentElement.clientHeight, t = document.documentElement.clientWidth, n = window.innerWidth - document.documentElement.offsetWidth; const o = () => { e = document.documentElement.clientHeight, t = document.documentElement.clientWidth, n = window.innerWidth - document.documentElement.offsetWidth, document.documentElement.style.setProperty("--app-zoom", "1"), document.documentElement.style.setProperty("--app-height", `calc(${e}px / var(--app-zoom, 1))`), document.documentElement.style.setProperty("--app-width", `calc(${t}px / var(--app-zoom, 1))`), document.documentElement.style.setProperty("--app-scroll-width", `${n}px`) }; o(); window.addEventListener("resize", o);</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"3a38a9491b7949d8b44fb486dda1019e","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

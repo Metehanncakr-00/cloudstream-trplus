@@ -1,0 +1,28 @@
+[
+  {
+    "schemaVersion": 1,
+    "provider": "Animeler",
+    "checkedAt": "2026-09-28T21:25:25.459457+00:00",
+    "canonical": "https://animeler.pw",
+    "finalUrl": "https://animeler.pw/",
+    "tierResults": {
+      "L0_config": "pass",
+      "L1_domain": "pass",
+      "L2_homepage": "pass",
+      "L3_search": "pass",
+      "L4_load": "pass",
+      "L5_player_discovery": "player_discovered"
+    },
+    "overallStatus": "healthy",
+    "healthScore": 100,
+    "playbackVerification": "UNVERIFIED_BY_AUTOMATION",
+    "diagnostic": {
+      "L2": "Found 15 items. Top: Xian Ni",
+      "L3": "Found 21 content results. Top: Naruto Movie 2: Dai Gekitotsu! Maboroshi",
+      "L4": "Loaded: Steins;Gate izle - Anime izle - Animeler (Episodes: 32, Mode: STRICT_CONFIG)",
+      "L5": "[STRICT_CONFIG] Discovered 1 iframes, 0 videos at https://animeler.pw/steinsgate/bolum-1"
+    },
+    "durationMs": 17237,
+    "candidateHost": null
+  }
+]

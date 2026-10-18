@@ -1,0 +1,39 @@
+name: Yeni Eklenti / Kaynak Talebi (Provider Request)
+description: Kamuya açık, yasal ve stabil bir içerik kaynağı önerin
+title: "[Talep]: <Kaynak Adı>"
+labels: ["enhancement", "provider-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Önerdiğiniz kaynağın **kamuya açık, DRM-free ve abonelik/şifre gerektirmeyen** bir servis olması şarttır.
+  - type: input
+    id: provider_name
+    attributes:
+      label: Kaynak / Site Adı
+      placeholder: Örn. TRT Arşiv, Açık Sinema
+    validations:
+      required: true
+  - type: input
+    id: provider_url
+    attributes:
+      label: Resmi Web Sitesi URL
+      placeholder: https://example.com
+    validations:
+      required: true
+  - type: checkboxes
+    id: eligibility_checks
+    attributes:
+      label: Uygunluk Kontrolü
+      options:
+        - label: "Bu site ücretli abonelik veya şifreli üyelik gerektirmez."
+          required: true
+        - label: "Bu sitede DRM veya Widevine şifreleme koruması yoktur."
+          required: true
+        - label: "Medya akışları standart tarayıcı üzerinden serbestçe oynatılabilmektedir."
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Ek Açıklamalar
+      description: Kaynağın içerik türü (film, dizi, belgesel, anime) hakkında detay verin.

@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "heading": "Tuzlu Kahve",
+      "title": "3. Bölüm",
+      "url": "/dizi/tuzlu-kahve/bolumler/3-bolum",
+      "plain_summary": "Derin ve Mehmet’in ilişkisi giderek ciddileşirken, Elit bu yakınlaşmadan duyduğu rahatsızlıkla Candan’la birlikte yeni planlar yapmaya başlar. Hatun ise oğlunun Amerika’ya dönmemesi için elinden geleni yaparken, Derin ve Mehmet birbirlerini daha yakından tanıdıkça aralarındaki bağ giderek güçlenir. İki ailenin tanışma kararı ise hiç hesapta olmayan sürpriz gelişmeleri de beraberinde getirecektir.\n",
+      "image": {
+        "fullPath": "/images/tk3.jpg"
+      },
+      "video": {
+        "referenceId": "6abf5758d3270c47b787413e"
+      },
+      "seasonNo": 1,
+      "episodeNo": 3
+    },
+    {
+      "heading": "Tuzlu Kahve",
+      "title": "2. Bölüm",
+      "url": "/dizi/tuzlu-kahve/bolumler/2-bolum",
+      "plain_summary": "Derin ve Mehmet’in yeni başlayan ilişkisi hızla ilerlerken, Elit ve Murat’la çıktıkları ilk yemekte iki düşman ailenin kızlarının artık aynı ailenin gelin adayları olduğu gerçeği gün yüzüne çıkar. Derin’in Mehmet’le yakınlaşmasından rahatsız olan Elit, bu ilişkiyi bozmak için harekete geçerken, Candan da Mehmet’i yeğeni Aybüke’yle bir araya getirmek için planlar yapar. Bir yandan Elit ve Murat’ın evlilik hazırlıkları hız kazanırken, diğer yandan Derin geçmişinden kurtulmaya çalışır; kapısına kadar gelen Hakan’la büyük bir hesaplaşma yaşayarak ilişkisine kesin noktayı koyar.\n",
+      "image": {
+        "fullPath": "/images/fd.png"
+      },
+      "video": {
+        "referenceId": "6aa03ca6755f87153f61dc6a"
+      },
+      "seasonNo": 1,
+      "episodeNo": 2
+    },
+    {
+      "heading": "Tuzlu Kahve",
+      "title": "1. Bölüm",
+      "url": "/dizi/tuzlu-kahve/bolumler/1-bolum",
+      "plain_summary": "Yıllardır birbirine düşman olan İpekli ve Kutaygil ailelerinin kızları, farkında olmadan aynı ailenin iki oğluyla karşı karşıya gelir. Selin ve Murat evlilik hazırlıkları yaparken, diğer tarafta Murat’ın Amerika’dan yeni dönen abisi Mehmet’in yolu Derin’le kesişir.\n \nHakan’la evlenmeye hazırlanan Derin, ihaneti öğrenmesiyle ilişkisini bitirirken, Mehmet’le arasında beklenmedik bir yakınlaşma başlar. Böylece geçmişten gelen büyük bir düşmanlığın ortasında, iki kızın kaderi Aydınoğlu ailesinin iki kardeşiyle birbirine bağlanır.\n",
+      "image": {
+        "fullPath": "/images/bugra.jpg"
+      },
+      "video": {
+        "referenceId": "6a97c234a46e38b3a3925061"
+      },
+      "seasonNo": 1,
+      "episodeNo": 1
+    }
+  ]
+}

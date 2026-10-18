@@ -1,0 +1,1683 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": 1,
+  "providers": [
+    {
+      "name": "BlenderOpenMovies",
+      "module": "BlenderOpenMovies",
+      "enabled": true,
+      "language": "en",
+      "types": ["Movie"],
+      "domainKey": "BlenderOpenMovies",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "Sintel",
+        "knownDetail": "https://video.blender.org/w/0eb052d0-fd51-43e6-aa33-ecdbf77a5d40",
+        "expectedType": "Movie"
+      }
+    },
+    {
+      "name": "AnimeciX",
+      "module": "AnimeciX",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Anime"
+      ],
+      "domainKey": "AnimeciX",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "Naruto",
+        "knownDetail": "https://animecix.tv/titles/naruto",
+        "expectedType": "Anime"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "Anime",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*='/titles/'], a[href*='bolum']"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/secure/search/{query}?limit=20",
+          "headers": {
+            "x-e-h": "7Y2ozlO+QysR5w9Q6Tupmtvl9jJp7ThFH8SB+Lo7NvZjgjqRSqOgcT2v4ISM9sP10LmnlYI8WQ==.xrlyOBFS5BHjQ2Lk",
+            "Referer": "https://animecix.tv/"
+          },
+          "jsonKey": "results"
+        },
+        "homepage": {
+          "selectors": [
+            "div.title-card a",
+            "a.poster",
+            "a[href*='/titles/']"
+          ],
+          "requiredUrlPatterns": [
+            "/titles/"
+          ],
+          "excludedUrlPatterns": [
+            "/search",
+            "/profile",
+            "/settings",
+            "/login",
+            "/register",
+            "/dmca"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_UNSUPPORTED: TauVideo player SPA protected by Cloudflare; tau-video.xyz is not accessible via standard HTTP."
+    },
+    {
+      "name": "BelgeselX",
+      "module": "BelgeselX",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Documentary"
+      ],
+      "domainKey": "BelgeselX",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "dunya",
+        "knownDetail": "https://belgeselx.com/belgesel/cosmos-bir-uzay-seruveni",
+        "expectedType": "Documentary"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Documentary",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "expectedSelector": "a[href*='/belgesel/'], div.panel a, .video-item a"
+        },
+        "homepage": {
+          "selectors": [
+            "a[href*='/belgesel/']",
+            "div.panel a",
+            ".video-item a"
+          ],
+          "requiredUrlPatterns": [
+            "/belgesel/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/",
+            "/iletisim/"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_DEAD: Catalog pages return soft 404; content unavailable."
+    },
+    {
+      "name": "DiziPal",
+      "module": "DiziPal",
+      "enabled": false,
+      "language": "tr",
+      "types": [
+        "Movie",
+        "TvSeries"
+      ],
+      "domainKey": "DiziPal",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "Silo",
+        "knownDetail": "https://dizipal1430.com/dizi/silo",
+        "expectedType": "TvSeries"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "TvSeries",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*='bolum'], .episode-item a, a.episode"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/api/search.php?q={query}",
+          "headers": {
+            "Referer": "https://dizipal1430.com/",
+            "X-Requested-With": "XMLHttpRequest"
+          },
+          "jsonKey": "results"
+        },
+        "homepage": {
+          "selectors": [
+            "a[href*='/dizi/']",
+            "a[href*='/film/']"
+          ],
+          "requiredUrlPatterns": [
+            "/dizi/",
+            "/film/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/",
+            "/filmler",
+            "/diziler",
+            "/trendler",
+            "/sayfa/"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_DEAD: Domain connection timed out and mirrors inaccessible."
+    },
+    {
+      "name": "FilmMakinesi",
+      "module": "FilmMakinesi",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie",
+        "TvSeries"
+      ],
+      "domainKey": "FilmMakinesi",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "Island",
+        "knownDetail": "https://filmmakinesi.to/film/island-zero-2018/",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/arama/?s={query}",
+          "expectedSelector": "a.item, div.item-relative a.item, a[href*='/film/']"
+        },
+        "homepage": {
+          "selectors": [
+            "a.item",
+            "div.item a",
+            "div.film-box a"
+          ],
+          "requiredUrlPatterns": [
+            "/film/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/",
+            "/yil/",
+            "/film-izle/sayfa/"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4KHDHub",
+      "module": "FourKHDHub",
+      "enabled": true,
+      "language": "en",
+      "types": [
+        "Movie"
+      ],
+      "domainKey": "FourKHDHub",
+      "healthTier": "standard",
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": false,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "expectedSelector": "article, div.post-item"
+        },
+        "homepage": {
+          "selectors": [
+            "article",
+            "div.post-item"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/category/",
+            "/tag/",
+            "/page/"
+          ]
+        }
+      }
+    },
+    {
+      "name": "HDFilmCehennemi",
+      "module": "HDFilmCehennemi",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie",
+        "TvSeries"
+      ],
+      "domainKey": "HDFilmCehennemi",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "Spider",
+        "knownDetail": "https://www.hdfilmcehennemi.nl/spider-man-brand-new-day/",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/search?q={query}",
+          "headers": {
+            "X-Requested-With": "fetch",
+            "Content-Type": "application/json"
+          },
+          "jsonKey": "results"
+        },
+        "homepage": {
+          "selectors": [
+            "a.poster",
+            "div.card-video a",
+            ".movie-card a"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/",
+            "/iletisim/",
+            "/sayfa/"
+          ]
+        }
+      }
+    },
+    {
+      "name": "KultFilmler",
+      "module": "KultFilmler",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie",
+        "TvSeries"
+      ],
+      "domainKey": "KultFilmler",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "Soldier",
+        "knownDetail": "https://kultfilmler.net/soldier-asker/",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "expectedSelector": "a.mcard, a.dcard, article a"
+        },
+        "homepage": {
+          "selectors": [
+            "a.mcard",
+            "a.dcard",
+            "article a"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/",
+            "/arsiv/",
+            "/oyuncu/",
+            "/yonetmen/",
+            "/sayfa/"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TurkAnime",
+      "module": "TurkAnime",
+      "enabled": false,
+      "language": "tr",
+      "types": [
+        "Anime",
+        "AnimeMovie"
+      ],
+      "domainKey": "TurkAnime",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "Death Note",
+        "knownDetail": "https://www.turkanime.tv/anime/death-note",
+        "expectedType": "Anime"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Anime",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[data-url*='ajax/bolumler'], #bolumler a[href*='/video/'], a[href*='/video/']"
+        },
+        "search": {
+          "method": "POST_FORM",
+          "path": "/arama",
+          "payload": {
+            "arama": "{query}"
+          },
+          "headers": {
+            "Referer": "https://www.turkanime.tv/",
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          "expectedSelector": "div#orta-icerik div.panel, a[href*='/anime/']"
+        },
+        "homepage": {
+          "selectors": [
+            "div.panel-title a",
+            "div#orta-icerik div.panel a[href*='/video/']",
+            "div.panel-body a[href*='/anime/']"
+          ],
+          "requiredUrlPatterns": [
+            "/anime/",
+            "/video/"
+          ],
+          "excludedUrlPatterns": [
+            "harf/",
+            "harf-",
+            "tur/",
+            "takvim",
+            "ara",
+            "siralama",
+            "top-",
+            "sayfa"
+          ]
+        }
+      },
+      "disabledReason": "DEAD_WITH_EVIDENCE: Official permanent closure announcement (2010-2026); catalog unavailable and domains offered for sale."
+    },
+    {
+      "name": "YesilCamTv",
+      "module": "YesilCamTv",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie"
+      ],
+      "domainKey": "YesilCamTv",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "Kabadayi",
+        "knownDetail": "https://yesilcamtv.com.tr/sahte-kabadayi-izle/",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "expectedSelector": ".listmovie, article, div.item, div.post, div.search-result, a[href*='-izle/']"
+        },
+        "homepage": {
+          "selectors": [
+            ".movies-list a",
+            ".listmovie a",
+            "article a[href*='-izle']",
+            "div.item-filmes a"
+          ],
+          "requiredUrlPatterns": [
+            "-izle"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/category/",
+            "/genre/",
+            "/tag/",
+            "/etiket/",
+            "/sayfa/"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TrtDizi",
+      "module": "TrtDizi",
+      "enabled": false,
+      "language": "tr",
+      "types": [
+        "TvSeries",
+        "Live"
+      ],
+      "domainKey": "TrtDizi",
+      "healthTier": "unsupported",
+      "notes": "Module not yet implemented; disabled to prevent phantom health check failures",
+      "disabledReason": "DISABLED_DEAD"
+    },
+    {
+      "name": "SezonlukDizi",
+      "module": "SezonlukDizi",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "TvSeries"
+      ],
+      "domainKey": "SezonlukDizi",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "breaking",
+        "knownDetail": "https://sezonlukdizi.cc/diziler/breaking-bad.html",
+        "expectedType": "TvSeries"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "TvSeries",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "table tr a[href*='-sezon-'], a[href*='-sezon-']"
+        },
+        "search": {
+          "method": "POST_FORM",
+          "path": "/ajax/arama.asp",
+          "payload": {
+            "q": "{query}"
+          },
+          "headers": {
+            "X-Requested-With": "XMLHttpRequest",
+            "Referer": "https://sezonlukdizi.cc/"
+          },
+          "jsonKey": "results.diziler.results"
+        },
+        "homepage": {
+          "selectors": [
+            "div.afis a",
+            "a[href*='/diziler/']"
+          ],
+          "requiredUrlPatterns": [
+            "/diziler/"
+          ],
+          "excludedUrlPatterns": [
+            "/iletisim",
+            "/gizlilik"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SinemaCX",
+      "module": "SinemaCX",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie"
+      ],
+      "domainKey": "SinemaCX",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "bulvar",
+        "knownDetail": "https://sinemacc.com/film/bulvar-boulevard-2026/",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "expectedSelector": "div.frag-k a, a[href*='/film/']"
+        },
+        "homepage": {
+          "selectors": [
+            "div.frag-k a",
+            "a[href*='/film/']"
+          ],
+          "requiredUrlPatterns": [
+            "/film/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DiziMom",
+      "module": "DiziMom",
+      "enabled": false,
+      "language": "tr",
+      "types": [
+        "TvSeries"
+      ],
+      "domainKey": "DiziMom",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "breaking",
+        "knownDetail": "https://www.dizimom.diy/diziler/bangkok-breaking-izle/",
+        "expectedType": "TvSeries"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "TvSeries",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*='/bolum/'], div.seasons-wrap a"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "expectedSelector": "a[href*='/diziler/'], a[href*='-sezon-'], article a"
+        },
+        "homepage": {
+          "selectors": [
+            "a[href*='/diziler/']",
+            "a[href*='-sezon-']",
+            "article a",
+            "div.post a"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_DEAD: Domain SSL certificate mismatch (localhost.localdomain) and mirror inaccessible."
+    },
+    {
+      "name": "DiziYou",
+      "module": "DiziYou",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "TvSeries"
+      ],
+      "domainKey": "DiziYou",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "arcane",
+        "knownDetail": "https://www.diziyou.one/arcane/",
+        "expectedType": "TvSeries"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "TvSeries",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*='-sezon-']"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "expectedSelector": "div.cat-item a, div#list-series a"
+        },
+        "homepage": {
+          "selectors": [
+            "div.cat-item a",
+            "div#list-series a",
+            "a[href*='-sezon-']",
+            "div.bolumust a"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Dizilla",
+      "module": "Dizilla",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "TvSeries"
+      ],
+      "domainKey": "Dizilla",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "breaking",
+        "knownDetail": "https://dizilla.now/dizi/breaking-bad-2",
+        "expectedType": "TvSeries"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "TvSeries",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*='-sezon-']"
+        },
+        "search": {
+          "method": "POST_FORM",
+          "path": "/api/bg/searchContent",
+          "headers": {
+            "X-Requested-With": "XMLHttpRequest",
+            "Referer": "https://dizilla.now/"
+          },
+          "payload": {
+            "searchterm": "{query}"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "div.serie-card a",
+            "a[href*='/dizi/']"
+          ],
+          "requiredUrlPatterns": [
+            "/dizi/"
+          ],
+          "excludedUrlPatterns": [
+            "/iletisim",
+            "/hakkimizda"
+          ]
+        }
+      }
+    },
+    {
+      "name": "FullHDFilmizlesene",
+      "module": "FullHDFilmizlesene",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie"
+      ],
+      "domainKey": "FullHDFilmizlesene",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "fast",
+        "knownDetail": "https://www.fullhdfilmizlesene.now/film/hizli-ve-ofkeli-10/",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/autocomplete/q.php?q={query}&callback=",
+          "headers": {
+            "Referer": "https://www.fullhdfilmizlesene.now/"
+          },
+          "jsonKey": "baslik"
+        },
+        "homepage": {
+          "selectors": [
+            ".list li.film a.tt",
+            ".list li.film a[href*='/film/']",
+            "a[href*='/film/']"
+          ],
+          "requiredUrlPatterns": [
+            "/film/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/",
+            "/iletisim/",
+            "/sayfa/"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DiziBox",
+      "module": "DiziBox",
+      "enabled": false,
+      "language": "tr",
+      "types": [
+        "TvSeries"
+      ],
+      "domainKey": "DiziBox",
+      "healthTier": "unsupported",
+      "notes": "Blocked upstream by Cloudflare ASN/Firewall (1000s box); requires personal trusted cookies which violate security policy",
+      "disabledReason": "DISABLED_DEAD"
+    },
+    {
+      "name": "FilmModu",
+      "module": "FilmModu",
+      "enabled": false,
+      "language": "tr",
+      "types": [
+        "Movie"
+      ],
+      "domainKey": "FilmModu",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "avatar",
+        "knownDetail": "https://www.filmmodu15.com/film/avatar-turkce-dublaj-izle",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/ara?q={query}",
+          "expectedSelector": ".movie, .film, article, .movie-item, div.col-movie"
+        },
+        "homepage": {
+          "selectors": [
+            ".movie a",
+            "div.col-movie a",
+            "article a"
+          ],
+          "requiredUrlPatterns": [
+            "/film/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_UNSUPPORTED: Stream CDN sx1.ytconvertor.click blocked by Cloudflare Error 1010 WAF."
+    },
+    {
+      "name": "JetFilmIzle",
+      "module": "JetFilmIzle",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie"
+      ],
+      "domainKey": "JetFilmIzle",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "batman",
+        "knownDetail": "https://jetfilmizle.now/film/batman-ninja-vs-yakuza-league",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/arama?q={query}",
+          "expectedSelector": "div.film-card"
+        },
+        "homepage": {
+          "selectors": [
+            "article.movie a",
+            "div.movie-item a"
+          ],
+          "requiredUrlPatterns": [
+            "/film/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_UNSUPPORTED: Site DOM restructured, player extraction unsupported."
+    },
+    {
+      "name": "CizgiMax",
+      "module": "CizgiMax",
+      "enabled": false,
+      "language": "tr",
+      "types": [
+        "TvSeries",
+        "Cartoon",
+        "Anime"
+      ],
+      "domainKey": "CizgiMax",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "avatar",
+        "knownDetail": "https://cizgimax.online/cizgi-dizi/avatar-son-hava-bukucu/",
+        "expectedType": "TvSeries"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "TvSeries",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": ".episode-item a, a[href*='/bolum/']"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "expectedSelector": ".poster-box, .film-box, article, div.series-item"
+        },
+        "homepage": {
+          "selectors": [
+            ".poster-box a",
+            "div.series-item a"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_DEAD: Detail and video pages return HTTP 404."
+    },
+    {
+      "name": "DDizi",
+      "module": "DDizi",
+      "enabled": false,
+      "language": "tr",
+      "types": [
+        "TvSeries"
+      ],
+      "domainKey": "DDizi",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "kurtlar",
+        "knownDetail": "https://www.ddizi.pro/dizi/kurtlar-vadisi",
+        "expectedType": "TvSeries"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "TvSeries",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "ul.bolumler li a, a[href*='/bolum/']"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/arama?q={query}",
+          "expectedSelector": ".dizikutu, .post, article, div.dizi-listesi li"
+        },
+        "homepage": {
+          "selectors": [
+            ".dizikutu a",
+            "div.dizi-listesi a"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/iletisim",
+            "/sayfa/"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_DEAD: Search endpoint and episode pages return HTTP 404."
+    },
+    {
+      "name": "Sinewix",
+      "module": "Sinewix",
+      "enabled": false,
+      "language": "tr",
+      "types": [
+        "Movie",
+        "TvSeries"
+      ],
+      "domainKey": "Sinewix",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "matrix",
+        "knownDetail": "https://sinewix.net/film/matrix-izle",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "expectedSelector": ".poster, .movie-card, article, div.item"
+        },
+        "homepage": {
+          "selectors": [
+            ".poster a",
+            ".movie-card a"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/kategori/",
+            "/tur/"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_DEAD: DNS resolution failed (sinewix.net host cannot be resolved)."
+    },
+    {
+      "name": "CloudStreamHub",
+      "module": "CloudStreamHub",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie",
+        "TvSeries",
+        "Anime",
+        "Cartoon",
+        "Documentary"
+      ],
+      "domainKey": "CloudStreamHub",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "inception",
+        "knownDetail": "https://api.themoviedb.org/3/movie/27205?api_key=90ad3ec891e5923150283b99719d890f",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": true,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/3/search/multi?query={query}&language=tr-TR&api_key=90ad3ec891e5923150283b99719d890f",
+          "jsonKey": "results"
+        },
+        "homepage": {
+          "selectors": [
+            "results"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": []
+        }
+      }
+    },
+    {
+      "name": "DiziKorea",
+      "module": "DiziKorea",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "AsianDrama"
+      ],
+      "domainKey": "DiziKorea",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "love",
+        "knownDetail": "https://dizikorea3.com/dizi/flex-x-cop-izle-dq",
+        "expectedType": "AsianDrama"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "AsianDrama",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*=\"/sezon-\"]"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/arama?q={query}",
+          "headers": {
+            "Referer": "https://dizikorea3.com/"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "a.poster-card",
+            "a[href*=\"/dizi/\"]",
+            "a[href*=\"/film/\"]"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/ara",
+            "/profil",
+            "/giris"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DramaDizilerim",
+      "module": "DramaDizilerim",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "AsianDrama"
+      ],
+      "domainKey": "DramaDizilerim",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "kral",
+        "knownDetail": "https://dramadizilerim.com/dizi/kole-kral",
+        "expectedType": "AsianDrama"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "AsianDrama",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*=\"/izle/\"]"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/search?q={query}",
+          "headers": {
+            "Referer": "https://dramadizilerim.com/"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "a.poster-card",
+            "a[href*=\"/dizi/\"]",
+            "a[href*=\"/film/\"]"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/ara",
+            "/profil",
+            "/giris"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_UNSUPPORTED: Proprietary DramaPlaybackGuard JavaScript barrier prevents media discovery."
+    },
+    {
+      "name": "WebDramaTurkey",
+      "module": "WebDramaTurkey",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "AsianDrama"
+      ],
+      "domainKey": "WebDramaTurkey",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "love",
+        "knownDetail": "https://webdramaturkey2.com/dizi/hidden-love-izle",
+        "expectedType": "AsianDrama"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "AsianDrama",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*=\"-bolum\"]"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/arama?q={query}",
+          "headers": {
+            "Referer": "https://webdramaturkey2.com/"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "a.poster-card",
+            "a[href*=\"/dizi/\"]",
+            "a[href*=\"/film/\"]"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/ara",
+            "/profil",
+            "/giris"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_UNSUPPORTED: dtpasn.asia obfuscated proprietary player with anti-bot debugger traps."
+    },
+    {
+      "name": "Animeler",
+      "module": "Animeler",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Anime",
+        "AnimeMovie"
+      ],
+      "domainKey": "Animeler",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "naruto",
+        "knownDetail": "https://animeler.pw/steinsgate",
+        "expectedType": "Anime"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "Anime",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*=\"/bolum-\"]"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/filter?search={query}",
+          "expectedSelector": "a.anime-card-modern, .anime-grid-modern a, a[href*=\"/naruto\"]",
+          "headers": {
+            "Referer": "https://animeler.pw/"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "a:has(img[src*=\"animecover\"])",
+            "a[href*=\"/bolum-\"]",
+            "div.col a",
+            "div.anime-card a"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/ara",
+            "/profil",
+            "/giris",
+            "/discord"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SetFilmIzle",
+      "module": "SetFilmIzle",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie",
+        "TvSeries"
+      ],
+      "domainKey": "SetFilmIzle",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "avatar",
+        "knownDetail": "https://www.setfilmizle.ltd/film/the-get-out/",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*=\"-bolum-\"]"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "expectedSelector": "a[href*='/film/'], a[href*='/dizi/']",
+          "headers": {
+            "Referer": "https://www.setfilmizle.ltd/"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "a.poster-card",
+            "a[href*=\"/dizi/\"]",
+            "a[href*=\"/film/\"]"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/ara",
+            "/profil",
+            "/giris"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_UNSUPPORTED: Search 404 and player extraction unsupported."
+    },
+    {
+      "name": "DiziLife",
+      "module": "DiziLife",
+      "enabled": false,
+      "language": "tr",
+      "types": [
+        "TvSeries",
+        "Movie"
+      ],
+      "domainKey": "DiziLife",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "dead",
+        "knownDetail": "https://dizi74.life/dizi/the-walking-dead",
+        "expectedType": "TvSeries"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "TvSeries",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*=\"/bolum/\"]"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/arama?q={query}",
+          "headers": {
+            "Referer": "https://dizi74.life/"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "a.poster-card",
+            "a[href*=\"/dizi/\"]",
+            "a[href*=\"/film/\"]"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/ara",
+            "/profil",
+            "/giris"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_DEAD: Domain SSL certificate mismatch (localhost.localdomain) and mirror inaccessible."
+    },
+    {
+      "name": "HDFilmDelisi",
+      "module": "HDFilmDelisi",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie"
+      ],
+      "domainKey": "HDFilmDelisi",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "avatar",
+        "knownDetail": "https://hdfilmdelisi.one/film/saplanti-obsession",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "movie",
+          "episodeSelector": "a[href*=\"/film/\"]"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "headers": {
+            "Referer": "https://hdfilmdelisi.one/"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "a.poster-card",
+            "a[href*=\"/dizi/\"]",
+            "a[href*=\"/film/\"]"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/ara",
+            "/profil",
+            "/giris"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Dizigecesi",
+      "module": "Dizigecesi",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "TvSeries",
+        "Movie"
+      ],
+      "domainKey": "Dizigecesi",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "spartacus",
+        "knownDetail": "https://dizigecesi.com/dizi/spartacus",
+        "expectedType": "TvSeries"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "TvSeries",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*=\"-sezon/\"]"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/arama?q={query}",
+          "headers": {
+            "Referer": "https://dizigecesi.com/"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "a.poster-card",
+            "a[href*=\"/dizi/\"]",
+            "a[href*=\"/film/\"]"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/ara",
+            "/profil",
+            "/giris"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_DEAD: Detail and episode pages return soft 404."
+    },
+    {
+      "name": "RareFilmm",
+      "module": "RareFilmm",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie"
+      ],
+      "domainKey": "RareFilmm",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "paris",
+        "knownDetail": "https://rarefilmm.com/2026/07/paris-seveille-1991/",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "movie",
+          "episodeSelector": "article a"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?s={query}",
+          "headers": {
+            "Referer": "https://rarefilmm.com/"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "a.poster-card",
+            "a[href*=\"/dizi/\"]",
+            "a[href*=\"/film/\"]"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/ara",
+            "/profil",
+            "/giris"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_UNSUPPORTED: Media player hosted on OK.ru uses non-standard Russian State CA SSL failing standard TLS verification."
+    },
+    {
+      "name": "FilmHane",
+      "module": "FilmHane",
+      "enabled": false,
+      "language": "tr",
+      "types": [
+        "Movie",
+        "TvSeries"
+      ],
+      "domainKey": "FilmHane",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "avatar",
+        "knownDetail": "https://www.filmhane.shop/film/the-lord-of-the-rings-the-war-of-the-rohirrim",
+        "expectedType": "Movie"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "movie",
+          "episodeSelector": "iframe[src]"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/arama?q={query}",
+          "headers": {
+            "Referer": "https://www.filmhane.shop/"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "a.poster-card",
+            "a[href*=\"/dizi/\"]",
+            "a[href*=\"/film/\"]"
+          ],
+          "requiredUrlPatterns": [
+            "/"
+          ],
+          "excludedUrlPatterns": [
+            "/ara",
+            "/profil",
+            "/giris"
+          ]
+        }
+      },
+      "disabledReason": "DISABLED_DEAD: Domain connection timed out."
+    },
+    {
+      "name": "StarTV",
+      "module": "StarTV",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "TvSeries"
+      ],
+      "domainKey": "StarTV",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "Tuzlu Kahve",
+        "knownDetail": "https://www.startv.com.tr/dizi/tuzlu-kahve",
+        "expectedType": "TvSeries"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": false,
+        "contentType": "TvSeries",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "a[href*='/bolumler/']"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/dizi",
+          "expectedSelector": "a[href='/dizi/tuzlu-kahve'] img"
+        },
+        "homepage": {
+          "path": "/dizi",
+          "selectors": [
+            "a[href^='/dizi/']"
+          ],
+          "requiredUrlPatterns": [
+            "/dizi/"
+          ],
+          "excludedUrlPatterns": [
+            "/bolumler",
+            "/sahneler",
+            "/fragmanlar"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DiziIzle",
+      "module": "DiziIzle",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "TvSeries"
+      ],
+      "domainKey": "DiziIzle",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "Tuzlu Kahve",
+        "knownDetail": "https://www.diziizle.you/tuzlu-kahve/",
+        "expectedType": "TvSeries"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": false,
+        "contentType": "TvSeries",
+        "playerProbe": {
+          "mode": "episode",
+          "episodeSelector": "ol.bl-liste > li.bl-satir:not(:has(.bl-etiket-fragman)) > a[href]"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/?ara={query}",
+          "expectedSelector": "li.film-dizi .ad a[href]"
+        },
+        "homepage": {
+          "selectors": [
+            "#content .right ul a[title$=' izle']"
+          ],
+          "excludedUrlPatterns": [
+            "/bolum-",
+            "/player/",
+            "/nostaljik-diziler/"
+          ]
+        }
+      }
+    },
+    {
+      "name": "YTS",
+      "module": "YTS",
+      "enabled": true,
+      "language": "en",
+      "types": [
+        "Torrent",
+        "Movie"
+      ],
+      "domainKey": "YTS",
+      "healthTier": "full",
+      "smokeTest": {
+        "searchQuery": "Inception",
+        "knownDetail": "https://yts.gg/api/v2/movie_details.json?movie_id=1606&with_images=true",
+        "expectedType": "Torrent"
+      },
+      "monitoring": {
+        "preferredFetch": "HTTP",
+        "dynamicFallback": false,
+        "stealthFallback": true,
+        "contentType": "Movie",
+        "playerProbe": {
+          "mode": "detail"
+        },
+        "search": {
+          "method": "GET",
+          "path": "/api/v2/list_movies.json?query_term={query}&limit=20",
+          "jsonKey": "data.movies",
+          "headers": {
+            "Referer": "https://yts.gg/"
+          }
+        },
+        "homepage": {
+          "selectors": [
+            "div.browse-movie-wrap a",
+            "a[href*=\"/movies/\"]"
+          ],
+          "requiredUrlPatterns": [
+            "/movies/"
+          ],
+          "excludedUrlPatterns": [
+            "/browse-movies",
+            "/login",
+            "/register"
+          ]
+        }
+      }
+    }
+  ]
+}

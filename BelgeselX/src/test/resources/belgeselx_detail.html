@@ -1,0 +1,2250 @@
+﻿<!DOCTYPE html>
+<html lang="tr-TR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASTRO ARAŞTIRMALAR İzle — belgeselx.com</title>
+<meta name="description" content="Astro-Investigates, NASA bilim insanlarının katılımıyla büyük astrofizik konularını araştıran ve açıklayan popüler bir video serisidir. JPLden (Jet Propulsion Laboratory) Chelsea Gohdun sunuculuğunu üstlendiği bu yapım, Caltech/IPAC ve NASA iş birliğiyle hazırlanmaktadır">
+<meta name="keywords"    content="ASTRO ARAŞTIRMALAR izle, hd izle, türkçe altyazılı belgesel">
+<meta name="author"      content="Bex Hallerd">
+<link rel="shortcut icon" href="https://belgeselx.com/img/favicon.ico">
+<meta property="og:type"      content="video.tv_show">
+<meta property="og:title"     content="ASTRO ARAŞTIRMALAR — belgeselx.com">
+<meta property="og:image"     content="https://belgeselx.com/upload/resimler2/aae28072aa.jpg">
+<meta property="og:url"       content="https://belgeselx.com/belgeseldizi/astro-arastirmalar">
+<meta property="og:locale"    content="tr_TR">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- Bootstrap grid only -->
+<link rel="stylesheet" href="../yeni/css/bootstrap.min.css">
+
+<!-- jQuery (tek) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1663052485521079" crossorigin="anonymous"></script>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-137389955-1"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','UA-137389955-1');</script>
+
+<style>
+/* ══════════════════════════════════════════════════════
+   BELGESELX DESIGN SYSTEM v3
+   Theme: Noir Cinema — deep blacks, warm accents
+   Fonts: Syne (display) + Inter (body)
+══════════════════════════════════════════════════════ */
+:root {
+  --c-bg:         #080810;
+  --c-surface:    #0f0f18;
+  --c-card:       #13131f;
+  --c-raised:     #1a1a28;
+  --c-border:     #1e1e2e;
+  --c-border2:    #252535;
+  --c-red:        #e8291c;
+  --c-red-dim:    #a01d14;
+  --c-red-glow:   rgba(232,41,28,.15);
+  --c-gold:       #f0b429;
+  --c-gold-dim:   rgba(240,180,41,.12);
+  --c-txt:        #d8d8e8;
+  --c-txt-2:      #8888a8;
+  --c-txt-3:      #444458;
+  --c-white:      #ffffff;
+  --r:            0px;
+  --r-lg:         0px;
+  --r-xl:         0px;
+  --shadow:       0 8px 32px rgba(0,0,0,.55);
+  --shadow-lg:    0 20px 60px rgba(0,0,0,.7);
+  --ease:         cubic-bezier(.4,0,.2,1);
+  --dur:          .22s;
+  --font-d:       'Syne', sans-serif;
+  --font-b:       'Inter', sans-serif;
+}
+
+/* Google Search Widget Bug Fix */
+.gsc-control-cse {
+    padding: 0 !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+/* Header'da çıkan otomatik sonuç başlıklarını ve kutularını gizle */
+.gsc-header-box, 
+.gsc-results-wrapper-visible, 
+.gsc-tabsArea, 
+.gsc-above-wrapper-area {
+    display: none !important;
+}
+
+/* Sayfa üstüne binen gereksiz gölgeleri kaldır */
+.gsc-modal-background-image {
+    display: none !important;
+}
+
+/* Arama yapıldığında body'nin taşmasını engelle */
+body.gsc-overflow-hidden {
+    overflow-y: auto !important;
+}
+
+/* Reset & base */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body { background: var(--c-bg); color: var(--c-txt); font-family: var(--font-b); line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-y: scroll !important; }
+
+/* Google CSE widget'ının body'e müdahalesini engelle */
+body.gsc-overflow-hidden { overflow-y: scroll !important; }
+#px-gcse-hidden, #px-gcse-hidden * { pointer-events: none !important; }
+.gsc-modal-background-image { display: none !important; }
+iframe[name="google_conversion_frame"] { display: none !important; }
+a { color: inherit; text-decoration: none; transition: color var(--dur) var(--ease); }
+a:hover { color: var(--c-red); }
+img { display: block; max-width: 100%; }
+button { font-family: var(--font-b); cursor: pointer; }
+p { color: var(--c-txt-2); margin-bottom: .5rem; }
+h1,h2,h3,h4,h5,h6 { font-family: var(--font-d); color: var(--c-white); line-height: 1.15; font-weight: 600; }
+
+/* fadeIn animasyonu (AJAX ile eklenen yorumlar için) */
+@keyframes fadeIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c-red); }
+
+/* ═══════ LOADER ═══════ */
+#px-loader{position:fixed;inset:0;z-index:99999;background:radial-gradient(circle at center, #12121e 0%, #080810 80%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:30px;transition:opacity .6s var(--ease);}
+.px-loader-brand{position:relative;width:240px;height:240px;display:flex;align-items:center;justify-content:center;}
+.px-loader-brand img{width:160px;position:relative;z-index:2;animation:logoPulse 2s infinite ease-in-out;}
+.px-loader-glow{position:absolute;top:50%;left:50%;width:180px;height:180px;margin-top:-90px;margin-left:-90px;background:var(--c-red);filter:blur(60px);opacity:0.4;animation:glowPulse 2s infinite ease-in-out;border-radius:50%;}
+.px-loader-ring-1{position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;width:220px;height:220px;border-radius:50%;border:2px solid transparent;border-top-color:var(--c-red);border-bottom-color:rgba(232,41,28,0.2);animation:spinRing 1.5s cubic-bezier(0.68,-0.55,0.265,1.55) infinite;}
+.px-loader-ring-2{position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;width:240px;height:240px;border-radius:50%;border:1px dashed rgba(255,255,255,0.15);animation:spinRingReverse 4s linear infinite;}
+.px-loader-text{color:var(--c-txt-2);font-size:13px;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;animation:logoPulse 2s infinite ease-in-out;}
+@keyframes logoPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+@keyframes glowPulse{0%,100%{opacity:0.3;transform:scale(0.8);}50%{opacity:0.7;transform:scale(1.2);}}
+@keyframes spinRing{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@keyframes spinRingReverse{0%{transform:rotate(360deg);}100%{transform:rotate(0deg);}}
+@media (max-width: 480px) {
+  .px-loader-brand, .px-loader-text { transform: scale(0.80); }
+}
+
+/* ══ HEADER ═════════════════════════════════════════ */
+#px-header {
+  position: sticky; top: 0; z-index: 900;
+  background: rgba(8,8,16,.88);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--c-border);
+}
+.px-header-inner {
+  max-width: 1400px; margin: 0 auto;
+  display: flex; align-items: center;
+  padding: 0 28px; height: 66px; gap: 12px;
+}
+.px-logo img { height: 48px; transition: opacity var(--dur) var(--ease); }
+.px-logo:hover img { opacity: .75; }
+
+/* Nav */
+.px-nav { display: flex; align-items: center; gap: 2px; flex: 1; padding-left: 20px; }
+.px-nav-item { position: relative; }
+.px-nav-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 7px 13px; border: none; background: none;
+  font-family: var(--font-b); font-size: 12.5px; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase;
+  color: var(--c-txt-2);
+  border-radius: var(--r);
+  transition: all var(--dur) var(--ease);
+}
+.px-nav-btn i { font-size: 9px; transition: transform var(--dur) var(--ease); }
+.px-nav-item:hover .px-nav-btn { color: var(--c-white); background: var(--c-raised); }
+.px-nav-item:hover .px-nav-btn i { transform: rotate(180deg); }
+
+/* Dropdown */
+.px-dd {
+  position: absolute; top: calc(100% + 10px); left: 0;
+  background: var(--c-card);
+  border: 1px solid var(--c-border2);
+  border-radius: var(--r-lg); padding: 6px; min-width: 210px;
+  opacity: 0; visibility: hidden;
+  transform: translateY(-6px) scale(.98);
+  transition: all var(--dur) var(--ease);
+  box-shadow: var(--shadow-lg);
+}
+.px-dd-wide { min-width: 380px; display: grid; grid-template-columns: 1fr 1fr; }
+.px-nav-item:hover .px-dd { opacity: 1; visibility: visible; transform: none; }
+.px-dd a {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 11px; border-radius: 7px;
+  font-size: 13px; color: var(--c-txt-2);
+  transition: all var(--dur) var(--ease);
+}
+.px-dd a:hover { color: var(--c-white); background: var(--c-raised); }
+.px-dd a img { width: 18px; height: 18px; border-radius: 3px; flex-shrink: 0; }
+.px-dd-divider { height: 1px; background: var(--c-border); margin: 4px 0; }
+
+/* Header right */
+.px-header-right { display: flex; align-items: center; gap: 8px; }
+.px-icon-btn {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid var(--c-border2);
+  border-radius: var(--r); color: var(--c-txt-2); font-size: 14px;
+  transition: all var(--dur) var(--ease);
+}
+.px-icon-btn:hover { color: var(--c-white); border-color: var(--c-red); background: var(--c-red-glow); }
+
+.px-search-wrap, .px-user-wrap { position: relative; }
+.px-panel {
+  position: absolute; top: calc(100% + 10px); right: 0;
+  background: var(--c-card);
+  border: 1px solid var(--c-border2);
+  border-radius: var(--r-lg); padding: 8px;
+  opacity: 0; visibility: hidden;
+  transform: translateY(-6px);
+  transition: all var(--dur) var(--ease);
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+}
+.px-panel.is-open { opacity: 1; visibility: visible; transform: none; }
+.px-search-panel { width: 420px; padding: 0; overflow: hidden; }
+.px-user-panel { min-width: 200px; padding: 8px; }
+
+/* Arama paneli içi */
+.px-search-box {
+  display: flex; align-items: center;
+  padding: 10px 14px; gap: 10px;
+  border-bottom: 1px solid var(--c-border);
+}
+.px-search-box i { color: var(--c-txt-3); font-size: 14px; flex-shrink: 0; }
+.px-search-input {
+  flex: 1; background: none; border: none; outline: none;
+  color: var(--c-txt); font-family: var(--font-b); font-size: 14px;
+}
+.px-search-input::placeholder { color: var(--c-txt-3); }
+.px-search-clear {
+  background: none; border: none; color: var(--c-txt-3);
+  font-size: 13px; cursor: pointer; padding: 2px 4px;
+  display: none; transition: color var(--dur);
+}
+.px-search-clear:hover { color: var(--c-red); }
+.px-search-clear.visible { display: block; }
+.px-search-results {
+  max-height: 340px; overflow-y: auto;
+  scrollbar-width: thin;
+}
+.px-search-results::-webkit-scrollbar { width: 3px; }
+.px-search-results::-webkit-scrollbar-thumb { background: var(--c-border2); }
+.px-search-empty {
+  padding: 32px 16px; text-align: center;
+  color: var(--c-txt-3); font-size: 13px;
+}
+.px-search-empty i { font-size: 28px; display: block; margin-bottom: 8px; opacity: .4; }
+.px-search-loading {
+  padding: 24px 16px; text-align: center;
+  color: var(--c-txt-3); font-size: 13px;
+  display: none;
+}
+.px-search-loading i { animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.px-search-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 14px; text-decoration: none; color: var(--c-txt);
+  border-bottom: 1px solid var(--c-border);
+  transition: background var(--dur);
+}
+.px-search-item:last-child { border-bottom: none; }
+.px-search-item:hover { background: var(--c-raised); color: var(--c-white); }
+.px-search-item-img {
+  width: 40px; height: 56px; object-fit: cover;
+  border-radius: 3px; flex-shrink: 0;
+  background: var(--c-raised);
+  border: 1px solid var(--c-border2);
+}
+.px-search-item-img-empty {
+  width: 40px; height: 56px; border-radius: 3px; flex-shrink: 0;
+  background: var(--c-raised); border: 1px solid var(--c-border2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c-txt-3); font-size: 14px;
+}
+.px-search-item-arrow {
+  color: var(--c-txt-3); font-size: 11px; flex-shrink: 0;
+  transition: color var(--dur);
+}
+.px-search-item:hover .px-search-item-arrow { color: var(--c-red); }
+.px-search-item-body { flex: 1; min-width: 0; }
+.px-search-item-title {
+  font-size: 13px; font-weight: 600; color: var(--c-white);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+.px-search-item-meta { font-size: 11.5px; color: var(--c-txt-3); }
+.px-search-item-cat {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--c-red-glow); border: 1px solid rgba(232,41,28,.2);
+  color: var(--c-red); font-size: 10px; font-weight: 700;
+  padding: 1px 7px; border-radius: 99px; letter-spacing: .04em;
+  flex-shrink: 0;
+}
+.px-search-footer {
+  padding: 8px 14px; border-top: 1px solid var(--c-border);
+  font-size: 11px; color: var(--c-txt-3); text-align: center;
+}
+.px-user-panel a {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 11px; border-radius: 7px;
+  font-size: 13px; color: var(--c-txt-2);
+  transition: all var(--dur) var(--ease);
+}
+.px-user-panel a:hover { color: var(--c-white); background: var(--c-raised); }
+
+.px-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 18px; border: none;
+  background: var(--c-red); color: var(--c-white);
+  font-family: var(--font-b); font-size: 12.5px; font-weight: 700;
+  letter-spacing: .05em; text-transform: uppercase;
+  border-radius: var(--r);
+  transition: all var(--dur) var(--ease);
+}
+.px-btn:hover { background: var(--c-red-dim); color: var(--c-white); transform: translateY(-1px); }
+
+.px-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; }
+.px-hamburger span { display: block; width: 22px; height: 2px; background: var(--c-txt); border-radius: 2px; }
+
+/* Mobile nav */
+.px-mobile-nav {
+  display: none; flex-direction: column; gap: 2px;
+  background: var(--c-surface); border-bottom: 1px solid var(--c-border);
+  padding: 12px 20px;
+}
+.px-mobile-nav.is-open { display: flex; }
+.px-mobile-nav a { padding: 9px 10px; font-size: 14px; color: var(--c-txt-2); border-radius: var(--r); }
+.px-mobile-nav a:hover { color: var(--c-white); background: var(--c-raised); }
+
+/* ══ LAYOUT ════════════════════════════════════════ */
+.px-page { max-width: 1400px; margin: 0 auto; padding: 28px 24px 72px; }
+
+/* ══ VIDEO PLAYER ═══════════════════════════════════ */
+.px-player-wrap {
+  border-radius: var(--r-xl); overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #000;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(232, 41, 28, 0.04);
+  margin-bottom: 4px;
+  transition: box-shadow 0.3s ease;
+}
+.px-player-wrap:hover {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 50px rgba(232, 41, 28, 0.08);
+}
+.px-player-ratio {
+  position: relative; padding-top: 56.25%;
+  background: #050508;
+  overflow: hidden;
+}
+.px-player-ambient {
+  position: absolute; inset: -20px;
+  background-size: cover; background-position: center;
+  filter: blur(40px) brightness(0.25) saturate(1.3);
+  opacity: 0.8;
+  z-index: 1;
+  transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.px-player-overlay {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at center, rgba(5,5,8,0.2) 0%, rgba(5,5,8,0.85) 100%);
+  z-index: 2;
+  transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.px-player-ratio.playing .px-player-ambient,
+.px-player-ratio.playing .px-player-overlay {
+  opacity: 0; pointer-events: none;
+}
+.px-player-ratio iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: none; display: none;
+  z-index: 4;
+}
+/* Google Drive Pop-out Buton Engelleyici Şeffaf Kalkan */
+.px-drive-shield {
+  position: absolute;
+  top: 0; right: 0;
+  width: 68px; height: 68px;
+  z-index: 99;
+  background: transparent;
+  pointer-events: auto;
+}
+.px-play-btn {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 90px; height: 90px; border: none;
+  background: rgba(232, 41, 28, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 5;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(232, 41, 28, 0.3);
+}
+.px-play-btn:hover { 
+  transform: translate(-50%,-50%) scale(1.1); 
+  background: rgba(232, 41, 28, 0.9);
+  border-color: var(--c-red);
+  box-shadow: 0 15px 35px rgba(232, 41, 28, 0.4);
+}
+.px-play-btn:hover .px-play-icon svg circle:nth-child(2) { fill: rgba(255, 255, 255, 0.2); }
+.px-play-btn:hover .px-play-icon svg polygon { fill: #fff; }
+.px-play-icon { position: relative; z-index: 2; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; }
+.px-play-icon svg { width: 80px; height: 80px; transition: transform 0.4s ease; }
+.px-play-btn:hover .px-play-icon svg { transform: scale(1.05); }
+
+/* Pulse rings */
+.px-play-pulse {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  border: 2px solid rgba(232,41,28,.4);
+  animation: playPulse 2s cubic-bezier(0.215, 0.610, 0.355, 1) infinite;
+}
+.px-play-pulse2 { animation-delay: 1s; }
+@keyframes playPulse {
+  0%   { transform: translate(-50%,-50%) scale(1); opacity: .7; }
+  100% { transform: translate(-50%,-50%) scale(1.8); opacity: 0; }
+}
+
+/* ══ NOW PLAYING BAR ════════════════════════════════ */
+.px-now-playing-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px;
+  background: #0d1117;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-bottom: none;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  margin-bottom: 0;
+}
+.px-np-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--c-red);
+  box-shadow: 0 0 10px var(--c-red), 0 0 20px var(--c-red);
+  flex-shrink: 0;
+  animation: npBlink 1.5s ease-in-out infinite;
+}
+@keyframes npBlink { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.4; transform:scale(0.85);} }
+.px-np-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--c-red); flex-shrink: 0;
+}
+.px-np-label i { margin-right: 4px; }
+.px-np-title {
+  font-size: 13px; font-weight: 600; color: var(--c-txt);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  flex: 1;
+}
+.px-np-arrow {
+  color: var(--c-red); font-size: 12px; flex-shrink: 0;
+  animation: npBounce 1.8s ease-in-out infinite;
+}
+@keyframes npBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(2px)} }
+
+/* Now Playing bar olduğu için player-wrap köşelerini düzelt */
+.px-now-playing-bar + .px-player-wrap {
+  border-radius: 0 0 var(--r-xl) var(--r-xl);
+  border-top: none;
+}
+
+/* ══ SİNEMATİK ARKA PLAN ══════════════════════════════ */
+body {
+  background: var(--c-bg);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232,41,28,.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(15,15,40,.9) 0%, transparent 70%);
+  background-attachment: fixed;
+}
+
+/* Film grain overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  mix-blend-mode: overlay;
+}
+main, header, footer { position: relative; z-index: 1; }
+
+/* ══ SEZON OKLAR ══════════════════════════════════════ */
+.px-season-nav {
+  display: flex; align-items: center;
+  border-bottom: 1px solid var(--c-border);
+  background: rgba(0,0,0,.12);
+}
+.px-season-arrow {
+  flex-shrink: 0; width: 34px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none;
+  color: var(--c-txt-3); font-size: 13px;
+  cursor: pointer; transition: all var(--dur) var(--ease);
+  border-right: 1px solid var(--c-border);
+}
+.px-season-arrow:last-child { border-right: none; border-left: 1px solid var(--c-border); }
+.px-season-arrow:hover { color: var(--c-red); background: var(--c-red-glow); }
+.px-season-arrow:disabled { opacity: .2; cursor: default; }
+.px-season-arrow:disabled:hover { color: var(--c-txt-3); background: none; }
+.px-season-tabs {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+  background: transparent;
+  border-bottom: none;
+}
+
+/* ══ SOURCE BAR ═════════════════════════════════════ */
+.px-source-bar {
+  display: flex; align-items: center;
+  padding: 0 16px; gap: 8px;
+  background: rgba(20, 20, 32, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  height: 52px; overflow: hidden;
+}
+.px-source-left { display: flex; align-items: center; gap: 6px; flex-shrink: 0; height: 100%; }
+.px-source-right { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 1; height: 100%; overflow: hidden; max-width: 55%; }
+.px-src-tab {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 32px; padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12); 
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--c-txt-2); font-family: var(--font-b);
+  font-size: 11.5px; font-weight: 700;
+  letter-spacing: .05em; text-transform: uppercase;
+  border-radius: 20px; white-space: nowrap; cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.px-src-tab.active { 
+  background: var(--c-red); 
+  color: #fff; 
+  border-color: var(--c-red); 
+  box-shadow: 0 4px 12px rgba(232, 41, 28, 0.3);
+}
+.px-src-tab:not(.active):hover { 
+  border-color: rgba(255, 255, 255, 0.3); 
+  color: #fff; 
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ══ ACTION BUTTONS (source bar sağ) ════════════════ */
+.px-act-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 32px; padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--c-txt-2);
+  font-family: var(--font-b); font-size: 11px; font-weight: 700;
+  letter-spacing: .05em; text-transform: uppercase;
+  border-radius: 20px; white-space: nowrap; cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.px-act-btn:hover:not(:disabled) { 
+  border-color: var(--c-red); 
+  color: #fff; 
+  background: rgba(232, 41, 28, 0.1); 
+  transform: translateY(-1.5px);
+}
+.px-act-btn.px-act-green { 
+  background: rgba(46, 125, 50, 0.15); 
+  border-color: rgba(76, 175, 80, 0.4); 
+  color: #81c784; 
+}
+.px-act-btn.px-act-green:hover { 
+  background: rgba(46, 125, 50, 0.85); 
+  border-color: #4caf50; 
+  color: #fff; 
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  transform: translateY(-1.5px);
+}
+.px-act-btn.px-act-done { 
+  background: rgba(255, 179, 0, 0.15);
+  border-color: rgba(255, 179, 0, 0.4); 
+  color: #ffb300; 
+}
+.px-act-btn.px-act-done:hover {
+  background: rgba(255, 179, 0, 0.85);
+  border-color: #ffb300;
+  color: #000;
+  box-shadow: 0 4px 12px rgba(255, 179, 0, 0.3);
+  transform: translateY(-1.5px);
+}
+.px-act-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ══ PUAN MODAL ══════════════════════════════════════ */
+.px-modal-overlay {
+  position: fixed; inset: 0; z-index: 99000;
+  background: rgba(0,0,0,.75);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.px-modal-box {
+  background: var(--c-card);
+  border: 1px solid var(--c-border2);
+  border-radius: var(--r-xl);
+  width: 100%; max-width: 380px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: modalIn .18s var(--ease) both;
+}
+@keyframes modalIn { from{opacity:0;transform:scale(.95)} to{opacity:1;transform:none} }
+.px-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--c-border);
+}
+.px-modal-head h4 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.px-modal-close {
+  width: 28px; height: 28px; border: none;
+  background: var(--c-raised); border-radius: 50%;
+  color: var(--c-txt-2); font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all var(--dur) var(--ease);
+}
+.px-modal-close:hover { background: var(--c-red); color: #fff; }
+.px-modal-body { padding: 20px; }
+.px-star-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.px-star-btn {
+  width: 34px; height: 34px; border-radius: 6px;
+  border: 1px solid var(--c-border2);
+  background: var(--c-raised); color: var(--c-txt-2);
+  font-family: var(--font-b); font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all var(--dur) var(--ease);
+}
+.px-star-btn:hover { border-color: var(--c-gold); color: var(--c-gold); background: var(--c-gold-dim); }
+.px-star-btn.selected { background: var(--c-gold); border-color: var(--c-gold); color: #111; }
+/* Büyük star butonlar (5'li mod) */
+.px-star-big {
+  width: 56px; height: 64px; border-radius: 10px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 5px;
+  font-size: 11px; font-weight: 700;
+}
+.px-star-big i { font-size: 20px; transition: transform .2s; }
+.px-star-big:hover i { transform: scale(1.2); }
+.px-star-big.selected i { color: #111; }
+
+/* ══ INFO CARD ══════════════════════════════════════ */
+.px-info-card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-xl);
+  padding: 22px 24px;
+  margin-bottom: 4px;
+}
+.px-info-top { display: flex; gap: 18px; align-items: flex-start; }
+.px-info-poster {
+  width: 84px; flex-shrink: 0;
+  border-radius: var(--r); overflow: hidden;
+  border: 1px solid var(--c-border2);
+}
+.px-info-poster img { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
+.px-info-body { flex: 1; min-width: 0; }
+.px-ep-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(80,200,120,0.12);
+  border: 1px solid rgba(80,200,120,0.25);
+  color: #5de08a; font-size: 11.5px; font-weight: 700;
+  font-family: var(--font-b);
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 3px 11px; border-radius: 4px;
+  margin-bottom: 9px;
+}
+.px-info-title {
+  font-size: 17px; font-weight: 600;
+  color: var(--c-white); margin-bottom: 8px;
+  line-height: 1.35; display: flex; align-items: center;
+  flex-wrap: wrap; gap: 8px;
+}
+.px-info-title .px-ep-name {
+  color: var(--c-txt-2); font-size: 14px; font-weight: 400;
+}
+.px-stats-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 10px; }
+.px-stat {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12.5px; color: var(--c-txt-2);
+}
+.px-stat i { color: var(--c-red); font-size: 11px; }
+.px-info-desc { font-size: 13.5px; color: var(--c-txt-2); line-height: 1.6; }
+
+/* action butonlar artık px-source-right içinde */
+
+/* ══ SECTION HEADER ═════════════════════════════════ */
+.px-section-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.px-section-head::before {
+  content: ''; display: block;
+  width: 3px; height: 22px;
+  background: var(--c-red); border-radius: 3px;
+}
+.px-section-head h3 {
+  font-size: 16px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--c-txt);
+}
+
+/* ══ COMMENT FORM ════════════════════════════════════ */
+.px-comment-box {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.px-comment-box-top {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--c-border);
+}
+.px-comment-user-av {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--c-raised); overflow: hidden;
+  flex-shrink: 0; border: 2px solid var(--c-border2);
+}
+.px-comment-user-av img { width: 100%; height: 100%; object-fit: cover; }
+.px-comment-user-info { flex: 1; }
+.px-comment-user-info strong { font-size: 14px; font-weight: 600; color: var(--c-white); display: block; }
+.px-comment-user-info span { font-size: 12px; color: var(--c-txt-3); }
+
+.px-comment-box-body { padding: 16px 20px; }
+.px-comment-box-body textarea {
+  width: 100%; background: var(--c-raised);
+  border: 1px solid var(--c-border2);
+  border-radius: var(--r); color: var(--c-txt);
+  font-family: var(--font-b); font-size: 14px;
+  padding: 13px 15px; resize: vertical; min-height: 85px;
+  outline: none; transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.px-comment-box-body textarea::placeholder { color: var(--c-txt-3); }
+.px-comment-box-body textarea:focus {
+  border-color: var(--c-red);
+  box-shadow: 0 0 0 3px rgba(232,41,28,.12);
+}
+.px-comment-submit-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 10px; flex-wrap: wrap; gap: 8px;
+}
+.px-comment-hint { font-size: 12px; color: var(--c-txt-3); }
+.px-submit-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 24px; border: none;
+  background: var(--c-red); color: #fff;
+  font-family: var(--font-b); font-size: 13px; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase;
+  border-radius: var(--r);
+  transition: all var(--dur) var(--ease);
+}
+.px-submit-btn:hover { background: var(--c-red-dim); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(232,41,28,.3); }
+
+/* ══ COMMENT ITEM ════════════════════════════════════ */
+.px-comment-list { display: flex; flex-direction: column; gap: 1px; }
+
+.px-comment {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  padding: 12px 16px 10px;
+  margin-bottom: 10px;
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+  animation: cFadeIn .35s var(--ease) both;
+}
+.px-comment:hover { border-color: var(--c-border2); background: var(--c-surface); }
+@keyframes cFadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+/* Comment header */
+.px-c-head { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+.px-c-av {
+  width: 32px; height: 32px; border-radius: 50%;
+  object-fit: cover; flex-shrink: 0;
+  border: 2px solid var(--c-border2);
+}
+.px-c-meta { flex: 1; min-width: 0; }
+.px-c-name { font-size: 14px; font-weight: 600; color: var(--c-white); display: block; }
+.px-c-name:hover { color: var(--c-red); }
+.px-c-time { font-size: 12px; color: var(--c-txt-3); }
+.px-c-ep-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--c-gold-dim);
+  border: 1px solid rgba(240,180,41,.2);
+  color: var(--c-gold); font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 99px; white-space: nowrap;
+  margin-left: auto;
+}
+
+/* Comment body */
+.px-c-text {
+  font-size: 13.5px; color: var(--c-txt); line-height: 1.6;
+  padding-left: 42px; margin-bottom: 6px;
+}
+
+/* Comment actions */
+.px-c-actions { padding-left: 42px; display: flex; gap: 6px; }
+.px-c-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: none; border: none; padding: 4px 0;
+  font-family: var(--font-b); font-size: 11.5px; font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase;
+  color: var(--c-txt-3);
+  transition: color var(--dur) var(--ease);
+}
+.px-c-btn:hover { color: var(--c-red); }
+
+/* Reply form */
+.px-reply-form {
+  display: none; padding-left: 42px; margin-top: 8px;
+}
+.px-reply-form.is-open { display: block; }
+.px-reply-input-wrap {
+  background: var(--c-raised); border: 1px solid var(--c-border2);
+  border-radius: var(--r); padding: 3px 3px 3px 12px;
+  display: flex; align-items: center; gap: 6px;
+  transition: border-color var(--dur) var(--ease);
+}
+.px-reply-input-wrap:focus-within { border-color: var(--c-red); box-shadow: 0 0 0 3px rgba(232,41,28,.1); }
+.px-reply-input {
+  flex: 1; background: none; border: none; outline: none;
+  color: var(--c-txt); font-family: var(--font-b); font-size: 13.5px;
+  padding: 7px 0;
+}
+.px-reply-input::placeholder { color: var(--c-txt-3); }
+.px-reply-send {
+  background: var(--c-red); color: #fff; border: none;
+  padding: 7px 16px; border-radius: 6px;
+  font-family: var(--font-b); font-size: 12px; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase;
+  flex-shrink: 0;
+  transition: background var(--dur) var(--ease);
+}
+.px-reply-send:hover { background: var(--c-red-dim); }
+
+/* Replies (alt yorumlar) */
+.px-replies {
+  margin-top: 8px; margin-left: 42px;
+  padding-left: 12px;
+  border-left: 2px solid var(--c-border2);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.px-reply {
+  background: var(--c-raised); border: 1px solid var(--c-border);
+  padding: 9px 12px;
+}
+.px-reply .px-c-av { width: 26px; height: 26px; }
+.px-reply .px-c-text { padding-left: 34px; font-size: 13px; }
+
+/* Empty state */
+.px-empty-comments {
+  background: var(--c-card); border: 1px dashed var(--c-border2);
+  border-radius: var(--r-xl); padding: 52px 24px;
+  text-align: center; color: var(--c-txt-3);
+}
+.px-empty-comments .icon { font-size: 40px; margin-bottom: 14px; opacity: .5; }
+.px-empty-comments p { font-size: 15px; color: var(--c-txt-3); }
+.px-empty-comments strong { color: var(--c-txt-2); }
+
+/* ══ EPISODE PANEL — SEZON SEKMELİ ════════════════════ */
+.px-ep-panel {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  overflow: hidden;
+}
+.px-ep-panel-head {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--c-border);
+  display: flex; align-items: center; gap: 10px;
+  background: #0d1117;
+}
+.px-ep-panel-head i {
+  color: var(--c-red);
+  font-size: 15px;
+  display: inline-block;
+  line-height: 1;
+}
+.px-ep-panel-head h4 {
+  font-family: var(--font-b);
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--c-red);
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  display: inline-block;
+}
+.px-ep-count {
+  margin-left: auto; background: var(--c-raised);
+  border: 1px solid var(--c-border2);
+  color: var(--c-txt-3); font-size: 11px; font-weight: 600;
+  padding: 2px 9px; border-radius: 99px;
+}
+
+/* Sezon sekme şeridi — yatay kaydırmalı */
+.px-season-tabs {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--c-border);
+  background: rgba(0,0,0,.12);
+}
+.px-season-tabs::-webkit-scrollbar { display: none; }
+.px-season-tab {
+  flex-shrink: 0;
+  padding: 9px 20px;
+  font-family: var(--font-b); font-size: 11px; font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--c-txt-3); background: none; border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer; white-space: nowrap;
+  transition: all var(--dur) var(--ease);
+}
+.px-season-tab:hover { color: var(--c-txt); }
+.px-season-tab.active { color: var(--c-white); border-bottom-color: var(--c-red); }
+
+/* Bölüm listesi scroll */
+.px-ep-scroll { max-height: 490px; overflow-y: auto; scroll-behavior: smooth; }
+.px-ep-scroll::-webkit-scrollbar { width: 2px; }
+.px-ep-scroll::-webkit-scrollbar-thumb { background: var(--c-border2); border-radius: 99px; }
+
+/* Sezon pane */
+.px-season-pane { display: none; }
+.px-season-pane.active { display: block; }
+
+/* Bölüm satırı */
+.px-ep-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--c-border);
+  cursor: pointer; text-decoration: none; color: var(--c-txt);
+  position: relative;
+  transition: background var(--dur) var(--ease), padding-left var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.px-ep-row:last-child { border-bottom: none; }
+
+/* Sol kırmızı slide çizgi */
+.px-ep-row::before {
+  content: ''; position: absolute;
+  left: 0; top: 50%; transform: translateY(-50%);
+  width: 0; height: 55%;
+  background: var(--c-red); border-radius: 0 2px 2px 0;
+  transition: width var(--dur) var(--ease);
+}
+.px-ep-row:hover { background: var(--c-raised); padding-left: 14px; }
+.px-ep-row:hover::before { display: none; }
+.px-ep-row.active {
+  background: rgba(255,255,255,0.03);
+  padding-left: 14px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+.px-ep-row.active::before { display: none; }
+
+
+/* Numara çemberi */
+.px-ep-circle {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  border: 1.5px solid var(--c-border2);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  transition: all var(--dur) var(--ease);
+}
+.px-ep-circle .c-num {
+  font-family: var(--font-d); font-size: 11px; font-weight: 700;
+  color: var(--c-txt-3);
+  transition: opacity var(--dur) var(--ease);
+}
+.px-ep-circle .c-play {
+  position: absolute; font-size: 9px; margin-left: 1px;
+  opacity: 0; transition: opacity var(--dur) var(--ease);
+}
+.px-ep-row:hover .px-ep-circle { border-color: var(--c-txt2); }
+.px-ep-row:hover .px-ep-circle .c-num { opacity: 0; }
+.px-ep-row:hover .px-ep-circle .c-play { opacity: 1; color: var(--c-white); }
+.px-ep-row.active .px-ep-circle { border-color: var(--c-red); background: var(--c-red-glow); }
+.px-ep-row.active .px-ep-circle .c-num { opacity: 0; }
+.px-ep-row.active .px-ep-circle .c-play { opacity: 1; color: var(--c-red); }
+
+/* İçerik */
+.px-ep-body { flex: 1; min-width: 0; }
+.px-ep-row-title {
+  font-size: 13px; font-weight: 500; color: var(--c-txt);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 3px;
+  transition: color var(--dur) var(--ease);
+}
+.px-ep-row:hover .px-ep-row-title,
+.px-ep-row.active .px-ep-row-title { color: var(--c-white); font-weight: 600; }
+.px-ep-row-meta { display: flex; align-items: center; gap: 6px; }
+.px-ep-row-date { font-size: 10.5px; color: var(--c-txt-3); }
+
+/* Kalite badge */
+.px-q { font-size: 9.5px; font-weight: 700; padding: 1px 5px; border-radius: 3px; }
+.px-q-1080 { background: #1a1a1a; color: #aaa; border: 1px solid #333; }
+.px-q-720  { background: #0a1540; color: #7799cc; border: 1px solid #1a2a60; }
+.px-q-480  { background: #2a1800; color: #cc9944; border: 1px solid #3a2500; }
+.px-q-low  { background: #1e0000; color: #aa5544; border: 1px solid #3a0000; }
+
+/* Sağ: izlendi dot + ok */
+.px-ep-watched-dot{
+  flex-shrink:0;
+  width:16px;height:16px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#2a9a4e,#1d7a3c);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(42,154,78,.5);
+}
+.px-ep-watched-dot::after{
+  content:'✓';
+  font-size:8px;
+  color:#fff;
+  font-weight:800;
+}
+.px-ep-arrow {
+  display: none !important;
+}
+.px-ep-row.active .px-ep-arrow { display: none; }
+
+
+/* ══ AD BLOCK ════════════════════════════════════════ */
+.px-ad { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--r-lg); overflow: hidden; padding: 4px; margin-bottom: 16px; }
+.px-ad-row { display: flex; gap: 12px; margin-bottom: 8px; align-items: stretch; }
+.px-ad-row .px-ad { margin-bottom: 0; min-height: 0; flex: 1; }
+/* Sticky sidebar reklam — scroll ile sabit kalır, viewability %90+ */
+.px-ad-sticky { position: sticky; top: 80px; margin-top: 16px; background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--r-lg); overflow: hidden; padding: 4px; z-index: 10; }
+@media (max-width: 991px) { .px-ad-sticky { position: static; } }
+
+/* ══ FOOTER ══════════════════════════════════════════ */
+#px-footer { background: var(--c-surface); border-top: 1px solid var(--c-border); margin-top: 72px; }
+.px-footer-grid {
+  max-width: 1400px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 44px; padding: 52px 28px 40px;
+}
+.px-footer-logo { height: 44px; margin-bottom: 14px; }
+.px-footer-about { font-size: 13.5px; color: var(--c-txt-2); margin-bottom: 18px; line-height: 1.65; }
+.px-footer-socials { display: flex; gap: 7px; }
+.px-social {
+  width: 34px; height: 34px; border-radius: var(--r);
+  border: 1px solid var(--c-border2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c-txt-2); font-size: 13px;
+  transition: all var(--dur) var(--ease);
+}
+.px-social:hover { border-color: var(--c-red); color: var(--c-red); background: var(--c-red-glow); }
+.px-footer-head { font-family: var(--font-d); font-size: 15px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--c-white); margin-bottom: 14px; }
+.px-footer-links { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.px-footer-links a { font-size: 13px; color: var(--c-txt-2); transition: all var(--dur) var(--ease); display: inline-flex; align-items: center; gap: 6px; }
+.px-footer-links a:hover { color: var(--c-red); padding-left: 4px; }
+.px-footer-bottom {
+  border-top: 1px solid var(--c-border);
+  padding: 18px 28px; text-align: center;
+  font-size: 12.5px; color: var(--c-txt-3);
+  max-width: 1400px; margin: 0 auto;
+}
+
+/* Back to top */
+#px-back-top {
+  position: fixed; bottom: 24px; right: 24px; z-index: 800;
+}
+#px-back-top a {
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--c-card); border: 1px solid var(--c-border2);
+  border-radius: var(--r); color: var(--c-txt-2); font-size: 16px;
+  box-shadow: var(--shadow); transition: all var(--dur) var(--ease);
+}
+#px-back-top a:hover { background: var(--c-red); border-color: var(--c-red); color: #fff; }
+
+/* ══ NOTIFICATIONS ═══════════════════════════════════ */
+.px-notif {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 99000;
+  padding: 13px 24px; text-align: center;
+  font-size: 14px; font-weight: 600; font-family: var(--font-b);
+  transform: translateY(-100%); opacity: 0;
+  transition: all .3s var(--ease);
+}
+.px-notif.show { transform: none; opacity: 1; }
+.px-notif-err { background: var(--c-red); color: #fff; }
+.px-notif-ok  { background: #1a6b3c; color: #fff; }
+
+/* Humane override */
+.humane,.humane-flatty { display: none; }
+
+/* ══ RESPONSIVE ══════════════════════════════════════ */
+@media (max-width:991px) {
+  .px-nav { display: none; }
+  .px-hamburger { display: flex; }
+  .px-ep-panel { position: static; }
+  .px-footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+}
+@media (max-width:575px) {
+  .px-page { padding: 16px 14px 56px; }
+  .px-info-top { flex-direction: column; }
+  .px-info-poster { width: 100%; }
+  .px-info-poster img { aspect-ratio: 16/7; }
+  .px-c-text, .px-c-actions, .px-reply-form { padding-left: 0; }
+  .px-replies { margin-left: 0; }
+  .px-footer-grid { grid-template-columns: 1fr; }
+  .px-header-inner { padding: 0 14px; }
+}
+</style>
+<!-- Google tag (gtag.js) GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W5QB7PKWG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-W5QB7PKWG3');
+</script>
+</head>
+<body>
+
+<!-- ── LOADER ──────────────────────────────────────── -->
+<div id="px-loader">
+  <div class="px-loader-brand">
+    <div class="px-loader-glow"></div>
+    <div class="px-loader-ring-1"></div>
+    <div class="px-loader-ring-2"></div>
+    <img src="https://belgeselx.com/images/logo5.png" alt="BelgeselX">
+  </div>
+  <div class="px-loader-text">Yükleniyor...</div>
+</div>
+
+<!-- ── HEADER ──────────────────────────────────────── -->
+<header id="px-header">
+  <div class="px-header-inner">
+
+    <a href="https://belgeselx.com/" class="px-logo">
+      <img src="https://belgeselx.com/images/logo5.png" alt="BelgeselX">
+    </a>
+
+    <nav class="px-nav">
+      <div class="px-nav-item">
+        <button class="px-nav-btn">Keşfet <i class="fa fa-chevron-down"></i></button>
+        <div class="px-dd">
+          <a href="https://belgeselx.com/son-eklenenler"><i class="fa fa-clock" style="color:var(--c-red);width:16px;text-align:center"></i>Son Eklenenler</a>
+          <a href="https://belgeselx.com/en-cok-izlenen-belgeseller"><i class="fa fa-fire" style="color:var(--c-red);width:16px;text-align:center"></i>En Çok İzlenenler</a>
+          <a href="https://belgeselx.com/haftanin-trendleri"><i class="fa fa-chart-line" style="color:var(--c-red);width:16px;text-align:center"></i>Haftanın Trendleri</a>
+        </div>
+      </div>
+      <div class="px-nav-item">
+        <button class="px-nav-btn">Kanallar <i class="fa fa-chevron-down"></i></button>
+        <div class="px-dd px-dd-wide">
+                    <a href="https://belgeselx.com/belgeselkanali/national-geographic">
+            <img src="https://belgeselx.com/img/kanal/ngsimge.png" alt="NATİONAL GEOGRAPHİC">
+            NATİONAL GEOGRAPHİC          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/national-geographic-hd">
+            <img src="https://belgeselx.com/img/kanal/ngsimge.png" alt="NATİONAL GEOGRAPHİC HD">
+            NATİONAL GEOGRAPHİC HD          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/national-geographic-wild">
+            <img src="https://belgeselx.com/img/kanal/ngsimge.png" alt="NATİONAL GEOGRAPHİC WİLD">
+            NATİONAL GEOGRAPHİC WİLD          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/discovery-channel">
+            <img src="https://belgeselx.com/img/kanal/dcsimge.png" alt="DİSCOVERY CHANNEL">
+            DİSCOVERY CHANNEL          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/discovery-science">
+            <img src="https://belgeselx.com/img/kanal/dssimge.png" alt="DİSCOVERY SCİENCE">
+            DİSCOVERY SCİENCE          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/discovery-id">
+            <img src="https://belgeselx.com/img/kanal/idc.png" alt="DİSCOVERY İD">
+            DİSCOVERY İD          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/history-channel">
+            <img src="https://belgeselx.com/img/kanal/hlogo.png" alt="HİSTORY CHANNEL">
+            HİSTORY CHANNEL          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/history-hd">
+            <img src="https://belgeselx.com/img/kanal/hlogo.png" alt="HİSTORY HD">
+            HİSTORY HD          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/history-viasat">
+            <img src="https://belgeselx.com/img/kanal/viasatsimge.png" alt="HİSTORY VİASAT">
+            HİSTORY VİASAT          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/bbc">
+            <img src="https://belgeselx.com/img/kanal/bbcsimge.png" alt="BBC">
+            BBC          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/science-vie">
+            <img src="https://belgeselx.com/img/kanal/scisimge.png" alt="SCİENCE VİE">
+            SCİENCE VİE          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/da-vinci-learning">
+            <img src="https://belgeselx.com/img/kanal/dasimge.png" alt="DA VİNCİ LEARNİNG">
+            DA VİNCİ LEARNİNG          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/diger-belgeseller">
+            <img src="https://belgeselx.com/img/kanal/dgrsimge.png" alt="DİĞER BELGESELLER">
+            DİĞER BELGESELLER          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/trt-belgesel">
+            <img src="https://belgeselx.com/img/kanal/trtsimge.jpg" alt="TRT BELGESEL">
+            TRT BELGESEL          </a>
+                    <a href="https://belgeselx.com/belgeselkanali/egitim-setleri">
+            <img src="https://belgeselx.com/img/kanal/essimge.png" alt="EĞİTİM SETLERİ">
+            EĞİTİM SETLERİ          </a>
+                  </div>
+      </div>
+      <div class="px-nav-item">
+        <button class="px-nav-btn">Türler <i class="fa fa-chevron-down"></i></button>
+        <div class="px-dd px-dd-wide">
+                    <a href="https://belgeselx.com/konu/bilim-belgeselleri">Bilim Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/cizgi-film">Çizgi Film</a>
+                    <a href="https://belgeselx.com/konu/doga-belgeselleri">Doğa Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/dunya-belgeselleri">Dünya Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/egitim-belgeselleri">Eğitim Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/eski-tarih-belgeselleri">Eski Tarih Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/hayvan-belgeselleri">Hayvan Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/kozmik-belgeseller">Kozmik Belgeseller</a>
+                    <a href="https://belgeselx.com/konu/kultur-din-belgeselleri">Kültür Din Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/muhendislik-belgeselleri">Mühendislik Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/nazi-belgeselleri">Nazi Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/otomobil-belgeselleri">Otomobil Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/polisiye-belgeselleri">Polisiye Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/psikoloji-belgeselleri">Psikoloji Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/sanat-belgeselleri">Sanat Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/savas-belgeselleri">Savaş Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/seri-belgeseller">Seri Belgeseller</a>
+                    <a href="https://belgeselx.com/konu/seyehat-belgeselleri">Seyehat Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/tarih-belgeselleri">Tarih Belgeselleri</a>
+                    <a href="https://belgeselx.com/konu/turk-tarihi-belgeselleri">Türk Tarihi Belgeselleri</a>
+                  </div>
+      </div>
+    </nav>
+
+    <div class="px-header-right">
+      <!-- Search -->
+      <div class="px-search-wrap">
+        <button class="px-icon-btn" id="px-s-toggle"><i class="fa fa-search"></i></button>
+        <div class="px-panel px-search-panel" id="px-s-panel">
+          <!-- Arama kutusu -->
+          <div class="px-search-box">
+            <i class="fa fa-search"></i>
+            <input class="px-search-input" id="px-search-input" type="text" placeholder="Belgesel ara..." autocomplete="off" spellcheck="false">
+            <button class="px-search-clear" id="px-search-clear"><i class="fa fa-xmark"></i></button>
+          </div>
+          <!-- Loading -->
+          <div class="px-search-loading" id="px-search-loading">
+            <i class="fa fa-circle-notch"></i>
+          </div>
+          <!-- Sonuçlar -->
+          <div class="px-search-results" id="px-search-results">
+            <div class="px-search-empty">
+              <i class="fa fa-film"></i>
+              Aramak istediğiniz belgeseli yazın
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google CSE gizli container — sonuçları buradan okuyoruz -->
+      <div id="px-gcse-hidden" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;pointer-events:none;z-index:-1;visibility:hidden;">
+        <script>(function(){var cx='016376594590146270301:iwmy65ijgrm';var g=document.createElement('script');g.async=true;g.src='https://cse.google.com/cse.js?cx='+cx;document.head.appendChild(g);})();</script>
+        <gcse:searchresults-only linktarget="_blank"></gcse:searchresults-only>
+      </div>
+      <!-- User -->
+      <div class="px-user-wrap">
+        <button class="px-icon-btn" id="px-u-toggle"><i class="fa fa-user"></i></button>
+        <div class="px-panel px-user-panel" id="px-u-panel">
+                    <a href="https://belgeselx.com/uye-girisi"><i class="fas fa-sign-in-alt fa-fw"></i> Giriş Yap</a>
+          <a href="https://belgeselx.com/uye-ol"><i class="fa fa-user-plus fa-fw"></i> Üye Ol</a>
+                  </div>
+      </div>
+      <!-- CTA -->
+            <a href="https://belgeselx.com/uye-ol" class="px-btn"><i class="fa fa-bolt"></i> Üye Ol</a>
+            <button class="px-hamburger" id="px-hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <nav class="px-mobile-nav" id="px-mobile-nav">
+    <a href="https://belgeselx.com/son-eklenenler">Son Eklenenler</a>
+    <a href="https://belgeselx.com/en-cok-izlenen-belgeseller">En Çok İzlenenler</a>
+    <a href="https://belgeselx.com/haftanin-trendleri">Haftanın Trendleri</a>
+  </nav>
+</header>
+
+<!-- ── MAIN ────────────────────────────────────────── -->
+<main class="px-page">
+  <div class="row g-4">
+
+    <!-- SOL: Player + Bilgi + Yorumlar -->
+    <div class="col-lg-9">
+
+            <div class="px-ad mb-3" style="max-height:250px;overflow:hidden;">
+        <ins class="adsbygoogle" style="display:block;" data-ad-client="ca-pub-1663052485521079" data-ad-slot="9408685760" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      </div>
+      
+      <!-- Video Now Playing Banner -->
+      <div class="px-now-playing-bar">
+        <span class="px-np-dot"></span>
+        <span class="px-np-label"><i class="fa fa-clapperboard"></i> ŞİMDİ İZLİYORSUNUZ</span>
+        <span class="px-np-title" id="px-now-title">ASTRO ARAŞTIRMALAR</span>
+        <span class="px-np-arrow"><i class="fa fa-chevron-down"></i></span>
+      </div>
+
+      <!-- Player -->
+      <div class="px-player-wrap mb-3">
+        <div class="px-player-ratio">
+          <!-- Ambient Mode: Sinematik Bulanık Poster Arka Planı -->
+          <div class="px-player-ambient" style="background-image: url('https://belgeselx.com/upload/resimler2/aae28072aa.jpg');"></div>
+          <div class="px-player-overlay"></div>
+
+          <button id="F1" class="px-play-btn" onclick="playVideo(1)">
+            <div class="px-play-icon">
+              <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="38" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+                <circle cx="40" cy="40" r="28" fill="rgba(232,41,28,0.9)"/>
+                <polygon points="33,27 57,40 33,53" fill="white"/>
+              </svg>
+            </div>
+            <div class="px-play-pulse"></div>
+            <div class="px-play-pulse px-play-pulse2"></div>
+          </button>
+          <button id="F2" class="px-play-btn" style="display:none;" onclick="playVideo(2)">
+            <div class="px-play-icon">
+              <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="38" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+                <circle cx="40" cy="40" r="28" fill="rgba(232,41,28,0.9)"/>
+                <polygon points="33,27 57,40 33,53" fill="white"/>
+              </svg>
+            </div>
+            <div class="px-play-pulse"></div>
+            <div class="px-play-pulse px-play-pulse2"></div>
+          </button>
+          <button id="F3" class="px-play-btn" style="display:none;" onclick="playVideo(3)">
+            <div class="px-play-icon">
+              <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="38" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+                <circle cx="40" cy="40" r="28" fill="rgba(232,41,28,0.9)"/>
+                <polygon points="33,27 57,40 33,53" fill="white"/>
+              </svg>
+            </div>
+            <div class="px-play-pulse"></div>
+            <div class="px-play-pulse px-play-pulse2"></div>
+          </button>
+          <iframe id="vF1" src="" frameborder="0" allowfullscreen></iframe>
+          <iframe id="vF2" src="" frameborder="0" allowfullscreen style="display:none;"></iframe>
+          <iframe id="vF3" src="" frameborder="0" allowfullscreen style="display:none;"></iframe>
+          <!-- Google Drive Sağ Üst Simge Engelleyici Şeffaf Kalkan -->
+          <div class="px-drive-shield"></div>
+        </div>
+        <div class="px-source-bar">
+          <div class="px-source-left">
+            <button class="px-src-tab active" id="stab-1" onclick="switchSource(1)"><i class="fa fa-play"></i> Ana Video</button>
+            <button class="px-src-tab" id="stab-2" onclick="switchSource(2)">Alternatif 1</button>
+            <button class="px-src-tab" id="stab-3" onclick="switchSource(3)">Alternatif 2</button>
+          </div>
+                  </div>
+      </div>
+
+      <!-- Bilgi Kartı üstü reklam (responsive, tekrar eden slot düzeltildi) -->
+            <div class="px-ad mb-3">
+        <ins class="adsbygoogle" style="display:block;" data-ad-client="ca-pub-1663052485521079" data-ad-slot="3207073647" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      </div>
+      
+      <!-- Bilgi Kartı -->
+      <div class="px-info-card mb-3">
+        <div class="px-info-top">
+          <div class="px-info-poster">
+            <img src="https://belgeselx.com/upload/resimler2/aae28072aa.jpg" alt="ASTRO ARAŞTIRMALAR">
+          </div>
+          <div class="px-info-body">
+            <h2 class="px-info-title">
+              ASTRO ARAŞTIRMALAR              <span class="px-ep-name" id="px-baslik"></span>
+              <span class="px-ep-pill" style="margin-left:auto;flex-shrink:0;">
+                S<span id="px-sezon"></span>&nbsp;B<span id="px-bolum"></span>
+              </span>
+            </h2>
+            <div class="px-stats-row">
+              <span class="px-stat"><i class="fa fa-eye"></i> <span id="px-hit"></span> izlenme</span>
+              <span class="px-stat"><i class="fa fa-calendar"></i> <span id="px-tarih"></span></span>
+              <span class="px-stat"><i class="fa fa-tag"></i>
+                <a href="https://belgeselx.com/belgeselkanali/diger-belgeseller">
+                  diger-belgeseller                </a>
+              </span>
+              <span class="px-stat"><i class="fa fa-film"></i> 5 bölüm</span>
+              <span class="px-stat"><i class="fa fa-star"></i> 0 puan</span>
+            </div>
+                        <p class="px-info-desc">Astro-Investigates, NASA bilim insanlarının katılımıyla büyük astrofizik konularını araştıran ve açıklayan popüler bir video serisidir. JPL'den (Jet Propulsion Laboratory) Chelsea Gohd'un sunuculuğunu üstlendiği bu yapım, Caltech/IPAC ve NASA iş birliğiyle hazırlanmaktadır</p>
+
+            <!-- ✅ DOĞRU YER: İzlendi / Listene Ekle / Puan Ver butonları -->
+
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- Yorum Formu -->
+            <div class="px-comment-box mb-4">
+        <div class="px-comment-box-body">
+          <form id="px-yorum-form2">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <div style="width:38px;height:38px;border-radius:50%;background:var(--c-raised);border:2px solid var(--c-border2);display:flex;align-items:center;justify-content:center;color:var(--c-txt-3);flex-shrink:0;">
+                <i class="fa fa-user"></i>
+              </div>
+              <span style="font-size:13px;color:var(--c-txt-3);">
+                Ziyaretçi olarak yorum yapıyorsunuz.
+                <a href="https://belgeselx.com/uye-girisi" style="color:var(--c-red);">Giriş yapın</a>
+              </span>
+            </div>
+            <textarea name="text" id="px-yorum-text2" placeholder="Bir yorum bırakın..." required></textarea>
+            <div class="px-comment-submit-row">
+              <span class="px-comment-hint"><i class="fa fa-user-secret"></i> Ziyaretçi yorumu</span>
+              <button type="submit" class="px-submit-btn"><i class="fa fa-paper-plane"></i> Gönder</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <script>
+      jQuery(document).ready(function(){
+        $('#px-yorum-form2').submit(function(){
+          var form     = $(this);
+          var textarea = $('#px-yorum-text2');
+          var text     = textarea.val().trim();
+          if (!text) return false;
+
+          var belgeselid = window.sonSecilen || 18726;
+          if (!belgeselid) {
+            Swal.fire({ icon:'warning', title:'Önce bir bölüm seçin.', timer:2000, showConfirmButton:false, background:'#13131f', color:'#d8d8e8' });
+            return false;
+          }
+
+          var btn = form.find('button[type=submit]');
+          btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Gönderiliyor...');
+          $.ajax({
+            type: 'POST',
+            url:  'https://belgeselx.com/mofy/php/yorumgonder40.php'
+                  + '?belgeselid=' + belgeselid
+                  + '&diziid=1185',
+            data: { text: text },
+            complete: function(){
+              btn.prop('disabled', false).html('<i class="fa fa-paper-plane"></i> Gönder');
+            },
+            success: function(resp){
+              var r = {};
+              try { r = JSON.parse(resp); } catch(e) { r = {ok:true}; }
+              if (r.ok === false) {
+                Swal.fire({ icon:'error', title:'Hata!', text: r.msg || 'Yorum gönderilemedi.', timer:2500, showConfirmButton:false, background:'#13131f', color:'#d8d8e8' });
+                return;
+              }
+              $('.px-empty-comments').remove();
+              if ($('.px-comment-list').length === 0) {
+                $('#px-yorum-listesi').prepend('<div class="px-comment-list"></div>');
+              }
+              var safeText = $('<div>').text(text).html();
+              var html = '<div class="px-comment" style="animation:fadeIn .4s ease">'
+                + '<div class="px-c-head">'
+                +   '<img class="px-c-av" src="https://belgeselx.com/img/photo.jpg" alt="Ziyaretçi">'
+                +   '<div class="px-c-meta">'
+                +     '<a href="#" class="px-c-name">Ziyaretçi</a>'
+                +     '<span class="px-c-time">az önce</span>'
+                +   '</div>'
+                +   '<span class="px-c-ep-badge"><i class="fa fa-play-circle"></i> Mevcut bölüm</span>'
+                + '</div>'
+                + '<div class="px-c-text">'+safeText+'</div>'
+                + '<div class="px-c-actions"><span style="font-size:12px;color:var(--c-gold);"><i class="fa fa-clock"></i> Onay bekliyor...</span></div>'
+                + '</div>';
+              $('.px-comment-list').prepend(html);
+              textarea.val('');
+              Swal.fire({ icon:'success', title:'Yorumun alındı!', text:'Onaylandıktan sonra herkese görünecek.', timer:2500, showConfirmButton:false, background:'#13131f', color:'#d8d8e8' });
+            },
+            error: function(){
+              Swal.fire({ icon:'error', title:'Hata!', text:'Yorum gönderilemedi, tekrar dene.', timer:2500, showConfirmButton:false, background:'#13131f', color:'#d8d8e8' });
+            }
+          });
+          return false;
+        });
+      });
+      </script>
+      
+      <!-- Yorum Listesi -->
+      <div id="px-yorum-listesi">
+      <div class="px-empty-comments">
+                  <div class="icon"><i class="fa fa-comments"></i></div>
+                  <p><strong>Henüz yorum yok.</strong><br>Bu belgeseli izledin mi? Düşüncelerini paylaş!</p>
+                </div>      </div><!-- #px-yorum-listesi -->
+
+    </div><!-- col-lg-9 -->
+
+    <!-- SAĞ: Bölüm Listesi -->
+    <div class="col-lg-3">
+
+
+
+            <div class="px-ad">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1663052485521079" data-ad-slot="8459400325" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      </div>
+      
+      <div class="px-ep-panel">
+        <div class="px-ep-panel-head">
+          <i class="fa fa-film" style="color:var(--c-red)"></i>
+          <h4>Bölüm Listesi</h4>
+          <span class="px-ep-count">5 bölüm</span>
+        </div>
+
+        
+        <!-- Sezon sekmeleri: birden fazla sezon varsa göster, yatay kaydırmalı -->
+        
+        <!-- Bölüm panelleri -->
+        <div class="px-ep-scroll" id="px-ep-scroll">
+                    <div class="px-season-pane active"
+               id="sp-1">
+                        <a class="px-ep-row active"
+               id="no18726"
+               href="#"
+               onclick="diziGetir('18726','0','','0','Karadelik Nedir?','360','Ağustos 2026','1','1','1185','astro-arastirmalar','0','','0','1');return false;">
+
+              <div class="px-ep-circle">
+                <span class="c-num">01</span>
+                <i class="fa fa-play c-play"></i>
+              </div>
+
+              <div class="px-ep-body">
+                <div class="px-ep-row-title">Karadelik Nedir?</div>
+                <div class="px-ep-row-meta">
+                                    <span class="px-q" style="background:rgba(80,200,120,0.12);color:#5de08a;border:1px solid rgba(80,200,120,0.25);">S1 B1</span>
+                  <span class="px-ep-row-date">Ağustos 2026</span>
+                </div>
+              </div>
+
+              <div class="px-ep-right" style="display:flex;align-items:center;gap:7px;margin-left:auto;">
+                                <i class="fa fa-chevron-right px-ep-arrow"></i>
+              </div>
+
+            </a>
+                        <a class="px-ep-row"
+               id="no18727"
+               href="#"
+               onclick="diziGetir('18727','0','','0','Öte Gezegen Nedir?','73','Ağustos 2026','1','2','1185','astro-arastirmalar','0','','0','2');return false;">
+
+              <div class="px-ep-circle">
+                <span class="c-num">02</span>
+                <i class="fa fa-play c-play"></i>
+              </div>
+
+              <div class="px-ep-body">
+                <div class="px-ep-row-title">Öte Gezegen Nedir?</div>
+                <div class="px-ep-row-meta">
+                                    <span class="px-q" style="background:rgba(80,200,120,0.12);color:#5de08a;border:1px solid rgba(80,200,120,0.25);">S1 B2</span>
+                  <span class="px-ep-row-date">Ağustos 2026</span>
+                </div>
+              </div>
+
+              <div class="px-ep-right" style="display:flex;align-items:center;gap:7px;margin-left:auto;">
+                                <i class="fa fa-chevron-right px-ep-arrow"></i>
+              </div>
+
+            </a>
+                        <a class="px-ep-row"
+               id="no18728"
+               href="#"
+               onclick="diziGetir('18728','0','','0','Yıldız Nedir?','14','Ağustos 2026','1','3','1185','astro-arastirmalar','0','','0','3');return false;">
+
+              <div class="px-ep-circle">
+                <span class="c-num">03</span>
+                <i class="fa fa-play c-play"></i>
+              </div>
+
+              <div class="px-ep-body">
+                <div class="px-ep-row-title">Yıldız Nedir?</div>
+                <div class="px-ep-row-meta">
+                                    <span class="px-q" style="background:rgba(80,200,120,0.12);color:#5de08a;border:1px solid rgba(80,200,120,0.25);">S1 B3</span>
+                  <span class="px-ep-row-date">Ağustos 2026</span>
+                </div>
+              </div>
+
+              <div class="px-ep-right" style="display:flex;align-items:center;gap:7px;margin-left:auto;">
+                                <i class="fa fa-chevron-right px-ep-arrow"></i>
+              </div>
+
+            </a>
+                        <a class="px-ep-row"
+               id="no18729"
+               href="#"
+               onclick="diziGetir('18729','0','','0','Big Bang Nedir?','15','Ağustos 2026','1','4','1185','astro-arastirmalar','0','','0','4');return false;">
+
+              <div class="px-ep-circle">
+                <span class="c-num">04</span>
+                <i class="fa fa-play c-play"></i>
+              </div>
+
+              <div class="px-ep-body">
+                <div class="px-ep-row-title">Big Bang Nedir?</div>
+                <div class="px-ep-row-meta">
+                                    <span class="px-q" style="background:rgba(80,200,120,0.12);color:#5de08a;border:1px solid rgba(80,200,120,0.25);">S1 B4</span>
+                  <span class="px-ep-row-date">Ağustos 2026</span>
+                </div>
+              </div>
+
+              <div class="px-ep-right" style="display:flex;align-items:center;gap:7px;margin-left:auto;">
+                                <i class="fa fa-chevron-right px-ep-arrow"></i>
+              </div>
+
+            </a>
+                        <a class="px-ep-row"
+               id="no18730"
+               href="#"
+               onclick="diziGetir('18730','0','','0','Karanlık Madde Nedir?','20','Ağustos 2026','1','5','1185','astro-arastirmalar','0','','0','5');return false;">
+
+              <div class="px-ep-circle">
+                <span class="c-num">05</span>
+                <i class="fa fa-play c-play"></i>
+              </div>
+
+              <div class="px-ep-body">
+                <div class="px-ep-row-title">Karanlık Madde Nedir?</div>
+                <div class="px-ep-row-meta">
+                                    <span class="px-q" style="background:rgba(80,200,120,0.12);color:#5de08a;border:1px solid rgba(80,200,120,0.25);">S1 B5</span>
+                  <span class="px-ep-row-date">Ağustos 2026</span>
+                </div>
+              </div>
+
+              <div class="px-ep-right" style="display:flex;align-items:center;gap:7px;margin-left:auto;">
+                                <i class="fa fa-chevron-right px-ep-arrow"></i>
+              </div>
+
+            </a>
+                      </div>
+                  </div>
+
+      </div><!-- .px-ep-panel -->
+
+            <div class="px-ad-sticky">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1663052485521079" data-ad-slot="9262617234" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      </div>
+      
+    </div><!-- col-lg-4 -->
+  </div><!-- .row -->
+</main>
+
+<!-- Bildirimler -->
+<div id="px-notif-err"  class="px-notif px-notif-err">Sadece bir kez bu işlem yapılabilir.</div>
+<div id="px-notif-ok"   class="px-notif px-notif-ok">İşlem başarıyla tamamlandı.</div>
+
+<!-- ── PUAN MODAL ───────────────────────────────────── -->
+
+<!-- ── FOOTER ──────────────────────────────────────── -->
+<footer id="px-footer">
+  <div class="px-footer-grid">
+    <div>
+      <img src="https://belgeselx.com/images/logo5.png" class="px-footer-logo" alt="BelgeselX">
+      <p class="px-footer-about">Türkçe altyazılı ve dublaj binlerce belgeselin adresi. Keşfet, izle, listene ekle.</p>
+      <div class="px-footer-socials">
+        <a href="https://www.youtube.com/channel/UC6nAOL4a8lFbEe6rRNtKnog" class="px-social"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.facebook.com/bexhallerd" class="px-social"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com/bexhallerd" class="px-social"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com/bexhallerd" class="px-social"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div>
+      <div class="px-footer-head">Keşfet</div>
+      <ul class="px-footer-links">
+                <li><a href="https://belgeselx.com/belgeseldizi/antik-uzaylilar">
+          <i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>
+          ANTİK UZAYLILAR        </a></li>
+                <li><a href="https://belgeselx.com/belgeseldizi/modern-rehinciler">
+          <i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>
+          MODERN REHİNCİLER        </a></li>
+                <li><a href="https://belgeselx.com/belgeseldizi/depo-savaslari">
+          <i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>
+          DEPO SAVAŞLARI        </a></li>
+                <li><a href="https://belgeselx.com/belgeseldizi/dunya-savaslari">
+          <i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>
+          DÜNYA SAVAŞLARI        </a></li>
+                <li><a href="https://belgeselx.com/belgeseldizi/sovyet-storm">
+          <i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>
+          SOVYET STORM        </a></li>
+                <li><a href="https://belgeselx.com/belgeseldizi/atesten-dogan">
+          <i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>
+          ATEŞTEN DOĞAN - FORGED IN         </a></li>
+                <li><a href="https://belgeselx.com/belgeseldizi/m-freeman-evrenin-sirlari">
+          <i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>
+          M. FREEMAN-EVRENİN SIRLARI        </a></li>
+                <li><a href="https://belgeselx.com/belgeseldizi/mythbusters">
+          <i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>
+          MYTHBUSTERS        </a></li>
+              </ul>
+    </div>
+    <div>
+      <div class="px-footer-head">Kanallar</div>
+      <ul class="px-footer-links">
+        <li><a href="https://belgeselx.com/belgeselkanali/history-hd"><i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>History HD</a></li>
+        <li><a href="https://belgeselx.com/belgeselkanali/history-channel"><i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>History Channel</a></li>
+        <li><a href="https://belgeselx.com/belgeselkanali/discovery-channel"><i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>Discovery</a></li>
+        <li><a href="https://belgeselx.com/belgeselkanali/discovery-science"><i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>Discovery Science</a></li>
+        <li><a href="https://belgeselx.com/belgeselkanali/national-geographic-hd"><i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>Nat Geo HD</a></li>
+        <li><a href="https://belgeselx.com/belgeselkanali/national-geographic-wild"><i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>Nat Geo Wild</a></li>
+        <li><a href="https://belgeselx.com/belgeselkanali/history-viasat"><i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>History Viasat</a></li>
+        <li><a href="https://belgeselx.com/belgeselkanali/bbc"><i class="fa fa-angle-right" style="color:var(--c-red);font-size:11px;"></i>BBC Belgesel</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="px-footer-head">Uygulama</div>
+      <p style="font-size:13.5px;color:var(--c-txt-2);line-height:1.65;">Yakında mobil uygulamamızı yayınlıyoruz. Takipte kalın ve ilk haberdar olanlardan olun!</p>
+
+      <div class="px-footer-head" style="margin-top:28px;">Anlık Ziyaretçi</div>
+      <p style="font-size:13px;color:var(--c-txt-2);display:flex;align-items:center;gap:8px;">
+        <span style="width:8px;height:8px;flex-shrink:0;background:var(--c-red);border-radius:50%;box-shadow:0 0 8px var(--c-red);animation:glowPulse 2s infinite ease-in-out;display:inline-block;"></span>
+        Şu an <b style="color:var(--c-white);margin:0 4px;">64</b> kişi online
+      </p>
+      <div class="px-footer-head" style="margin-top:20px;">Bugünkü Ziyaretçi</div>
+      <p style="font-size:13px;color:var(--c-txt-2);display:flex;align-items:center;gap:8px;">
+        <i class="fa fa-chart-line" style="color:var(--c-red);font-size:11px;"></i>
+        Bugün <b style="color:var(--c-white);margin:0 4px;">1770</b> tekil ziyaretçi
+      </p>
+    </div>
+  </div>
+  <div class="px-footer-bottom">
+    Copyright &copy; 2026 BelgeselX &mdash; Tüm hakları saklıdır.
+  </div>
+</footer>
+
+<div id="px-back-top"><a href="javascript:void(0)" onclick="window.scrollTo(0,0)"><i class="fa fa-arrow-up"></i></a></div>
+
+<!-- ── SCRIPTS ─────────────────────────────────────── -->
+<script src="../yeni/js/bootstrap.min.js"></script>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   BelgeselX — Ana JavaScript
+══════════════════════════════════════════════════════ */
+
+// ── Global state ────────────────────────────────────
+window.sonSecilen = 0;
+var srcMap = { '0':'new5','2':'new1','5':'new4','3':'new2','4':'new3' };
+
+function getSrc(ic, id, sira) {
+  var f = srcMap[String(ic)] || 'default';
+  return 'https://belgeselx.com/video/data/' + f + '.php?id=' + id + '&sira=' + sira;
+}
+
+// ── Video oynatma ────────────────────────────────────
+var pxVideoOynuyor = false; // hangi slot oynuyor (false veya 1/2/3)
+function playVideo(n) {
+  // Tüm iframeleri ve butonları önce temizle
+  for (var i = 1; i <= 3; i++) {
+    var fi = document.getElementById('vF' + i);
+    var bi = document.getElementById('F' + i);
+    if (i !== n) { fi.src = ''; fi.style.display = 'none'; bi.style.display = 'none'; }
+  }
+  var iframe = document.getElementById('vF' + n);
+  var btn    = document.getElementById('F' + n);
+  iframe.src = iframe.dataset.src || '';
+  iframe.style.display = 'block';
+  btn.style.display    = 'none';
+  pxVideoOynuyor = n;
+  var ratio = document.querySelector('.px-player-ratio');
+  if (ratio) { ratio.classList.add('playing'); }
+}
+
+// ── Kaynak sekmesi ───────────────────────────────────
+function switchSource(n) {
+  for (var i = 1; i <= 3; i++) {
+    var f = document.getElementById('vF' + i);
+    var b = document.getElementById('F'  + i);
+    var t = document.getElementById('stab-' + i);
+    var savedSrc = f.dataset.src; // dataset.src'yi koru
+    f.style.display = 'none';
+    f.src = '';
+    f.dataset.src = savedSrc;    // silme — koru
+    b.style.display = (i === n) ? 'flex' : 'none';
+    t.classList.toggle('active', i === n);
+  }
+}
+
+// ── PHP'den gelen izlendi haritası ──────────────────
+var pxIzlendiMap = {"18726":0,"18727":0,"18728":0,"18729":0,"18730":0};
+
+// ── Action bar state (global) ────────────────────────
+var pxState = {
+  bolumId:  18726,
+  diziId:   1185,
+  uyeId:    0,
+  uyeKul:   '',
+  izlendi:  false,
+  liste:    false,
+  puan:     false,
+  secilenPuan: 0
+};
+
+// Buton görünümünü güncelle
+function pxUpdateButtons() {
+  var $iz  = $('#btn-izlendi');
+  var $ls  = $('#btn-liste');
+  var $pn  = $('#btn-puan');
+
+  // İzlendi
+  if (pxState.izlendi) {
+    $iz.addClass('px-act-green').html('<i class="fa fa-eye"></i> <span>İzlendi</span>');
+  } else {
+    $iz.removeClass('px-act-green').html('<i class="fa fa-eye-slash"></i> <span>İzledim İşaretle</span>');
+  }
+  // Listene Ekle
+  if (pxState.liste) {
+    $ls.addClass('px-act-green').html('<i class="fa fa-check"></i> <span>Listene Eklendi</span>');
+  } else {
+    $ls.removeClass('px-act-green').html('<i class="fa fa-plus"></i> <span>Listene Ekle</span>');
+  }
+  // Puan
+  if (pxState.puan) {
+    $pn.addClass('px-act-done').html('<i class="fa fa-star"></i> Puanlandı');
+  } else {
+    $pn.removeClass('px-act-done').html('<i class="fa fa-star"></i> Puan Ver');
+  }
+}
+
+// ── İzlendi toggle ───────────────────────────────────
+function pxIzlendiToggle() {
+  var phpUrl = pxState.izlendi
+    ? 'https://belgeselx.com/mofy/php/izledimsil.php'
+    : 'https://belgeselx.com/mofy/php/izledim.php';
+  $.get(phpUrl, {
+    kullaniciid:    pxState.uyeId,
+    belgeselid:     pxState.bolumId,
+    belgeseldiziid: pxState.diziId
+  }, function() {
+    pxState.izlendi = !pxState.izlendi;
+    pxIzlendiMap[pxState.bolumId] = pxState.izlendi ? 1 : 0;
+    // Karttaki izlendi dot'ını güncelle
+    var row = document.getElementById('no' + pxState.bolumId);
+    if (row) {
+      var right = row.querySelector('.px-ep-right');
+      var dot   = row.querySelector('.px-ep-watched-dot');
+      if (pxState.izlendi && !dot && right) {
+        var d = document.createElement('span');
+        d.className = 'px-ep-watched-dot';
+        right.insertBefore(d, right.firstChild);
+      } else if (!pxState.izlendi && dot) { dot.remove(); }
+    }
+    pxUpdateButtons();
+    pxNotif(pxState.izlendi ? 'ok' : 'err', pxState.izlendi ? 'İzlendi olarak işaretlendi.' : 'İzlendi işareti kaldırıldı.');
+  }).fail(function() {
+    pxNotif('err', 'İşlem başarısız, tekrar deneyin.');
+  });
+}
+
+// ── Liste toggle ─────────────────────────────────────
+function pxListeToggle() {
+  var phpUrl = pxState.liste
+    ? 'https://belgeselx.com/mofy/php/listesil.php'
+    : 'https://belgeselx.com/mofy/php/listeekle.php';
+  $.get(phpUrl, {
+    verenid:          pxState.uyeId,
+    belgeseldiziler:  'astro-arastirmalar',
+    belgeseldizilerid: pxState.diziId
+  }, function() {
+    pxState.liste = !pxState.liste;
+    pxUpdateButtons();
+    pxNotif(pxState.liste ? 'ok' : 'err', pxState.liste ? 'Listenize eklendi.' : 'Listeden kaldırıldı.');
+  }).fail(function() {
+    pxNotif('err', 'İşlem başarısız, tekrar deneyin.');
+  });
+}
+
+// ── Puan modal ───────────────────────────────────────
+function pxPuanAc() {
+  if (pxState.puan) { pxNotif('err','Bu belgesele zaten puan verdiniz.'); return; }
+  document.getElementById('px-puan-modal').style.display = 'flex';
+  pxState.secilenPuan = 0;
+  document.getElementById('btn-puan-gonder').disabled = true;
+  document.querySelectorAll('.px-star-btn').forEach(function(b){ b.classList.remove('selected'); });
+}
+function pxPuanKapat() {
+  document.getElementById('px-puan-modal').style.display = 'none';
+}
+function pxStarSec(val) {
+  pxState.secilenPuan = val;
+  document.querySelectorAll('.px-star-btn').forEach(function(b){
+    b.classList.toggle('selected', parseInt(b.dataset.val) <= val);
+  });
+  document.getElementById('btn-puan-gonder').disabled = false;
+}
+function pxPuanGonder() {
+  if (!pxState.secilenPuan) return;
+  if (!pxState.diziId || !pxState.uyeId) {
+    pxNotif('err', 'Puan vermek için giriş yapın.');
+    pxPuanKapat();
+    return;
+  }
+  $.get('https://belgeselx.com/mofy/php/puanladizi.php', {
+    verenkullanici_adi: pxState.uyeKul,
+    belgeseldiziler:    'astro-arastirmalar',
+    belgeseldizilerid:  pxState.diziId,
+    iceriks:            pxState.secilenPuan,
+    gonderst:           1
+  }, function() {
+    pxState.puan = true;
+    pxPuanKapat();
+    pxUpdateButtons();
+    pxNotif('ok', pxState.secilenPuan + '/5 puanınız kaydedildi!');
+  }).fail(function() {
+    pxNotif('err', 'Puan gönderilemedi, tekrar deneyin.');
+    pxPuanKapat();
+  });
+}
+
+// ── Bildirim helper ──────────────────────────────────
+function pxNotif(type, msg) {
+  var el = document.getElementById(type === 'ok' ? 'px-notif-ok' : 'px-notif-err');
+  if (msg) el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); }, 3000);
+}
+
+// ── Ana bölüm yükleme fonksiyonu ─────────────────────
+function diziGetir(id, ic1, ic2, ic3, baslik, hit, tarih, sezon, bolum, diziid, sefurl, uyeid, uyekul, giris, sira) {
+
+  // iframe src'leri güncelle, sıfırla — ÖNCE her şeyi kapat
+  pxVideoOynuyor = false;
+  for (var ii = 1; ii <= 3; ii++) {
+    var vEl = document.getElementById('vF' + ii);
+    var bEl = document.getElementById('F' + ii);
+    vEl.src = '';
+    vEl.style.display = 'none';
+    vEl.dataset.src = getSrc([ic1,ic2,ic3][ii-1], id, ii);
+    bEl.style.display = 'none';
+  }
+  // Sadece F1'i göster
+  document.getElementById('F1').style.display = 'flex';
+  // Tab'ı sıfırla
+  for (var i = 1; i <= 3; i++) document.getElementById('stab-'+i).classList.remove('active');
+  document.getElementById('stab-1').classList.add('active');
+
+  // Ambient Mode'u sıfırla (yeni bölüm afişi için)
+  var ratio = document.querySelector('.px-player-ratio');
+  if (ratio) { ratio.classList.remove('playing'); }
+
+  // Bilgileri güncelle
+  document.getElementById('px-baslik').innerText = baslik;
+  document.getElementById('px-hit').innerText    = hit;
+  document.getElementById('px-tarih').innerText  = tarih;
+  document.getElementById('px-sezon').innerText  = sezon;
+  document.getElementById('px-bolum').innerText  = bolum;
+  // Now playing bar başlık güncelle
+  var npTitle = document.getElementById('px-now-title');
+  if (npTitle) npTitle.innerText = 'ASTRO ARAŞTIRMALAR — ' + baslik;
+
+  // Aktif satır güncelle — DOM'daki TÜM active'leri temizle (sonSecilen'e güvenme)
+  document.querySelectorAll('.px-ep-row.active').forEach(function(r){ r.classList.remove('active'); });
+  var cur = document.getElementById('no' + id);
+  if (cur) {
+    cur.classList.add('active');
+    // Bölümün sezonunu aktif sekmeye al
+    var pane = cur.closest('.px-season-pane');
+    if (pane) {
+      var sNo = pane.id.replace('sp-','');
+      pxSezonSec(parseInt(sNo));
+    }
+    // Scroll: sezon pane aktif olduktan sonra çalıştır
+    setTimeout(function() {
+      var scroll = document.getElementById('px-ep-scroll');
+      var curEl  = document.getElementById('no' + id);
+      if (scroll && curEl) {
+        // Bölümün scroll container içindeki göreli konumu
+        var scrollRect  = scroll.getBoundingClientRect();
+        var curRect     = curEl.getBoundingClientRect();
+        var relTop      = curRect.top - scrollRect.top + scroll.scrollTop;
+        var center      = relTop - (scroll.clientHeight / 2) + (curEl.offsetHeight / 2);
+        scroll.scrollTo({ top: Math.max(0, center), behavior: 'smooth' });
+      }
+    }, 80);
+  }
+  window.sonSecilen = id;
+
+  // Action bar — bölüm değişince izlendi map'ten oku (sıfır AJAX)
+  
+  // sessionStorage'a kaydet
+  sessionStorage.setItem('butonId', id);
+}
+
+// ── Sezon ok navigasyonu ─────────────────────────────
+var pxSezonIndex = 0;
+var pxSezonList  = [1];
+
+function pxSezonOk(dir) {
+  pxSezonIndex = Math.max(0, Math.min(pxSezonList.length - 1, pxSezonIndex + dir));
+  pxSezonSec(pxSezonList[pxSezonIndex]);
+  pxSezonOkGuncelle();
+}
+function pxSezonOkGuncelle() {
+  var prev = document.getElementById('px-season-prev');
+  var next = document.getElementById('px-season-next');
+  if (prev) prev.disabled = (pxSezonIndex === 0);
+  if (next) next.disabled = (pxSezonIndex === pxSezonList.length - 1);
+}
+// İlk yüklemede ok durumunu ayarla
+document.addEventListener('DOMContentLoaded', function() { pxSezonOkGuncelle(); });
+
+// ── Sezon sekme değiştirici ──────────────────────────
+function pxSezonSec(sNo) {
+  // Tüm panelleri/sekmeleri gizle
+  document.querySelectorAll('.px-season-pane').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.px-season-tab').forEach(function(t){ t.classList.remove('active'); });
+  // Seçileni aç
+  var pane = document.getElementById('sp-' + sNo);
+  var tab  = document.getElementById('stab-s' + sNo);
+  if (pane) pane.classList.add('active');
+  if (tab)  tab.classList.add('active');
+  // Scroll sıfırla
+  var scroll = document.getElementById('px-ep-scroll');
+  if (scroll) scroll.scrollTop = 0;
+  // Aktif sekmeyi görünür alana kaydır
+  if (tab) tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  // Ok index güncelle
+  var idx = pxSezonList.indexOf(parseInt(sNo));
+  if (idx !== -1) { pxSezonIndex = idx; pxSezonOkGuncelle(); }
+}
+
+
+function toggleReply(id) {
+  var el = document.getElementById('rf-' + id);
+  el.classList.toggle('is-open');
+  if (el.classList.contains('is-open')) el.querySelector('input').focus();
+}
+
+// ── Sayfa yüklenince ilk bölümü otomatik aç ──────────
+document.addEventListener('DOMContentLoaded', function () {
+  // Loader gizle
+  setTimeout(function() {
+    var l = document.getElementById('px-loader');
+    if (l) { l.style.opacity = '0'; setTimeout(function(){ l.style.display='none'; }, 500); }
+  }, 800);
+});
+
+window.addEventListener('load', function () {
+  // Bölüm seç: sessionStorage varsa onu, yoksa ilk bölüm
+  setTimeout(function() {
+    var stored = sessionStorage.getItem('butonId');
+    var firstId = '18726';
+    var targetId = (stored && /^\d+$/.test(stored)) ? stored : firstId;
+    var el = document.getElementById('no' + targetId);
+    if (!el) el = document.getElementById('no' + firstId);
+    if (el) {
+      el.click();
+    }
+  }, 300);
+});
+
+// ── Header panelleri ─────────────────────────────────
+document.getElementById('px-s-toggle').addEventListener('click', function(e) {
+  e.stopPropagation();
+  var panel = document.getElementById('px-s-panel');
+  var wasOpen = panel.classList.contains('is-open');
+  panel.classList.toggle('is-open');
+  document.getElementById('px-u-panel').classList.remove('is-open');
+  // Panel açılınca input'a odaklan
+  if (!wasOpen) {
+    setTimeout(function() {
+      var inp = document.getElementById('px-search-input');
+      if (inp) inp.focus();
+    }, 150);
+  }
+});
+document.getElementById('px-u-toggle').addEventListener('click', function(e) {
+  e.stopPropagation();
+  document.getElementById('px-u-panel').classList.toggle('is-open');
+  document.getElementById('px-s-panel').classList.remove('is-open');
+});
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.px-search-wrap')) {
+    document.getElementById('px-s-panel').classList.remove('is-open');
+  }
+  if (!e.target.closest('.px-user-wrap')) {
+    document.getElementById('px-u-panel').classList.remove('is-open');
+  }
+});
+// Panel içine tıklanınca kapanmasın
+document.getElementById('px-s-panel').addEventListener('click', function(e) { e.stopPropagation(); });
+
+// ── Arama fonksiyonu ─────────────────────────────────
+var pxSearchTimer = null;
+var pxSearchLast  = '';
+
+document.getElementById('px-search-input').addEventListener('input', function() {
+  var q = this.value.trim();
+  var clearBtn = document.getElementById('px-search-clear');
+  clearBtn.classList.toggle('visible', q.length > 0);
+
+  if (q === pxSearchLast) return;
+  pxSearchLast = q;
+
+  clearTimeout(pxSearchTimer);
+
+  if (q.length < 2) {
+    document.getElementById('px-search-results').innerHTML =
+      '<div class="px-search-empty"><i class="fa fa-film"></i>Aramak istediğiniz belgeseli yazın</div>';
+    document.getElementById('px-search-loading').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('px-search-loading').style.display = 'block';
+  document.getElementById('px-search-results').innerHTML = '';
+
+  pxSearchTimer = setTimeout(function() {
+    pxDoSearch(q);
+  }, 380);
+});
+
+document.getElementById('px-search-clear').addEventListener('click', function() {
+  var inp = document.getElementById('px-search-input');
+  inp.value = '';
+  inp.focus();
+  pxSearchLast = '';
+  this.classList.remove('visible');
+  document.getElementById('px-search-results').innerHTML =
+    '<div class="px-search-empty"><i class="fa fa-film"></i>Aramak istediğiniz belgeseli yazın</div>';
+  document.getElementById('px-search-loading').style.display = 'none';
+});
+
+function pxDoSearch(q) {
+  var res = document.getElementById('px-search-results');
+
+  // Google CSE'yi programatik tetikle
+  if (window.google && window.google.search && window.google.search.cse) {
+    try {
+      window.google.search.cse.element.getElement('searchresults-only0').execute(q);
+    } catch(e) {}
+  }
+
+  // CSE sonuçlarını DOM'dan okuyup kendi panelimize aktar
+  var attempt = 0;
+  var maxAttempts = 20; // 4 saniye bekle
+
+  function readResults() {
+    attempt++;
+    var gcseEl = document.getElementById('px-gcse-hidden');
+    if (!gcseEl) return;
+
+    // GSC sonuç linkleri
+    var links   = gcseEl.querySelectorAll('.gsc-result .gs-title a.gs-title');
+    var snippets = gcseEl.querySelectorAll('.gsc-result .gs-snippet');
+    var thumbs  = gcseEl.querySelectorAll('.gsc-result .gs-image-box img');
+
+    if (links.length === 0 && attempt < maxAttempts) {
+      setTimeout(readResults, 200);
+      return;
+    }
+
+    document.getElementById('px-search-loading').style.display = 'none';
+
+    if (links.length === 0) {
+      res.innerHTML = '<div class="px-search-empty"><i class="fa fa-circle-xmark"></i>"' + pxEscape(q) + '" için sonuç bulunamadı</div>';
+      return;
+    }
+
+    var html = '';
+    links.forEach(function(link, i) {
+      var title   = link.textContent.trim().replace(' — belgeselx.com','').replace(' - belgeselx.com','');
+      var href    = link.href || '#';
+      var snippet = snippets[i] ? snippets[i].textContent.trim().substring(0, 90) + '…' : '';
+      var imgSrc  = thumbs[i] ? thumbs[i].src : '';
+
+      html += '<a class="px-search-item" href="' + pxEscape(href) + '">'
+            + (imgSrc
+                ? '<img class="px-search-item-img" src="' + pxEscape(imgSrc) + '" alt="" onerror="this.style.display=\'none\'">'
+                : '<div class="px-search-item-img px-search-item-img-empty"><i class="fa fa-film"></i></div>')
+            + '<div class="px-search-item-body">'
+            +   '<div class="px-search-item-title">' + pxEscape(title) + '</div>'
+            +   '<div class="px-search-item-meta">' + pxEscape(snippet) + '</div>'
+            + '</div>'
+            + '<i class="fa fa-arrow-up-right-from-square px-search-item-arrow"></i>'
+            + '</a>';
+    });
+
+    html += '<div class="px-search-footer">'
+          + '<a href="https://www.google.com/search?q=' + encodeURIComponent(q + ' site:belgeselx.com') + '" target="_blank" style="color:var(--c-red);">'
+          + '<i class="fa fa-magnifying-glass"></i> Tüm sonuçları gör</a></div>';
+
+    res.innerHTML = html;
+  }
+
+  setTimeout(readResults, 300);
+}
+
+function pxEscape(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Enter tuşuyla arama sayfasına git
+document.getElementById('px-search-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && this.value.trim().length > 0) {
+    window.location.href = 'https://belgeselx.com/arama?q=' + encodeURIComponent(this.value.trim());
+  }
+});
+
+// ── Hamburger ────────────────────────────────────────
+document.getElementById('px-hamburger').addEventListener('click', function() {
+  document.getElementById('px-mobile-nav').classList.toggle('is-open');
+});
+</script>
+
+<!-- AdBlock Tespiti ve Kalp Atisi (Heartbeat) -->
+<div id="px-ab-bait" class="ad-banner ads adsbox ad-placement" style="height:1px;width:1px;position:absolute;left:-9999px;top:-9999px;opacity:0;pointer-events:none;" aria-hidden="true"></div>
+<script>
+(function(){
+  function pxSendAdBlock(hasAdblock) {
+    var fd = new FormData();
+    fd.append('action', hasAdblock ? 'adblock_var' : 'adblock_yok');
+    fetch('/advertisement.php', {
+      method: 'POST',
+      body: fd,
+      headers: {'X-Requested-With': 'XMLHttpRequest'},
+      keepalive: true
+    }).catch(function(){});
+  }
+  function pxSendHeartbeat() {
+    var fd = new FormData();
+    fd.append('action', 'heartbeat');
+    fetch('/advertisement.php', {
+      method: 'POST',
+      body: fd,
+      headers: {'X-Requested-With': 'XMLHttpRequest'},
+      keepalive: true
+    }).catch(function(){});
+  }
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      // Adblock tespiti
+      var bait = document.getElementById('px-ab-bait');
+      var baitBlocked = !bait || bait.offsetHeight === 0 || bait.offsetParent === null ||
+                        getComputedStyle(bait).display === 'none' ||
+                        getComputedStyle(bait).visibility === 'hidden';
+      if (baitBlocked) {
+        pxSendAdBlock(true);
+      } else {
+        fetch('/advertisement.php', {
+          method: 'GET',
+          headers: {'X-Requested-With': 'XMLHttpRequest'},
+          cache: 'no-store'
+        }).then(function(r){
+          pxSendAdBlock(!r.ok);
+        }).catch(function(){
+          pxSendAdBlock(true);
+        });
+      }
+      
+      // Kullanici sayfada kaldigi surece her 2 dakikada bir (120000ms) heartbeat gonder
+      setInterval(pxSendHeartbeat, 120000);
+    }, 1500);
+  });
+})();
+</script>
+</body>
+</html>

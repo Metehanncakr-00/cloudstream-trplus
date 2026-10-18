@@ -1,0 +1,68 @@
+{
+  "deliverableVerificationStatus": "PASS",
+  "path": "C:/Users/Metehan/Desktop/cloudstream-trplus-v36/cloudstream-trplus-final",
+  "auditMode": "Read-only delivery inspection; no build/test reruns, network calls, source changes or staged-output changes.",
+  "checksums": {
+    "everyListedHash": "PASS",
+    "membership": "PASS; root manifest also includes all three child SHA256SUMS files",
+    "rootEntries": 450,
+    "mainEntries": 398,
+    "buildsEntries": 27,
+    "reportsEntries": 20
+  },
+  "archives": {
+    "cloudstream-trplus-main.zip": {
+      "entries": 399,
+      "bytes": 1483298,
+      "sha256": "ead424eadffdff736ab8a5b3cf23cccd6f6a944c3151618cebd1261850045f89",
+      "crc": "PASS",
+      "branchRootPathsAndExactTreeBytes": "PASS"
+    },
+    "cloudstream-trplus-builds.zip": {
+      "entries": 28,
+      "bytes": 3944135,
+      "sha256": "bb7c105b90f88876dac6666df77520e73f6583fff46c311d0e3d3cea27ede82e",
+      "crc": "PASS",
+      "branchRootPathsAndExactTreeBytes": "PASS"
+    },
+    "archiveHashesListedInRootManifest": "PASS",
+    "excludedLocalPrivateCacheBackupRawLogPaths": "PASS; no suspect filenames"
+  },
+  "sourceComparison": {
+    "physicalProviderModules": 34,
+    "filesCompared": 352,
+    "kotlinRuntimeAndTestFilesCompared": 159,
+    "coverage": "Every provider/core src file and module Gradle file; Gradle wrapper, locks, .github, config, tooling sources, root Gradle settings/properties, repository metadata, LICENSE and READMEs.",
+    "missing": [],
+    "mismatched": [],
+    "overbroadSecretFilenameOmissions": "None found in required source set"
+  },
+  "artifacts": {
+    "count": 25,
+    "enabledMembership": "PASS",
+    "sourceBuildBytes": "PASS",
+    "metadataHashSizeAndTargetUrl": "PASS",
+    "cs3CrcDexManifestNameVersionAndSourceClass": "PASS"
+  },
+  "preservedBackups": {
+    "cloudstream-v36-original-20261016-111427.zip": "ce29af53dc53552a7c810e7fefc8e446a6dd07640d7c79cb1e4aa2b27ea06c7d",
+    "v36-baseline-built-sdk35.zip": "35df2ba4a7d9c4e965de9f007a66c80820fb36960da4b3d571148127af488fd6",
+    "expectedHashesMatch": true
+  },
+  "git": {
+    "head": "0beda1f3e445e50d86576111f6b1879287a3d777",
+    "headUnchanged": true,
+    "diffHeadCheck": "PASS",
+    "status": "Intended source/version/metadata changes and new documentation, evidence, backup, packaging-tool and delivery paths only; no new unexpected paths observed. No Git mutations performed."
+  },
+  "distributionStatus": {
+    "published": false,
+    "manualPlayback": "NOT_TESTED",
+    "mainAndReportsStatusBytesMatch": true,
+    "scope": "Local packaging integrity only; not all-contract or playback certification."
+  },
+  "manualRequired": "UNVERIFIED_MANUAL",
+  "fullMasterContract": "INCOMPLETE: remaining provider work, new integrations and device acceptance are not certified by this delivery audit.",
+  "blockers": [],
+  "notes": "An initial audit membership assumption excluded child checksum files from the root inventory. Direct inspection confirmed they are correctly included by the packager; corrected independent membership check passed. No delivery files were modified. This new outer evidence file is intentionally not added to the immutable packaged snapshot."
+}

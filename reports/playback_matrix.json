@@ -1,0 +1,427 @@
+{
+  "metadata": {
+    "generatedAt": "2026-10-01T00:28:22.114200+00:00",
+    "sourceCommitSha": "a240cc26f3aed995fd1f5b397c3592338a352c64",
+    "configHash": "b326e2e2e2c5b5d8",
+    "providerCount": 24,
+    "cloudStreamVersion": "v4.8.0"
+  },
+  "summary": {
+    "totalActive": 24,
+    "mediaReachabilityVerified": 8,
+    "mediaReachabilityUnverified": 16,
+    "mediaReachabilityFailed": 0,
+    "runtimePlaybackVerified": 0,
+    "runtimePlaybackNotice": "ExoPlayer / Media3 device verification required for runtime playback status"
+  },
+  "providers": [
+    {
+      "provider": "AnimeciX",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "FAIL",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Player discovery found no candidate embed"
+      ]
+    },
+    {
+      "provider": "BelgeselX",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "FAIL",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Player discovery found no candidate embed"
+      ]
+    },
+    {
+      "provider": "FilmMakinesi",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "PASS",
+      "extractorResolution": "PASS",
+      "mediaPreflight": "PASS",
+      "firstSegment": "PASS",
+      "mediaReachability": "PASS",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "rapid.filmmakinesi.to",
+      "streamType": "HLS",
+      "notes": [
+        "Live dynamic probe verified via rapid.filmmakinesi.to"
+      ]
+    },
+    {
+      "provider": "4KHDHub",
+      "domain": "FAIL",
+      "search": "SKIPPED",
+      "load": "SKIPPED",
+      "playerDiscovery": "SKIPPED",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Domain unreachable"
+      ]
+    },
+    {
+      "provider": "HDFilmCehennemi",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "PASS",
+      "extractorResolution": "PASS",
+      "mediaPreflight": "PASS",
+      "firstSegment": "PASS",
+      "mediaReachability": "PASS",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "hdfilmcehennemi.mobi",
+      "streamType": "HLS",
+      "notes": [
+        "Live dynamic probe verified via hdfilmcehennemi.mobi"
+      ]
+    },
+    {
+      "provider": "KultFilmler",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "PASS",
+      "extractorResolution": "PASS",
+      "mediaPreflight": "PASS",
+      "firstSegment": "PASS",
+      "mediaReachability": "PASS",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "vidpapi.xyz",
+      "streamType": "HLS",
+      "notes": [
+        "Live dynamic probe verified via vidpapi.xyz"
+      ]
+    },
+    {
+      "provider": "TurkAnime",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "FAIL",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Player discovery found no candidate embed"
+      ]
+    },
+    {
+      "provider": "YesilCamTv",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "PASS",
+      "extractorResolution": "PASS",
+      "mediaPreflight": "PASS",
+      "firstSegment": "PASS",
+      "mediaReachability": "PASS",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "rumble.com",
+      "streamType": "HLS",
+      "notes": [
+        "Live dynamic probe verified via rumble.com"
+      ]
+    },
+    {
+      "provider": "SezonlukDizi",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "PASS",
+      "extractorResolution": "FAIL",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "vidmoly.net",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Extractor resolution failed for vidmoly.net"
+      ]
+    },
+    {
+      "provider": "SinemaCX",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "PASS",
+      "extractorResolution": "PASS",
+      "mediaPreflight": "PASS",
+      "firstSegment": "PASS",
+      "mediaReachability": "PASS",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "player.filmizle.in",
+      "streamType": "HLS",
+      "notes": [
+        "Live dynamic probe verified via player.filmizle.in"
+      ]
+    },
+    {
+      "provider": "DiziYou",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "PASS",
+      "extractorResolution": "PASS",
+      "mediaPreflight": "PASS",
+      "firstSegment": "PASS",
+      "mediaReachability": "PASS",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "www.diziyou.one",
+      "streamType": "HLS",
+      "notes": [
+        "Live dynamic probe verified via www.diziyou.one"
+      ]
+    },
+    {
+      "provider": "Dizilla",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "FAIL",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Player discovery found no candidate embed"
+      ]
+    },
+    {
+      "provider": "FullHDFilmizlesene",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "PASS",
+      "extractorResolution": "FAIL",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "rapidvid.org",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Extractor resolution failed for rapidvid.org"
+      ]
+    },
+    {
+      "provider": "JetFilmIzle",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "FAIL",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Player discovery found no candidate embed"
+      ]
+    },
+    {
+      "provider": "CloudStreamHub",
+      "domain": "PASS",
+      "search": "UNVERIFIED",
+      "load": "UNVERIFIED",
+      "playerDiscovery": "UNVERIFIED",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "api.themoviedb.org",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "TMDB trending endpoint is reachable; Hub search/load, provider federation, and media playback were not exercised by this probe"
+      ]
+    },
+    {
+      "provider": "DiziKorea",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "PASS",
+      "extractorResolution": "PASS",
+      "mediaPreflight": "PASS",
+      "firstSegment": "PASS",
+      "mediaReachability": "PASS",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "playerdkorea.xyz",
+      "streamType": "HLS",
+      "notes": [
+        "Live dynamic probe verified via playerdkorea.xyz"
+      ]
+    },
+    {
+      "provider": "DramaDizilerim",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "FAIL",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Player discovery found no candidate embed"
+      ]
+    },
+    {
+      "provider": "WebDramaTurkey",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "FAIL",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Player discovery found no candidate embed"
+      ]
+    },
+    {
+      "provider": "Animeler",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "FAIL",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Player discovery found no candidate embed"
+      ]
+    },
+    {
+      "provider": "SetFilmIzle",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "FAIL",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Player discovery found no candidate embed"
+      ]
+    },
+    {
+      "provider": "HDFilmDelisi",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "PASS",
+      "extractorResolution": "PASS",
+      "mediaPreflight": "PASS",
+      "firstSegment": "PASS",
+      "mediaReachability": "PASS",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "hdfilmdelisi.one",
+      "streamType": "PROGRESSIVE_MP4",
+      "notes": [
+        "Live dynamic probe verified via hdfilmdelisi.one"
+      ]
+    },
+    {
+      "provider": "Dizigecesi",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "FAIL",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Player discovery found no candidate embed"
+      ]
+    },
+    {
+      "provider": "RareFilmm",
+      "domain": "PASS",
+      "search": "PASS",
+      "load": "PASS",
+      "playerDiscovery": "FAIL",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Player discovery found no candidate embed"
+      ]
+    },
+    {
+      "provider": "YTS",
+      "domain": "FAIL",
+      "search": "SKIPPED",
+      "load": "SKIPPED",
+      "playerDiscovery": "SKIPPED",
+      "extractorResolution": "UNVERIFIED",
+      "mediaPreflight": "UNVERIFIED",
+      "firstSegment": "UNVERIFIED",
+      "mediaReachability": "UNVERIFIED",
+      "runtimePlayback": "UNVERIFIED_BY_DEVICE",
+      "sourceHost": "none",
+      "streamType": "UNKNOWN",
+      "notes": [
+        "Domain unreachable"
+      ]
+    }
+  ]
+}

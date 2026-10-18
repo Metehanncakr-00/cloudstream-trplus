@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="1.587" timestamp="2026-10-16T11:53:25.627603+03:00" hostname="DESKTOP-NGLR8UP"><testcase classname="tools.tests.test_version_bumps" name="test_verify_version_bumps_on_current_worktree" time="1.537" /></testsuite></testsuites>

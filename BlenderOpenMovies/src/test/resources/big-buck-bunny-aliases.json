@@ -1,0 +1,19 @@
+{
+  "total": 2,
+  "data": [
+    {
+      "uuid": "6402b77c-b61f-4a06-96ca-c8420a2becf4",
+      "name": "Big Buck Bunny 4K",
+      "privacy": {"id": 1},
+      "licence": {"id": 1},
+      "channel": {"name": "blender_open_movies", "host": "video.blender.org"}
+    },
+    {
+      "uuid": "bf1f3fb5-b119-4f9f-9930-8e20e892b898",
+      "name": "Big Buck Bunny",
+      "privacy": {"id": 1},
+      "licence": {"id": null},
+      "channel": {"name": "blender_open_movies", "host": "video.blender.org"}
+    }
+  ]
+}

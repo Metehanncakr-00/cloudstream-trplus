@@ -1,0 +1,17 @@
+{
+  "remote": "https://github.com/Emre-Kahveci/CloudStreamHub",
+  "referenceCommit": "0beda1f3e445e50d86576111f6b1879287a3d777",
+  "comparedOriginalSourceFiles": 238,
+  "identical": 238,
+  "different": 0,
+  "missing": 0,
+  "differentExamples": [],
+  "missingExamples": [],
+  "attachedToWorkspace": true,
+  "allTrackedOriginalFiles": 445,
+  "byteIdenticalTrackedOriginalFiles": 441,
+  "lineEndingOnlyDifferences": ["gradlew.bat", "tools/domain_health.ps1", "tools/legacy_inventory.ps1", "tools/validate_repo.ps1"],
+  "baselineRef": "v36-baseline",
+  "developmentBranch": "trplus/development",
+  "newCommitCreated": false
+}

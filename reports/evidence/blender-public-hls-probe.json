@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+    "http": 200,
+    "hls": true,
+    "text": "#EXTM3U\n#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2149280,CODECS=\"mp4a.40.2,avc1.64001f\",RESOLUTION=1280x720,NAME=\"720\"\nurl_0/193039199_mp4_h264_aac_hd_7.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=246440,CODECS=\"mp4a.40.5,avc1.42000d\",RESOLUTION=320x184,NAME=\"240\"\nurl_2/193039199_mp4_h264_aac_ld_7.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=460560,CODECS=\"mp4a.40.5,avc1.420016\",RESOLUTION=512x288,NAME=\"380\"\nurl_4/193039199_mp4_h264_aac_7.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=836280,CODECS=\"mp4a.40.2,avc1.64001f\",RESOLUTION=848x480,NAME=\"480\"\nurl_6/193039199_mp4_h264_aac_hq_7.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=6221600,CODECS=\"mp4a.40.2,avc1.640028\",RESOLUTION=1920x1080,NAME=\"1080\"\nurl_8/193039199_mp4_h264_aac_fhd_7.m3u8\n"
+  },
+  {
+    "url": "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+    "http": 403,
+    "hls": false,
+    "text": null
+  }
+]

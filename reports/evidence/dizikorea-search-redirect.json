@@ -1,0 +1,18 @@
+[
+  {
+    "stage": "search",
+    "http": 302,
+    "redirectPath": "/",
+    "redirectQueryKeys": [
+      "s"
+    ]
+  },
+  {
+    "stage": "redirect_target",
+    "http": 200,
+    "path": "/",
+    "title": "\"love\" — Arama | DiziKorea",
+    "cards": 24,
+    "searchForms": []
+  }
+]

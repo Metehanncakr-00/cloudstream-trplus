@@ -1,0 +1,64 @@
+{
+  "verificationStatus": "PASS",
+  "scope": "Implemented finite core/hub language evidence, ranked delivery and torrent quotas, matching ambiguity, DiziYou subtitle/candidate labels, preference UI, target metadata, and local distribution tooling; not full master-contract completion.",
+  "autoRequired": {
+    "gitDiffHeadCheck": "PASS",
+    "changedPythonAstParse": "PASS",
+    "repositoryValidation": "PASS: 25 active providers, 34 physical modules",
+    "versionBumps": "PASS: python tools/verify_version_bumps.py --base v36-baseline",
+    "gradle": {
+      "command": "gradlew.bat testDebugUnitTest --parallel --continue make makePluginsJson --console=plain",
+      "exitCode": 0,
+      "result": "BUILD SUCCESSFUL in 1m 7s; 477 tasks, 216 executed, 261 up-to-date",
+      "junitXmlFiles": 41,
+      "tests": 226,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log": "reports/evidence/final-gradle.log",
+      "logEncoding": "UTF-16",
+      "logSha256": "93ec337adcac232f05c93b086568dc8ae1d8d105ab8dd531cd08e44150c246a0",
+      "knownBaselineMetadataWarningLines": 3420
+    },
+    "artifactValidation": "PASS: python tools/validate_repo.py --verify-artifacts; 25 entries",
+    "python": {
+      "command": "isolated validation venv python -m pytest -q tools/tests --ignore=tools/tests/test_upstream_intelligence.py -p no:cacheprovider --junitxml=reports/evidence/final-pytest.xml",
+      "passed": 130,
+      "warnings": 51,
+      "excluded": "test_upstream_intelligence.py: explicit no-commit constraint; commit-creating fixtures were not run",
+      "xml": "reports/evidence/final-pytest.xml",
+      "xmlSha256": "0a07b034cdd9161f4b29a1aa5c53721618dbb01d169a83b33de4139cd2129eec"
+    },
+    "strictReadOnlyDistributionValidation": "PASS after finite BOM correction: validate(Path.cwd(), 'Metehanncakr-00/cloudstream-trplus'); 25 artifacts, 36 registry modules; manifest/source class/version, target URLs, enabled membership, hash and size checks passed",
+    "finiteCorrectionTests": {
+      "command": "isolated validation venv python -m pytest -q tools/tests/test_prepare_trplus_distribution.py -p no:cacheprovider",
+      "passed": 40,
+      "durationSeconds": 2.32,
+      "gitDiffHeadCheck": "PASS",
+      "inspection": "Kotlin and Gradle source reads use utf-8-sig at lines 83 and 140. New tests accept BOM-prefixed Kotlin/Gradle and still reject a BOM-prefixed wrong plugin class.",
+      "priorGates": "Prior 226 Kotlin tests, 130 Python tests and 25 built-artifact checks retained as historical executed evidence; no full Gradle or general Python rerun, and no claim that a 133-test full Python suite ran."
+    }
+  },
+  "blockingFindings": [],
+  "resolvedFindingHistory": [
+    {
+      "id": "PACKAGER-UTF8-BOM",
+      "status": "RESOLVED_VERIFIED",
+      "originalGateResult": "FAIL: Ambiguous plugin source package: Dizilla/DizillaPlugin.kt",
+      "severity": "HIGH",
+      "file": "tools/prepare_trplus_distribution.py",
+      "lines": "83,90-92",
+      "cause": "read_text(encoding='utf-8') preserves leading U+FEFF; the anchored package regex does not match it. Valid Kotlin UTF-8-BOM plugin sources compile but are rejected by source_plugin_class().",
+      "evidence": "DizillaPlugin.kt begins efbbbf7061636b61; its first line is U+FEFF followed by package com.cloudstream.tr.dizilla; package_regex_matches=[]",
+      "affectedModules": ["DiziMom", "DiziYou", "Dizilla", "FullHDFilmizlesene", "SezonlukDizi", "SinemaCX"],
+      "correctionDirection": "Decode Kotlin source using utf-8-sig or strip only the leading BOM; add BOM-prefixed source regression coverage. Preserve existing provider sources and strict identity checks. Re-run narrow packaging tests and read-only validate(root, repository)."
+    }
+  ],
+  "manualRequired": {
+    "status": "UNVERIFIED_MANUAL",
+    "checks": ["Actual Turkish speech", "Host automatic source/audio-track selection", "Android 12 playback and codec/output behavior", "TV D-pad and preference persistence on device"]
+  },
+  "sourceInspection": "Evidence is attached to the actual tagged link before progressive forwarding; BoundedParallelResolver forwards the same object; FourKhub callback records evidence before collection; collector.finish ranks after bounded discovery and applies language tiers before torrent quotas. Header/referrer/extractorData/type/audioTracks preservation and cancellation checks inspected. Manifest declarations are not speech evidence.",
+  "fullMasterContract": "INCOMPLETE: other provider repairs, new integrations and device acceptance remain separate unfinished work.",
+  "sideEffects": "No product/report documentation edits, Git mutations, commits, pushes, live network checks, or actual distribution preparation. Only new evidence log/XML/summary written."
+}

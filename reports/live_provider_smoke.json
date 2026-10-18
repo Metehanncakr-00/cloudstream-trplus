@@ -1,0 +1,343 @@
+{
+  "testedAt": "2026-09-16T23:02:40.957133+00:00",
+  "providers": [
+    {
+      "provider": "AnimeciX",
+      "module": "AnimeciX",
+      "homepage": {
+        "status": "FAIL",
+        "itemCount": 0,
+        "reason": "0 valid content items discovered"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "AnimeciX - Türkçe Anime Bilgi ve Paylaşım Platform",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://animecix.tv/titles/naruto"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "NONE",
+      "overall": "PARTIAL_PASS",
+      "details": []
+    },
+    {
+      "provider": "BelgeselX",
+      "module": "BelgeselX",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "ANTİK UZAYLILAR\nUzaylılar ve Kuts16"
+      },
+      "detail": {
+        "status": "FAIL",
+        "title": "404 — Sayfa Bulunamadı | Belgeselx",
+        "reason": "SOFT_404_PAGE"
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "NONE",
+      "overall": "PARTIAL_PASS",
+      "details": []
+    },
+    {
+      "provider": "DiziPal",
+      "module": "DiziPal",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Dublaj & Altyazı\n\n\r\n                                            Reacher"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Silo izle - Dizipal",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 30
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": true,
+        "targetUrl": "https://dizipal1430.com/bolum/silo-1-sezon-1-bolum"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "DUBBED",
+      "overall": "PASS",
+      "details": []
+    },
+    {
+      "provider": "FilmMakinesi",
+      "module": "FilmMakinesi",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Forgotten Island23 Eylül"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Forgotten Island 2026 Filmi 1080p Full HD izle",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 2,
+        "hasPlayer": true,
+        "targetUrl": "https://filmmakinesi.to/film/forgotten-island-2026/"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "DUBBED",
+      "overall": "PASS",
+      "details": []
+    },
+    {
+      "provider": "HDFilmCehennemi",
+      "module": "HDFilmCehennemi",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Örümcek Adam Yepyeni Bir Gün - Spider Man Brand New Day"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Örümcek Adam Yepyeni Bir Gün - Spider Man Brand Ne",
+        "episodeDiscoveryMode": "GENERIC_FALLBACK",
+        "episodesCount": 1
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": true,
+        "targetUrl": "https://www.hdfilmcehennemi.nl/spider-man-brand-new-day/"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "DUBBED",
+      "overall": "PASS",
+      "details": []
+    },
+    {
+      "provider": "KultFilmler",
+      "module": "KultFilmler",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Türkçe Altyazı1998\n\n\n\nSoldier – AskerAksiyon · Bilim Kurgu\n6.1IMDB"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Soldier - Asker İzle HD İzle - Kült Filmler",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": true,
+        "targetUrl": "https://kultfilmler.net/soldier-asker/"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "NONE",
+      "overall": "PASS",
+      "details": []
+    },
+    {
+      "provider": "TurkAnime",
+      "module": "TurkAnime",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 9,
+        "sample": "Tenmaku no Jaadugar 12. Bölüm Final izle"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Death Note izle | Konusu, Bölümleri ve Karakterler",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 37
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": true,
+        "targetUrl": "https://www.turkanime.tv/ajax/videosec&<REDACTED_QUERY>"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "NONE",
+      "overall": "PASS",
+      "details": []
+    },
+    {
+      "provider": "YesilCamTv",
+      "module": "YesilCamTv",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Sahte Kabadayı"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Sahte Kabadayı | YESILCAM TV",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": false,
+        "targetUrl": "https://yesilcamtv.com.tr/sahte-kabadayi-izle/"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "NONE",
+      "overall": "PASS",
+      "details": []
+    },
+    {
+      "provider": "SezonlukDizi",
+      "module": "SezonlukDizi",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 9,
+        "sample": "One Piece"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Breaking Bad izle - Sezonluk Dizi izle",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 20
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://sezonlukdizi.cc/breaking-bad/5-sezon-16-bolum.html"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "DUBBED",
+      "overall": "PARTIAL_PASS",
+      "details": []
+    },
+    {
+      "provider": "SinemaCX",
+      "module": "SinemaCX",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Bulvar İzle"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Bulvar izle (2026)",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": false,
+        "targetUrl": "https://sinemacc.com/film/bulvar-boulevard-2026/"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "DUBBED",
+      "overall": "PASS",
+      "details": []
+    },
+    {
+      "provider": "DiziMom",
+      "module": "DiziMom",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Güneşin Doğduğu Yer izle"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Bangkok Breaking izle | DiziMOM",
+        "episodeDiscoveryMode": "GENERIC_FALLBACK",
+        "episodesCount": 15
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://www.dizimom.diy/turkce-dublaj-bolumler-hd/"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "DUBBED",
+      "overall": "PARTIAL_PASS",
+      "details": []
+    },
+    {
+      "provider": "DiziYou",
+      "module": "DiziYou",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Lanterns 1. Sezon 5. Bölüm"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Arcane izle - Türkçe Dublaj & Altyazılı | Diziyou",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 18
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": false,
+        "targetUrl": "https://www.diziyou.one/arcane-1-sezon-1-bolum/"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "DUBBED",
+      "overall": "PASS",
+      "details": []
+    },
+    {
+      "provider": "Dizilla",
+      "module": "Dizilla",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Sihame izle"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Breaking Bad izle | Türkçe Dublaj & Altyazılı izle",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 13
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://dizilla.now/breaking-bad-5-sezon-16-bolum-c02"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "DUBBED",
+      "overall": "PARTIAL_PASS",
+      "details": []
+    },
+    {
+      "provider": "FullHDFilmizlesene",
+      "module": "FullHDFilmizlesene",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Örümcek-Adam: Yepyeni Bir Gün - Spider-Man: Brand New Day izle"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Hızlı Ve Öfkeli 10 - Fast X 2023 Film izle",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": true,
+        "targetUrl": "https://www.fullhdfilmizlesene.now/film/hizli-ve-ofkeli-10/"
+      },
+      "runtimePlayback": "UNVERIFIED_BY_AUTOMATION",
+      "subtitle": "DUBBED",
+      "overall": "PASS",
+      "details": []
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "operation": "read-only published-manifest integrity check",
+  "publishedByThisSession": false,
+  "http": 200,
+  "unchangedFromFrozenBaseline": true,
+  "sha256": "265a4dcb3ca6ac18d934f0c39baeb1e8a2d5bda5c4bf5cad2cc8373754cfe368",
+  "hubVersion": 38,
+  "count": 26
+}

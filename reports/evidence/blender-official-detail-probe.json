@@ -1,0 +1,51 @@
+{
+  "http": 200,
+  "uuid": "0eb052d0-fd51-43e6-aa33-ecdbf77a5d40",
+  "name": "Sintel - Third Open Movie by Blender Foundation",
+  "privacy": {
+    "id": 1,
+    "label": "Public"
+  },
+  "channel": {
+    "name": "blender_open_movies",
+    "host": "video.blender.org"
+  },
+  "streamingPlaylists": [],
+  "files": [
+    {
+      "fileUrl": "https://video.blender.org/object-storage/web_videos/0eb052d0-fd51-43e6-aa33-ecdbf77a5d40-818.mp4",
+      "resolution": {
+        "id": 818,
+        "label": "1080p"
+      }
+    },
+    {
+      "fileUrl": "https://video.blender.org/object-storage/web_videos/0eb052d0-fd51-43e6-aa33-ecdbf77a5d40-720.mp4",
+      "resolution": {
+        "id": 720,
+        "label": "720p"
+      }
+    },
+    {
+      "fileUrl": "https://video.blender.org/object-storage/web_videos/0eb052d0-fd51-43e6-aa33-ecdbf77a5d40-480.mp4",
+      "resolution": {
+        "id": 480,
+        "label": "480p"
+      }
+    },
+    {
+      "fileUrl": "https://video.blender.org/object-storage/web_videos/0eb052d0-fd51-43e6-aa33-ecdbf77a5d40-360.mp4",
+      "resolution": {
+        "id": 360,
+        "label": "360p"
+      }
+    },
+    {
+      "fileUrl": "https://video.blender.org/object-storage/web_videos/0eb052d0-fd51-43e6-aa33-ecdbf77a5d40-240.mp4",
+      "resolution": {
+        "id": 240,
+        "label": "240p"
+      }
+    }
+  ]
+}

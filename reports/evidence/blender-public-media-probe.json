@@ -1,0 +1,14 @@
+[
+  {
+    "titleKey": "BigBuckBunny",
+    "errorType": "HTTPError"
+  },
+  {
+    "titleKey": "Sintel",
+    "errorType": "HTTPError"
+  },
+  {
+    "titleKey": "TearsOfSteel",
+    "errorType": "HTTPError"
+  }
+]

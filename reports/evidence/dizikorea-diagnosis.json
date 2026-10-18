@@ -1,0 +1,101 @@
+{
+  "provider": "DiziKorea",
+  "diagnosisDate": "2026-10-16",
+  "classification": "FIXTURE_OR_DETECTOR_UNRESOLVED",
+  "initialClassification": "TOOLFIXTURE_STALE hypothesis; not independently confirmed",
+  "classificationScope": "Previous knownDetail-based failure is not representative of the current homepage-to-episode path; original fixture soft-404 is inherited evidence, not independently revalidated.",
+  "playbackState": "NOT_TESTED",
+  "verificationLimit": "Four-request diagnostic budget exhausted at embed discovery. Extractor API, media URL, manifest, segments and player were not requested or verified; no upstream media failure proven.",
+  "followUpSearch": {
+    "evidence": "reports/evidence/dizikorea-search-redirect.json",
+    "additionalRequests": 2,
+    "result": "Same-host HTTPS redirect from /arama?q to /?s followed without credentials or browser; HTTP 200 search title and 24 provider-selector cards observed. No playback assertion."
+  },
+  "requestPolicy": {
+    "newRequests": 4,
+    "method": "GET",
+    "transport": "urllib with provider Chrome/120 User-Agent, no authentication or cookie jar",
+    "redirectsFollowed": false,
+    "browserOrBypassUsed": false
+  },
+  "priorEvidence": {
+    "source": "reports/evidence/http-provider-smoke.json",
+    "path": "/dizi/flex-x-cop-izle-dq",
+    "httpStatus": 200,
+    "title": "Flex X Cop (2024) Kore Dizisi izle",
+    "helperReason": "SOFT_404_PAGE",
+    "independentConfirmation": false
+  },
+  "observations": [
+    {
+      "stage": "homepage",
+      "host": "dizikorea3.com",
+      "path": "/",
+      "httpStatus": 200,
+      "providerCardSelectorMatches": 42,
+      "selectedTitle": "A Love Other Than Yours",
+      "selectedDetailPath": "/dizi/a-love-other-than-yours-izle-dq"
+    },
+    {
+      "stage": "provider_search",
+      "host": "dizikorea3.com",
+      "path": "/arama",
+      "queryDescription": "Configured public search term love; query strings omitted",
+      "httpStatus": 302,
+      "conclusion": "Unresolved redirect, not evidence of empty Kotlin search results. Location was not retained and destination was not fetched."
+    },
+    {
+      "stage": "live_detail",
+      "host": "dizikorea3.com",
+      "path": "/dizi/a-love-other-than-yours-izle-dq",
+      "httpStatus": 200,
+      "h1": "A Love Other Than Yours",
+      "providerEpisodeSelectorMatches": 15,
+      "firstEpisodePath": "/dizi/a-love-other-than-yours-izle-dq/sezon-1/bolum-1",
+      "providerPosterSelectorMatches": 12,
+      "providerDescriptionSelectorMatches": 0,
+      "descriptionConclusion": "Optional plot would be null for this sample; no playback-blocking parser defect established."
+    },
+    {
+      "stage": "episode",
+      "host": "dizikorea3.com",
+      "path": "/dizi/a-love-other-than-yours-izle-dq/sezon-1/bolum-1",
+      "httpStatus": 200,
+      "h1": "A Love Other Than Yours",
+      "providerCandidateCount": 3,
+      "sanitizedStaticCandidates": [
+        "https://playerdkorea.xyz/video/ad720f99a3b6ea189d9c352217bd3028",
+        "https://vidmoly.org/embed-0e0ure53ar7o.html",
+        "https://bysedikamoum.com/e/eihgkkr59lb8"
+      ],
+      "conclusion": "Actual Kotlin loadLinks selector reaches embed candidates. These are not media URLs or playback evidence."
+    }
+  ],
+  "sourceTrace": {
+    "module": "DiziKorea/build.gradle.kts:1 version 19",
+    "registration": "DiziKoreaPlugin.kt:9 registerMainAPI(DiziKorea())",
+    "discoveryAndSearch": "DiziKorea.kt:36-38,68-83 use matching poster-card/content-grid/grid anchors; ProviderModels.dedupSearchResults deduplicates",
+    "load": "DiziKorea.kt:88-130 reads h1 and /sezon- anchors, deduplicates URLs, parses /sezon-N/bolum-N",
+    "loadLinks": "DiziKorea.kt:195-208 reads iframe/data-src/data-embed candidates; 214-231 uses BoundedParallelResolver",
+    "customExtractor": "DiziKorea.kt:133-187 POSTs PlayerDKorea getVideo with hash and episode reference, reads securedLink/videoSource/m3u8, emits referer/User-Agent; not exercised",
+    "otherExtractors": "DiziKorea.kt:222 delegates non-PlayerDKorea candidates to CloudStream loadExtractor; module registers no custom extractor",
+    "sharedHttp": "SafeHttpClient imported but unused; actual requests use app.get/app.post directly",
+    "domain": "config/domains.json:349-362 canonical matches current live host; DiziKorea itself hardcodes mainUrl rather than invoking runtime resolution",
+    "fixture": "config/providers.json:1048-1051 still selects Flex X Cop; generate_playback_matrix.py:287-300 depends on detail episode anchors before embed discovery"
+  },
+  "minimumCorrection": [
+    "No playback-blocking Kotlin defect proven; do not change provider selectors to satisfy a Python marker check.",
+    "Parent may replace stale/unrepresentative smokeTest.knownDetail with the homepage-derived live detail after its own scope/test gate. This diagnosis changes no config.",
+    "Retain original soft-404 as unconfirmed fixture/detector evidence; without its HTML this diagnosis cannot distinguish a truly stale page from a helper false positive.",
+    "Separately follow the search redirect under an explicitly approved request budget before diagnosing or changing search."
+  ],
+  "suggestedNarrowTests": [
+    "Captured current homepage cards parse to nonblank series title and detail URL, with episode suffix normalization and deduplication.",
+    "Current detail h1 and duplicate /sezon-1/bolum-1 anchors produce correctly numbered, unique episodes; optional missing description is tolerated.",
+    "Episode iframe fixtures yield PlayerDKorea and fallback candidates; mock PlayerDKorea POST response proves stream extraction and header propagation without claiming live media.",
+    "Search redirect destination and actual query results must be observed before a search regression assertion is selected.",
+    "Any smoke fixture refresh must distinguish genuine soft-404 content from incidental marker text and must not imply playback from an embed callback."
+  ],
+  "remainingGate": "MANUAL_REQUIRED or separately authorized HTTP media-path verification: extractor response -> manifest/file -> segments -> device/player. Whole provider phase is not fulfilled by compilation or these HTTP observations.",
+  "changes": "Only this new diagnosis report; no source/config/docs edits, Gradle invocation, tests, commits or git mutations."
+}

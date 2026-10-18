@@ -1,0 +1,15 @@
+{
+  "uuid": "0eb052d0-fd51-43e6-aa33-ecdbf77a5d40",
+  "name": "Sintel - Third Open Movie by Blender Foundation",
+  "privacy": {"id": 1},
+  "licence": {"id": null, "label": "Unknown"},
+  "language": {"id": "en", "label": "English"},
+  "channel": {"name": "blender_open_movies", "host": "video.blender.org"},
+  "publishedAt": "2018-10-26T23:46:15.807Z",
+  "thumbnailPath": "/lazy-static/thumbnails/0eb052d0-fd51-43e6-aa33-ecdbf77a5d40.jpg",
+  "description": "Sintel, Blender Foundation and the credited artists. www.sintel.org",
+  "files": [
+    {"resolution": {"id": 720}, "fileUrl": "https://video.blender.org/object-storage/web_videos/0eb052d0-fd51-43e6-aa33-ecdbf77a5d40-720.mp4", "hasAudio": true, "hasVideo": true},
+    {"resolution": {"id": 240}, "fileUrl": "https://video.blender.org/object-storage/web_videos/0eb052d0-fd51-43e6-aa33-ecdbf77a5d40-240.mp4", "hasAudio": true, "hasVideo": true}
+  ]
+}

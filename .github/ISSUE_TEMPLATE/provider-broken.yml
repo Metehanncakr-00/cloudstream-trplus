@@ -1,0 +1,52 @@
+name: Bozuk Eklenti Bildirimi (Broken Provider)
+description: Çalışmayan bir eklenti veya kaynak bildirin
+title: "[Bozuk]: <Eklenti Adı>"
+labels: ["bug", "provider-broken"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Lütfen çalışan/çalışmayan durumları açıklayınız. **Asla kullanıcı şifrenizi veya çerez bilgilerinizi paylaşmayınız.**
+  - type: input
+    id: provider_name
+    attributes:
+      label: Eklenti Adı
+      description: Sorun yaşadığınız eklentinin tam adı
+      placeholder: Örn. KultFilmler, YesilCamTv
+    validations:
+      required: true
+  - type: input
+    id: plugin_version
+    attributes:
+      label: Eklenti Sürümü
+      description: Yüklü olan eklentinin sürüm numarası
+      placeholder: Örn. 1, 98
+    validations:
+      required: true
+  - type: input
+    id: cloudstream_version
+    attributes:
+      label: CloudStream Sürümü ve Cihaz
+      description: CloudStream versiyonu, Android sürümü ve cihaz modeli
+      placeholder: Örn. CloudStream 3 v4.4.1, Android 13 (Xiaomi Box)
+    validations:
+      required: true
+  - type: dropdown
+    id: failure_stage
+    attributes:
+      label: Sorunun Gerçekleştiği Aşama
+      options:
+        - "Ana Sayfa (Homepage yüklenmiyor)"
+        - "Arama (Search sonuç vermiyor)"
+        - "Detay Sayfası (Load / Bölümler çıkmıyor)"
+        - "Oynatma (Playback / Link bulunamıyor)"
+        - "Donma / Ağ Zaman Aşımı (Timeout / 403 / 503)"
+    validations:
+      required: true
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: Tekrarlama Adımları ve Hata Mesajı
+      description: Sorunu adım adım açıklayın ve varsa hata metnini yazın.
+    validations:
+      required: true

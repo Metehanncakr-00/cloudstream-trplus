@@ -1,0 +1,1210 @@
+{
+  "testedAt": "2026-10-16T09:02:25.376980+00:00",
+  "elapsedSeconds": 7.81,
+  "scope": "Other enabled providers excluding DiziYou; one helper probe per provider; maximum three concurrent checks",
+  "policy": {
+    "preferredFetch": "HTTP",
+    "dynamicFallback": false,
+    "stealthFallback": false,
+    "timeoutPerFetchSeconds": 15,
+    "adaptiveCache": "isolated external temporary sqlite per provider"
+  },
+  "limitations": [
+    "Shared Python semantics only, not Kotlin/plugin runtime validation.",
+    "Home/detail/player discovery are L0-L5 catalog/parser/embed evidence only.",
+    "Search, media URLs, manifests, segments, device playback and audio NOT_TESTED.",
+    "No browser, challenge bypass, account credentials, retries or provider repairs."
+  ],
+  "counts": {
+    "HTTP_SEMANTIC_PARTIAL": 10,
+    "HTTP_SEMANTIC_PASS_ONLY": 11,
+    "CONFIG_UNSUPPORTED": 1,
+    "TOOL_UNSUPPORTED": 2
+  },
+  "providers": [
+    {
+      "provider": "AnimeciX",
+      "module": "AnimeciX",
+      "homepage": {
+        "status": "FAIL",
+        "itemCount": 0,
+        "reason": "0 valid content items discovered"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "AnimeciX - Türkçe Anime Bilgi ve Paylaşım Platform",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://animecix.tv/titles/naruto"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PARTIAL",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://animecix.tv",
+          "finalUrl": "https://animecix.tv/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 491,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://animecix.tv/titles/naruto",
+          "finalUrl": "https://animecix.tv/titles/naruto",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 131,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS"
+    },
+    {
+      "provider": "BelgeselX",
+      "module": "BelgeselX",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "ANTÄ°K UZAYLILAR\nUzaylÄ±lar ve Kuts16"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "COSMOS : BİR UZAY SERÜVENİ İzle — belgeselx.com",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://belgeselx.com/belgesel/cosmos-bir-uzay-seruveni"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PARTIAL",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://belgeselx.com",
+          "finalUrl": "https://belgeselx.com/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 1303,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://belgeselx.com/belgesel/cosmos-bir-uzay-seruveni",
+          "finalUrl": "https://belgeselx.com/belgesel/cosmos-bir-uzay-seruveni",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 1551,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS"
+    },
+    {
+      "provider": "FilmMakinesi",
+      "module": "FilmMakinesi",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Wildwood23 Ekim"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Island Zero 2018 Filmi 1080p Full HD izle",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": true,
+        "targetUrl": "https://filmmakinesi.to/film/island-zero-2018/"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PASS_ONLY",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://filmmakinesi.to",
+          "finalUrl": "https://filmmakinesi.to/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 423,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://filmmakinesi.to/film/island-zero-2018/",
+          "finalUrl": "https://filmmakinesi.to/film/island-zero-2018/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 132,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PASS"
+    },
+    {
+      "provider": "4KHDHub",
+      "module": "FourKHDHub",
+      "homepage": {
+        "status": "FAIL",
+        "itemCount": 0,
+        "reason": "0 valid content items discovered"
+      },
+      "detail": {
+        "status": "NOT_TESTED"
+      },
+      "playerDiscovery": {
+        "status": "NOT_TESTED"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "CONFIG_UNSUPPORTED",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://4khdhub.one",
+          "finalUrl": "https://4khdhub.one/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 428,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "FAIL",
+      "limitations": [
+        "Registry has no smokeTest.knownDetail; detail/player cannot be exercised by this helper. Homepage HTTP 200 yielded zero valid shared-parser cards; not proof of outage."
+      ]
+    },
+    {
+      "provider": "HDFilmCehennemi",
+      "module": "HDFilmCehennemi",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Ruhlar Bölgesi Aramızdalar - Insidious Out of the Further"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Örümcek Adam Yepyeni Bir Gün - Spider Man Brand Ne",
+        "episodeDiscoveryMode": "GENERIC_FALLBACK",
+        "episodesCount": 1
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": true,
+        "targetUrl": "https://www.hdfilmcehennemi.nl/spider-man-brand-new-day/"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PASS_ONLY",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://www.hdfilmcehennemi.nl",
+          "finalUrl": "https://www.hdfilmcehennemi.nl/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 88,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://www.hdfilmcehennemi.nl/spider-man-brand-new-day/",
+          "finalUrl": "https://www.hdfilmcehennemi.nl/spider-man-brand-new-day-1/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 125,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PASS"
+    },
+    {
+      "provider": "KultFilmler",
+      "module": "KultFilmler",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Türkçe Altyazı1982\n\n\n\nFaize HücumDram\n6.4IMDB"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Soldier - Asker İzle HD İzle - Kült Filmler",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": true,
+        "targetUrl": "https://kultfilmler.net/soldier-asker/"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PASS_ONLY",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://kultfilmler.net",
+          "finalUrl": "https://kultfilmler.net/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 87,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://kultfilmler.net/soldier-asker/",
+          "finalUrl": "https://kultfilmler.net/soldier-asker/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 40,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PASS"
+    },
+    {
+      "provider": "YesilCamTv",
+      "module": "YesilCamTv",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Sahte Kabadayı"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Sahte Kabadayı | YESILCAM TV",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": false,
+        "targetUrl": "https://yesilcamtv.com.tr/sahte-kabadayi-izle/"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PASS_ONLY",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://yesilcamtv.com.tr",
+          "finalUrl": "https://yesilcamtv.com.tr/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 222,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://yesilcamtv.com.tr/sahte-kabadayi-izle/",
+          "finalUrl": "https://yesilcamtv.com.tr/sahte-kabadayi-izle/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 163,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PASS"
+    },
+    {
+      "provider": "SezonlukDizi",
+      "module": "SezonlukDizi",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 9,
+        "sample": "One Piece"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Breaking Bad izle - Sezonluk Dizi izle",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 20
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://sezonlukdizi.cc/breaking-bad/5-sezon-16-bolum.html"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PARTIAL",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://sezonlukdizi.cc",
+          "finalUrl": "https://sezonlukdizi.cc/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 107,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://sezonlukdizi.cc/diziler/breaking-bad.html",
+          "finalUrl": "https://sezonlukdizi.cc/diziler/breaking-bad.html",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 68,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://sezonlukdizi.cc/breaking-bad/5-sezon-16-bolum.html",
+          "finalUrl": "https://sezonlukdizi.cc/breaking-bad/5-sezon-16-bolum.html",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 71,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS"
+    },
+    {
+      "provider": "SinemaCX",
+      "module": "SinemaCX",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Soulm8te İzle"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Bulvar izle (2026)",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": false,
+        "targetUrl": "https://sinemacc.com/film/bulvar-boulevard-2026/"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PASS_ONLY",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://sinemacc.com",
+          "finalUrl": "https://sinemacc.com/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 226,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://sinemacc.com/film/bulvar-boulevard-2026/",
+          "finalUrl": "https://sinemacc.com/film/bulvar-boulevard-2026/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 100,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PASS"
+    },
+    {
+      "provider": "Dizilla",
+      "module": "Dizilla",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Organize İşler: Karun Hazinesi izle"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Breaking Bad izle | Türkçe Dublaj & Altyazılı izle",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 13
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://dizilla.now/breaking-bad-5-sezon-16-bolum-c02"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PARTIAL",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://dizilla.now",
+          "finalUrl": "https://dizilla.now/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 214,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://dizilla.now/dizi/breaking-bad-2",
+          "finalUrl": "https://dizilla.now/dizi/breaking-bad-2",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 1161,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://dizilla.now/breaking-bad-5-sezon-16-bolum-c02",
+          "finalUrl": "https://dizilla.now/breaking-bad-5-sezon-16-bolum-c02",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 1393,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS"
+    },
+    {
+      "provider": "FullHDFilmizlesene",
+      "module": "FullHDFilmizlesene",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Tad'ın Sihirli Lambası - Tadeo Jones y la lámpara maravillosa izle"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Hızlı Ve Öfkeli 10 - Fast X 2023 Film izle",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": true,
+        "targetUrl": "https://www.fullhdfilmizlesene.now/film/hizli-ve-ofkeli-10/"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PASS_ONLY",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://www.fullhdfilmizlesene.now",
+          "finalUrl": "https://www.fullhdfilmizlesene.now/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 76,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://www.fullhdfilmizlesene.now/film/hizli-ve-ofkeli-10/",
+          "finalUrl": "https://www.fullhdfilmizlesene.now/film/hizli-ve-ofkeli-10/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 32,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PASS"
+    },
+    {
+      "provider": "JetFilmIzle",
+      "module": "JetFilmIzle",
+      "homepage": {
+        "status": "FAIL",
+        "itemCount": 0,
+        "reason": "0 valid content items discovered"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Batman Ninja vs. Yakuza League Filmi İzle: Full HD",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://jetfilmizle.now/film/batman-ninja-vs-yakuza-league"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PARTIAL",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://jetfilmizle.now",
+          "finalUrl": "https://jetfilmizle.now/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 81,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://jetfilmizle.now/film/batman-ninja-vs-yakuza-league",
+          "finalUrl": "https://jetfilmizle.now/film/batman-ninja-vs-yakuza-league",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 37,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS"
+    },
+    {
+      "provider": "CloudStreamHub",
+      "module": "CloudStreamHub",
+      "homepage": {
+        "status": "FAIL",
+        "itemCount": 0,
+        "reason": "0 valid content items discovered"
+      },
+      "detail": {
+        "status": "UNSUPPORTED_BY_HTML_HELPER",
+        "helperObservation": {
+          "status": "PASS",
+          "title": "Inception",
+          "episodeDiscoveryMode": "NONE",
+          "episodesCount": 0
+        }
+      },
+      "playerDiscovery": {
+        "status": "UNSUPPORTED_BY_HTML_HELPER",
+        "helperObservation": {
+          "status": "PLAYER_NOT_FOUND",
+          "targetUrl": "https://api.themoviedb.org/3/movie/27205"
+        }
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "TOOL_UNSUPPORTED",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://api.themoviedb.org",
+          "finalUrl": "https://developer.themoviedb.org/docs/getting-started",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 810,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://api.themoviedb.org/3/movie/27205",
+          "finalUrl": "https://api.themoviedb.org/3/movie/27205",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 138,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS",
+      "limitations": [
+        "Configured knownDetail is a JSON API endpoint; shared HTML detail/player discovery is not valid API-provider verification. Raw helper observations retained separately, not treated as detail/player success."
+      ]
+    },
+    {
+      "provider": "DiziKorea",
+      "module": "DiziKorea",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "★\n8.5\n\n2026\n\n\n\nDoctor X"
+      },
+      "detail": {
+        "status": "FAIL",
+        "title": "Flex X Cop (2024) Kore Dizisi izle",
+        "reason": "SOFT_404_PAGE"
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PARTIAL",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://dizikorea3.com",
+          "finalUrl": "https://dizikorea3.com/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 200,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://dizikorea3.com/dizi/flex-x-cop-izle-dq",
+          "finalUrl": "https://dizikorea3.com/dizi/flex-x-cop-izle-dq",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 176,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS"
+    },
+    {
+      "provider": "DramaDizilerim",
+      "module": "DramaDizilerim",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "🔥 Trend #1\n\nSessiz Boşanma\n\n Hemen İzle"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Köle Kral Full İzle (Türkçe Dublaj) - Drama Dizile",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 42
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": false,
+        "targetUrl": "https://dramadizilerim.com/izle/kole-kral"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PASS_ONLY",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://dramadizilerim.com",
+          "finalUrl": "https://dramadizilerim.com/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 132,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://dramadizilerim.com/dizi/kole-kral",
+          "finalUrl": "https://dramadizilerim.com/dizi/kole-kral",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 99,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://dramadizilerim.com/izle/kole-kral",
+          "finalUrl": "https://dramadizilerim.com/izle/kole-kral",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 249,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PASS"
+    },
+    {
+      "provider": "WebDramaTurkey",
+      "module": "WebDramaTurkey",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "The Muse of Section E\n\n\n6.9M izlenme"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Hidden Love İzle - Web Drama Turkey",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 25
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://webdramaturkey2.com/dizi/hidden-love-izle/1-sezon/1-bolum"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PARTIAL",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://webdramaturkey2.com",
+          "finalUrl": "https://webdramaturkey2.com/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 210,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://webdramaturkey2.com/dizi/hidden-love-izle",
+          "finalUrl": "https://webdramaturkey2.com/dizi/hidden-love-izle",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 153,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://webdramaturkey2.com/dizi/hidden-love-izle/1-sezon/1-bolum",
+          "finalUrl": "https://webdramaturkey2.com/dizi/hidden-love-izle/1-sezon/1-bolum",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 256,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS"
+    },
+    {
+      "provider": "Animeler",
+      "module": "Animeler",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Juuоu Mujin Dandivine"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Steins;Gate İzle | Animeler Pw",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 32
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": false,
+        "targetUrl": "https://animeler.pw/steins-gate/bolum-1"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PASS_ONLY",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://animeler.pw",
+          "finalUrl": "https://animeler.pw/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 391,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://animeler.pw/steinsgate",
+          "finalUrl": "https://animeler.pw/steins-gate",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 406,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://animeler.pw/steins-gate/bolum-1",
+          "finalUrl": "https://animeler.pw/steins-gate/bolum-1",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 760,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PASS"
+    },
+    {
+      "provider": "SetFilmIzle",
+      "module": "SetFilmIzle",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 7,
+        "sample": "Tümü"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "The Get Out (2026) | Set Film izle",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://www.setfilmizle.ltd/film/the-get-out/"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PARTIAL",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://www.setfilmizle.ltd",
+          "finalUrl": "https://www.setfilmizle.ltd/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 361,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://www.setfilmizle.ltd/film/the-get-out/",
+          "finalUrl": "https://www.setfilmizle.ltd/film/the-get-out/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 30,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS"
+    },
+    {
+      "provider": "HDFilmDelisi",
+      "module": "HDFilmDelisi",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 8,
+        "sample": "Breaking Bad izle"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Saplantı izle (2025) Türkçe Dublaj ve Altyazılı",
+        "episodeDiscoveryMode": "NONE",
+        "episodesCount": 0
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 0,
+        "hasPlayer": false,
+        "targetUrl": "https://hdfilmdelisi.one/film/saplanti-obsession"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PASS_ONLY",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://hdfilmdelisi.one",
+          "finalUrl": "https://hdfilmdelisi.one/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 159,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://hdfilmdelisi.one/film/saplanti-obsession",
+          "finalUrl": "https://hdfilmdelisi.one/film/saplanti-obsession",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 263,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PASS"
+    },
+    {
+      "provider": "Dizigecesi",
+      "module": "Dizigecesi",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Spartacus"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Spartacus İzle - Dizigecesi",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 39
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_NOT_FOUND",
+        "targetUrl": "https://dizigecesi.com/dizi/spartacus/1-sezon/1-bolum"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PARTIAL",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://dizigecesi.com",
+          "finalUrl": "https://dizigecesi.com/tr",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 522,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://dizigecesi.com/dizi/spartacus",
+          "finalUrl": "https://dizigecesi.com/dizi/spartacus",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 132,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://dizigecesi.com/dizi/spartacus/1-sezon/1-bolum",
+          "finalUrl": "https://dizigecesi.com/dizi/spartacus/1-sezon/1-bolum",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 136,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS"
+    },
+    {
+      "provider": "RareFilmm",
+      "module": "RareFilmm",
+      "homepage": {
+        "status": "FAIL",
+        "itemCount": 0,
+        "reason": "0 valid content items discovered"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Paris s’éveille (1991) – rarefilmm | The Cave of F",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 4
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": false,
+        "targetUrl": "https://rarefilmm.com/2026/07/paris-seveille-1991/"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PARTIAL",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://rarefilmm.com",
+          "finalUrl": "https://rarefilmm.com/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 265,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://rarefilmm.com/2026/07/paris-seveille-1991/",
+          "finalUrl": "https://rarefilmm.com/2026/07/paris-seveille-1991/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 70,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS"
+    },
+    {
+      "provider": "StarTV",
+      "module": "StarTV",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "07:00Aramızda KalsınTekrar"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Tuzlu Kahve İzle | Star TV",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 3
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 0,
+        "hasPlayer": true,
+        "targetUrl": "https://www.startv.com.tr/dizi/tuzlu-kahve/bolumler/3-bolum"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PASS_ONLY",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://www.startv.com.tr",
+          "finalUrl": "https://www.startv.com.tr/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 207,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://www.startv.com.tr/dizi/tuzlu-kahve",
+          "finalUrl": "https://www.startv.com.tr/dizi/tuzlu-kahve",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 125,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://www.startv.com.tr/dizi/tuzlu-kahve/bolumler/3-bolum",
+          "finalUrl": "https://www.startv.com.tr/dizi/tuzlu-kahve/bolumler/3-bolum",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 92,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PASS"
+    },
+    {
+      "provider": "DiziIzle",
+      "module": "DiziIzle",
+      "homepage": {
+        "status": "PASS",
+        "itemCount": 15,
+        "sample": "Güldür Güldür izle"
+      },
+      "detail": {
+        "status": "PASS",
+        "title": "Tuzlu Kahve son bölüm izle - Dizi izle",
+        "episodeDiscoveryMode": "STRICT_CONFIG",
+        "episodesCount": 7
+      },
+      "playerDiscovery": {
+        "status": "PLAYER_DISCOVERED",
+        "iframes": 1,
+        "hasPlayer": false,
+        "targetUrl": "https://www.diziizle.you/tuzlu-kahve/bolum-7/"
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "HTTP_SEMANTIC_PASS_ONLY",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://www.diziizle.you",
+          "finalUrl": "https://www.diziizle.you/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 367,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://www.diziizle.you/tuzlu-kahve/",
+          "finalUrl": "https://www.diziizle.you/tuzlu-kahve/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 182,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://www.diziizle.you/tuzlu-kahve/bolum-7/",
+          "finalUrl": "https://www.diziizle.you/tuzlu-kahve/bolum-7/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 238,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PASS"
+    },
+    {
+      "provider": "YTS",
+      "module": "YTS",
+      "homepage": {
+        "status": "FAIL",
+        "itemCount": 0,
+        "reason": "0 valid content items discovered"
+      },
+      "detail": {
+        "status": "UNSUPPORTED_BY_HTML_HELPER",
+        "helperObservation": {
+          "status": "PASS",
+          "title": "Inception",
+          "episodeDiscoveryMode": "NONE",
+          "episodesCount": 0
+        }
+      },
+      "playerDiscovery": {
+        "status": "UNSUPPORTED_BY_HTML_HELPER",
+        "helperObservation": {
+          "status": "PLAYER_DISCOVERED",
+          "iframes": 0,
+          "hasPlayer": false,
+          "targetUrl": "https://yts.gg/api/v2/movie_details.json"
+        }
+      },
+      "runtimePlayback": "NOT_TESTED",
+      "details": [],
+      "state": "TOOL_UNSUPPORTED",
+      "audio": "NOT_TESTED",
+      "search": "NOT_TESTED",
+      "requests": [
+        {
+          "requestedUrl": "https://yts.gg",
+          "finalUrl": "https://web.yts.gg/",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 890,
+          "errorKind": null
+        },
+        {
+          "requestedUrl": "https://yts.gg/api/v2/movie_details.json",
+          "finalUrl": "https://yts.gg/api/v2/movie_details.json",
+          "status": "SUCCESS",
+          "httpStatus": 200,
+          "fetchMode": "HTTP",
+          "elapsedMs": 231,
+          "errorKind": null
+        }
+      ],
+      "helperOverall": "PARTIAL_PASS",
+      "limitations": [
+        "Configured knownDetail is a JSON API endpoint; shared HTML detail/player discovery is not valid API-provider verification. Raw helper observations retained separately, not treated as detail/player success."
+      ]
+    }
+  ]
+}
