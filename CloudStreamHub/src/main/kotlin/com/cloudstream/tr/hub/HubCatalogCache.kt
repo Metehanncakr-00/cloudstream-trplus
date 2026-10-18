@@ -77,17 +77,15 @@ object HubCatalogCache {
         // 1. Memory cache check
         val memEntry = memoryCache[key]
         if (memEntry != null) {
-            if (now - memEntry.timestamp > ttlMs) {
-                memoryCache.remove(key)
-            } else {
+            if (now - memEntry.timestamp <= ttlMs && memEntry.items.isNotEmpty()) {
                 return memEntry.items to memEntry.hasNext
             }
         }
 
         // 2. Disk cache check
         if (context != null || customDiskCacheDir != null) {
-            val diskResult = loadFromFile(context, unifiedFileName(category, page))
-            if (diskResult != null) {
+            val diskResult = loadFromFile(context, unifiedFileName(category, page), ignoreTtl = false)
+            if (diskResult != null && diskResult.first.isNotEmpty()) {
                 memoryCache[key] = CacheEntry(
                     timestamp = now,
                     items = diskResult.first,
@@ -98,6 +96,59 @@ object HubCatalogCache {
         }
 
         return null
+    }
+
+    /**
+     * Retrieves the last known non-empty unified catalog page even if TTL has expired.
+     * Used as a resilient fallback when live network / provider requests time out or fail,
+     * ensuring Movie and Series catalogs never disappear on Android TV.
+     */
+    fun getUnifiedStale(category: String, page: Int, context: Context? = null): Pair<List<SearchResponse>, Boolean>? {
+        val key = unifiedCacheKey(category, page)
+        memoryCache[key]?.takeIf { it.items.isNotEmpty() }?.let {
+            return it.items to it.hasNext
+        }
+        if (context != null || customDiskCacheDir != null) {
+            val diskResult = loadFromFile(context, unifiedFileName(category, page), ignoreTtl = true)
+            if (diskResult != null && diskResult.first.isNotEmpty()) {
+                return diskResult
+            }
+        }
+        return null
+    }
+
+    /**
+     * Returns recently cached catalog items for Continue Watching / quick fallback rows.
+     */
+    fun getRecentCatalogItems(limit: Int = 40, context: Context? = null): List<SearchResponse> {
+        val result = mutableListOf<SearchResponse>()
+        val seenUrls = HashSet<String>()
+        for ((key, entry) in memoryCache) {
+            if (key.startsWith("unified:")) {
+                for (item in entry.items) {
+                    if (item.url.isNotBlank() && seenUrls.add(item.url)) {
+                        result.add(item)
+                        if (result.size >= limit) return result
+                    }
+                }
+            }
+        }
+        val fallbackCategories = listOf(
+            UnifiedCategories.ALL_CONTENT,
+            UnifiedCategories.MOVIES,
+            UnifiedCategories.SERIES,
+            UnifiedCategories.TURKISH_SERIES
+        )
+        for (cat in fallbackCategories) {
+            val stale = getUnifiedStale(cat, 1, context)?.first.orEmpty()
+            for (item in stale) {
+                if (item.url.isNotBlank() && seenUrls.add(item.url)) {
+                    result.add(item)
+                    if (result.size >= limit) return result
+                }
+            }
+        }
+        return result
     }
 
     /**
@@ -132,9 +183,11 @@ object HubCatalogCache {
 
     /**
      * Stores unified catalog items starting at [page].
-     * If [items] exceeds [MAX_ITEMS_PER_PAGE] (300), excess items are NOT truncated or lost:
-     * they are deterministically sliced into sequential overflow pages (`page`, `page + 1`, `page + 2`, ...)
-     * in both memory and disk cache, with `hasNext = true` on all intermediate slices.
+     * - Never poisons or overwrites an existing cache with an empty list: if [items] is empty,
+     *   returns any existing stale cache entry without writing an empty file.
+     * - If [items] exceeds [MAX_ITEMS_PER_PAGE] (300), excess items are NOT truncated or lost:
+     *   they are deterministically sliced into sequential overflow pages (`page`, `page + 1`, `page + 2`, ...)
+     *   in both memory and disk cache, with `hasNext = true` on all intermediate slices.
      *
      * @return The slice `(items, hasNext)` corresponding to the requested [page].
      */
@@ -150,11 +203,16 @@ object HubCatalogCache {
             item.url.isNotBlank() && priorUrls.add(item.url)
         }
 
-        val chunks: List<List<SearchResponse>> = if (deduped.isEmpty()) {
-            listOf(emptyList())
-        } else {
-            deduped.chunked(MAX_ITEMS_PER_PAGE)
+        if (deduped.isEmpty()) {
+            // Never overwrite a valid cached catalog with empty results on transient failure
+            val stale = getUnifiedStale(category, page, context)
+            if (stale != null && stale.first.isNotEmpty()) {
+                return stale
+            }
+            return emptyList<SearchResponse>() to false
         }
+
+        val chunks: List<List<SearchResponse>> = deduped.chunked(MAX_ITEMS_PER_PAGE)
 
         val now = System.currentTimeMillis()
         var firstSlice: Pair<List<SearchResponse>, Boolean>? = null
@@ -375,7 +433,8 @@ object HubCatalogCache {
 
     private fun loadFromFile(
         context: Context?,
-        fileName: String
+        fileName: String,
+        ignoreTtl: Boolean = false
     ): Pair<List<SearchResponse>, Boolean>? {
         return try {
             val dir = getDiskCacheDir(context)
@@ -392,11 +451,10 @@ object HubCatalogCache {
                 return null
             }
 
-            // TTL check
+            // TTL check (do not delete expired file so getUnifiedStale can serve it on transient network failure)
             val timestamp = root.optLong("timestamp", 0L)
             val now = System.currentTimeMillis()
-            if (now - timestamp > ttlMs) {
-                file.delete()
+            if (!ignoreTtl && now - timestamp > ttlMs) {
                 return null
             }
 
@@ -477,7 +535,9 @@ object HubCatalogCache {
                     HubMediaRegistry.register(canonicalMedia, context, flushImmediate = false)
                 }
             }
-            HubMediaRegistry.flushToDisk(context)
+            if (!HubMediaRegistry.getStorageFile(context).exists()) {
+                HubMediaRegistry.flushToDisk(context)
+            }
             items to hasNext
         } catch (_: Throwable) {
             null

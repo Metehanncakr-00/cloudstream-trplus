@@ -144,20 +144,19 @@ object ProviderCapabilityMatrix {
                     matches.add(provider to cat)
                 }
             } else {
-                // Secondary match based on supported types
+                // Secondary match based on supported types (select primary category to prevent fan-out explosion)
                 val typeMatch = when (category) {
-                    UnifiedCategories.MOVIES -> TvType.Movie in cap.supportedTypes
-                    UnifiedCategories.SERIES -> TvType.TvSeries in cap.supportedTypes || TvType.AsianDrama in cap.supportedTypes
+                    UnifiedCategories.MOVIES, UnifiedCategories.TR_DUB, UnifiedCategories.TR_SUB -> TvType.Movie in cap.supportedTypes
+                    UnifiedCategories.SERIES, UnifiedCategories.TURKISH_SERIES -> TvType.TvSeries in cap.supportedTypes || TvType.AsianDrama in cap.supportedTypes
                     UnifiedCategories.ANIME -> TvType.Anime in cap.supportedTypes || TvType.AnimeMovie in cap.supportedTypes
-                    UnifiedCategories.CARTOONS, UnifiedCategories.CARTOON_SERIES -> TvType.Cartoon in cap.supportedTypes
+                    UnifiedCategories.CARTOONS, UnifiedCategories.CARTOON_SERIES, UnifiedCategories.ANIMATION_MOVIES ->
+                        TvType.Cartoon in cap.supportedTypes || TvType.AnimeMovie in cap.supportedTypes
                     UnifiedCategories.DOCUMENTARIES -> TvType.Documentary in cap.supportedTypes
                     UnifiedCategories.NEW_RELEASES, UnifiedCategories.POPULAR -> true
                     else -> false
                 }
                 if (typeMatch && cap.categories.isNotEmpty()) {
-                    for (cat in cap.categories) {
-                        matches.add(provider to cat)
-                    }
+                    matches.add(provider to cap.categories.first())
                 }
             }
         }

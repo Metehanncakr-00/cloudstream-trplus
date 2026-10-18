@@ -63,7 +63,11 @@ object HubSingleCardMerger {
         return t.replace(Regex("\\s+"), " ").trim()
     }
 
-    private fun toCandidate(item: SearchResponse, defaultProvider: String = "CloudStreamHub"): CardCandidate {
+    private fun toCandidate(
+        item: SearchResponse,
+        defaultProvider: String = "CloudStreamHub",
+        discoverableProviders: List<MainAPI> = emptyList()
+    ): CardCandidate {
         val norm = ProviderModels.normalizeTitle(item.name)
         val y: Int? = when (item) {
             is MovieSearchResponse -> item.year
@@ -86,8 +90,9 @@ object HubSingleCardMerger {
             "TMDB"
         } else {
             val api = item.apiName.takeIf { it.isNotBlank() && it != "CloudStreamHub" }
-            val detected = CloudStreamProviderRegistryAdapter.getAllDiscoverableProviders()
-                .firstOrNull { item.url.contains(it.mainUrl) }?.name
+            val detected = if (api == null && discoverableProviders.isNotEmpty()) {
+                CloudStreamProviderRegistryAdapter.detectProviderNameForUrl(item.url, discoverableProviders)
+            } else null
             val hostName = try {
                 java.net.URI(item.url).host?.removePrefix("www.")?.substringBefore(".")?.replaceFirstChar { it.uppercase() }
             } catch (_: Throwable) { null }
@@ -174,7 +179,8 @@ object HubSingleCardMerger {
     fun mergeCandidates(items: List<SearchResponse>, defaultProvider: String = "CloudStreamHub"): List<SearchResponse> {
         if (items.isEmpty()) return emptyList()
 
-        val candidates = items.map { toCandidate(it, defaultProvider) }
+        val discoverableProviders = CloudStreamProviderRegistryAdapter.getAllDiscoverableProviders()
+        val candidates = items.map { toCandidate(it, defaultProvider, discoverableProviders) }
         val clusters = mutableListOf<MutableList<CardCandidate>>()
 
         for (cand in candidates) {

@@ -531,5 +531,135 @@ class UnifiedCatalogEngineTest {
             HubCatalogCache.customDiskCacheDir = null
         }
     }
+
+    @Test
+    fun testEmptyOrFailedNetworkResponseDoesNotWipeValidCachedCatalog() = runTest {
+        // v43 Stabilization Regression:
+        // If a valid catalog exists in cache and a subsequent putUnified(emptyList()) or failed network fetch occurs,
+        // the valid cached catalog must NEVER be overwritten with an empty list.
+        val tempDir = java.io.File(System.getProperty("java.io.tmpdir"), "hub_v43_stale_" + System.nanoTime())
+        tempDir.mkdirs()
+        HubCatalogCache.customDiskCacheDir = tempDir
+        HubCatalogCache.clear()
+        HubMediaRegistry.clear()
+
+        try {
+            val validItems = listOf(
+                hub.newMovieSearchResponse("Organize İşler", "https://prov.com/organize-isler", TvType.Movie) { year = 2005 },
+                hub.newMovieSearchResponse("G.O.R.A.", "https://prov.com/gora", TvType.Movie) { year = 2004 }
+            )
+
+            // 1. Store valid catalog in unified cache
+            HubCatalogCache.putUnified(UnifiedCategories.MOVIES, 1, validItems, hasNext = true)
+            val initial = HubCatalogCache.getUnified(UnifiedCategories.MOVIES, 1)
+            assertNotNull(initial)
+            assertEquals(2, initial?.first?.size)
+
+            // 2. Simulate transient network failure attempting to write emptyList() into putUnified
+            val afterEmptyWrite = HubCatalogCache.putUnified(UnifiedCategories.MOVIES, 1, emptyList(), hasNext = false)
+            assertEquals("putUnified(emptyList) must preserve and return existing non-empty catalog", 2, afterEmptyWrite.first.size)
+
+            val stillCached = HubCatalogCache.getUnified(UnifiedCategories.MOVIES, 1)
+            assertNotNull("Valid cache must not be wiped by empty response", stillCached)
+            assertEquals(2, stillCached?.first?.size)
+        } finally {
+            tempDir.deleteRecursively()
+            HubCatalogCache.customDiskCacheDir = null
+        }
+    }
+
+    @Test
+    fun testRepeatedTriggerBackgroundPrewarmDoesNotStartHeavyCrawlByDefault() = runTest {
+        // v43 Stabilization Regression:
+        // By default enableBackgroundCrawler is false, so repeated homepage opens / triggerBackgroundPrewarm calls
+        // must NEVER trigger background provider crawling on Android TV.
+        var crawlCalls = 0
+        val testProvider = object : MainAPI() {
+            override var name = "PrewarmGuardProvider"
+            override var mainUrl = "https://prewarmguard.com"
+            override val hasMainPage = true
+            override val supportedTypes = setOf(TvType.Movie)
+            override val mainPage = listOf(MainPageData("Filmler", "https://prewarmguard.com/filmler"))
+
+            override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
+                crawlCalls++
+                return newHomePageResponse(
+                    request.name,
+                    listOf(hub.newMovieSearchResponse("Test", "https://prewarmguard.com/1", TvType.Movie)),
+                    hasNext = false
+                )
+            }
+        }
+        ProviderCapabilityMatrix.evaluate(testProvider)
+
+        assertFalse("Background crawler must be disabled by default on Android TV", HubSettingsManager.snapshot().enableBackgroundCrawler)
+
+        // Call triggerBackgroundPrewarm 10 times (simulating 10 homepage category rows opening)
+        repeat(10) {
+            UnifiedCatalogEngine.triggerBackgroundPrewarm(listOf(testProvider), context = null)
+        }
+
+        assertEquals("Background prewarm must make 0 network calls when disabled by default", 0, crawlCalls)
+    }
+
+    @Test
+    fun testSameSessionDuplicateGetCategoryPageDoesNotTriggerRedundantNetworkRequests() = runTest {
+        // v43 Stabilization Regression:
+        // Repeated getCategoryPage calls for the same category & page in the same session must hit cache / mutex
+        // and execute only 1 upstream network request.
+        var upstreamCalls = 0
+        val singleProvider = object : MainAPI() {
+            override var name = "DedupSessionProvider"
+            override var mainUrl = "https://dedupsession.com"
+            override val hasMainPage = true
+            override val supportedTypes = setOf(TvType.TvSeries)
+            override val mainPage = listOf(MainPageData("Diziler", "https://dedupsession.com/diziler"))
+
+            override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
+                upstreamCalls++
+                return newHomePageResponse(
+                    request.name,
+                    listOf(hub.newMovieSearchResponse("Şahsiyet", "https://dedupsession.com/sahsiyet", TvType.TvSeries) { year = 2018 }),
+                    hasNext = false
+                )
+            }
+        }
+        ProviderCapabilityMatrix.evaluate(singleProvider)
+
+        repeat(5) {
+            val (items, _) = UnifiedCatalogEngine.getCategoryPage(
+                categoryName = UnifiedCategories.SERIES,
+                page = 1,
+                allProviders = listOf(singleProvider),
+                tmdbFetch = null
+            )
+            assertEquals(1, items.size)
+        }
+
+        assertEquals("Same category/page in the same session must only query upstream once", 1, upstreamCalls)
+    }
+
+    @Test
+    fun testRegistryAdapterCachesBundledInstancesWithoutReflectionStorm() {
+        // v43 Stabilization Regression:
+        // Calling getAllDiscoverableProviders() and mergeCandidates() hundreds of times must instantiate
+        // the bundled provider classes only ONCE per process lifetime.
+        val firstList = CloudStreamProviderRegistryAdapter.getAllDiscoverableProviders()
+        val countAfterFirst = CloudStreamProviderRegistryAdapter.bundledInstantiationCount
+        assertTrue("Must discover bundled providers", firstList.isNotEmpty())
+        assertTrue("Bundled instantiation count must be > 0", countAfterFirst > 0)
+
+        repeat(100) {
+            CloudStreamProviderRegistryAdapter.getAllDiscoverableProviders()
+        }
+        CloudStreamProviderRegistryAdapter.invalidateCache()
+        CloudStreamProviderRegistryAdapter.getAllDiscoverableProviders()
+
+        assertEquals(
+            "Bundled providers must NEVER be re-instantiated across repeated discovery or cache invalidations",
+            countAfterFirst,
+            CloudStreamProviderRegistryAdapter.bundledInstantiationCount
+        )
+    }
 }
 

@@ -4,10 +4,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.media.MediaCodecList
+import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
@@ -23,6 +26,50 @@ import com.cloudstream.tr.core.diagnostics.DiagnosticLogger
 import com.cloudstream.tr.core.resolvers.DebridConfig
 import com.lagradost.cloudstream3.plugins.CloudstreamPlugin
 import com.lagradost.cloudstream3.plugins.Plugin
+
+internal object HubSpinnerStylePolicy {
+    data class Palette(
+        val containerBgHex: String,
+        val containerBorderHex: String,
+        val selectedTextHex: String,
+        val dropdownBgHex: String,
+        val dropdownTextHex: String,
+        val focusedBgHex: String,
+        val focusedTextHex: String
+    )
+
+    fun paletteFor(isDark: Boolean, accentHex: String = "#2196F3"): Palette {
+        return if (isDark) {
+            Palette(
+                containerBgHex = "#2C2C2E",
+                containerBorderHex = "#5A5A5E",
+                selectedTextHex = "#FFFFFF",
+                dropdownBgHex = "#252528",
+                dropdownTextHex = "#FFFFFF",
+                focusedBgHex = accentHex,
+                focusedTextHex = "#FFFFFF"
+            )
+        } else {
+            Palette(
+                containerBgHex = "#EFEFF4",
+                containerBorderHex = "#B5B5BD",
+                selectedTextHex = "#111111",
+                dropdownBgHex = "#FFFFFF",
+                dropdownTextHex = "#111111",
+                focusedBgHex = accentHex,
+                focusedTextHex = "#FFFFFF"
+            )
+        }
+    }
+
+    fun formatCollapsedLabel(rawLabel: String): String {
+        return "▾  ${rawLabel.trim()}"
+    }
+
+    fun formatDropdownLabel(rawLabel: String, isSelected: Boolean): String {
+        return if (isSelected) "✓  ${rawLabel.trim()}" else "    ${rawLabel.trim()}"
+    }
+}
 
 @CloudstreamPlugin
 class CloudStreamHubPlugin : Plugin() {
@@ -67,6 +114,7 @@ class CloudStreamHubPlugin : Plugin() {
         val appearance = HubAppearancePreferences.snapshot()
         val themedContext = HubAppearancePreferences.settingsContext(context, appearance)
         val accentColor = HubAppearancePreferences.accentColor(appearance)
+        val accentHex = HubAppearancePreferences.accents.firstOrNull { it.id == appearance.accent }?.hex ?: "#2196F3"
 
         fun dp(value: Int): Int = (value * themedContext.resources.displayMetrics.density).toInt()
 
@@ -79,7 +127,7 @@ class CloudStreamHubPlugin : Plugin() {
         val secondaryTextColor = if (isDark) Color.parseColor("#AAAAAA") else Color.parseColor("#666666")
         val dialogBgColor = if (isDark) Color.parseColor("#1C1C1E") else Color.parseColor("#FFFFFF")
         val tabBgColor = if (isDark) Color.parseColor("#2C2C2E") else Color.parseColor("#E5E5EA")
-        val tabFocusedBg = accentColor
+        val spinnerPalette = HubSpinnerStylePolicy.paletteFor(isDark, accentHex)
 
         // Dialog container layout
         val rootLayout = LinearLayout(themedContext).apply {
@@ -159,6 +207,83 @@ class CloudStreamHubPlugin : Plugin() {
                 } else {
                     v.setBackgroundColor(if (isPrimaryButton) accentColor else Color.TRANSPARENT)
                     if (v is TextView) v.setTextColor(if (isPrimaryButton) Color.WHITE else primaryTextColor)
+                }
+            }
+        }
+
+        // High-contrast, D-Pad accessible Spinner factory for Android 12 TV
+        fun createTvSpinner(options: List<String>, initialSelection: Int): Spinner {
+            val safeIndex = initialSelection.coerceIn(0, (options.size - 1).coerceAtLeast(0))
+            val normalDrawable = GradientDrawable().apply {
+                cornerRadius = dp(6).toFloat()
+                setColor(Color.parseColor(spinnerPalette.containerBgHex))
+                setStroke(dp(1), Color.parseColor(spinnerPalette.containerBorderHex))
+            }
+            val focusedDrawable = GradientDrawable().apply {
+                cornerRadius = dp(6).toFloat()
+                setColor(Color.parseColor(spinnerPalette.focusedBgHex))
+                setStroke(dp(2), Color.WHITE)
+            }
+
+            return Spinner(themedContext, Spinner.MODE_DIALOG).apply {
+                background = normalDrawable
+                isFocusable = true
+                isFocusableInTouchMode = true
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(0, dp(2), 0, dp(4))
+                }
+
+                val customAdapter = object : ArrayAdapter<String>(
+                    themedContext,
+                    android.R.layout.simple_spinner_item,
+                    options
+                ) {
+                    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                        val tv = (convertView as? TextView) ?: TextView(themedContext)
+                        val label = options.getOrElse(position) { "" }
+                        tv.text = HubSpinnerStylePolicy.formatCollapsedLabel(label)
+                        tv.textSize = 14f
+                        tv.setTypeface(null, Typeface.BOLD)
+                        tv.setSingleLine(true)
+                        tv.ellipsize = TextUtils.TruncateAt.END
+                        tv.setTextColor(
+                            if (this@apply.hasFocus()) Color.parseColor(spinnerPalette.focusedTextHex)
+                            else Color.parseColor(spinnerPalette.selectedTextHex)
+                        )
+                        tv.setBackgroundColor(Color.TRANSPARENT)
+                        tv.setPadding(dp(12), dp(10), dp(12), dp(10))
+                        return tv
+                    }
+
+                    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                        val tv = (convertView as? TextView) ?: TextView(themedContext)
+                        val label = options.getOrElse(position) { "" }
+                        val isSel = (position == this@apply.selectedItemPosition)
+                        tv.text = HubSpinnerStylePolicy.formatDropdownLabel(label, isSel)
+                        tv.textSize = 14f
+                        tv.setTypeface(null, if (isSel) Typeface.BOLD else Typeface.NORMAL)
+                        tv.setTextColor(
+                            if (isSel) accentColor
+                            else Color.parseColor(spinnerPalette.dropdownTextHex)
+                        )
+                        tv.setBackgroundColor(Color.parseColor(spinnerPalette.dropdownBgHex))
+                        tv.setPadding(dp(16), dp(12), dp(16), dp(12))
+                        return tv
+                    }
+                }
+
+                adapter = customAdapter
+                setSelection(safeIndex)
+
+                setOnFocusChangeListener { _, hasFocus ->
+                    background = if (hasFocus) focusedDrawable else normalDrawable
+                    (selectedView as? TextView)?.setTextColor(
+                        if (hasFocus) Color.parseColor(spinnerPalette.focusedTextHex)
+                        else Color.parseColor(spinnerPalette.selectedTextHex)
+                    )
                 }
             }
         }
@@ -341,7 +466,7 @@ class CloudStreamHubPlugin : Plugin() {
             text = "Önbelleği Temizle"
             applyTvFocus(this)
             setOnClickListener {
-                HubCatalogCache.clear()
+                HubCatalogCache.clearAll(context)
                 Toast.makeText(context, "Katalog önbelleği temizlendi.", Toast.LENGTH_SHORT).show()
             }
         }
@@ -369,17 +494,14 @@ class CloudStreamHubPlugin : Plugin() {
         panelDil.addView(audioTitle)
 
         val audioValues = listOf("ALL", "TR_DUB", "ORIGINAL")
-        val audioSpinner = Spinner(themedContext).apply {
-            adapter = ArrayAdapter(
-                themedContext, android.R.layout.simple_spinner_dropdown_item,
-                listOf(
-                    "Otomatik (Türkçe öncelikli)",
-                    "Türkçe dublaj tercih et",
-                    "Bilinen Türkçe dışı ses (Orijinal) tercih et"
-                )
-            )
-            setSelection(audioValues.indexOf(DebridConfig.audioPreference).coerceAtLeast(0))
-        }
+        val audioSpinner = createTvSpinner(
+            options = listOf(
+                "Otomatik (Türkçe öncelikli)",
+                "Türkçe dublaj tercih et",
+                "Bilinen Türkçe dışı ses (Orijinal) tercih et"
+            ),
+            initialSelection = audioValues.indexOf(DebridConfig.audioPreference).coerceAtLeast(0)
+        )
         val audioHint = TextView(themedContext).apply {
             text = "Yalnızca doğrulanabilir ses sinyalleri Türkçe olarak kabul edilir. Bilinmeyen sesler hiçbir zaman Türkçe olarak varsayılmaz."
             textSize = 12f
@@ -395,13 +517,10 @@ class CloudStreamHubPlugin : Plugin() {
             textSize = 13f
             setTextColor(primaryTextColor)
         }
-        val unknownAudioSpinner = Spinner(themedContext).apply {
-            adapter = ArrayAdapter(
-                themedContext, android.R.layout.simple_spinner_dropdown_item,
-                listOf("Düşük öncelik ver (Önerilen)", "Normal değerlendir")
-            )
-            setSelection(unknownAudioValues.indexOf(settingsState.unknownAudioPolicy).coerceAtLeast(0))
-        }
+        val unknownAudioSpinner = createTvSpinner(
+            options = listOf("Düşük öncelik ver (Önerilen)", "Normal değerlendir"),
+            initialSelection = unknownAudioValues.indexOf(settingsState.unknownAudioPolicy).coerceAtLeast(0)
+        )
         panelDil.addView(unknownAudioLabel)
         panelDil.addView(unknownAudioSpinner)
 
@@ -421,13 +540,10 @@ class CloudStreamHubPlugin : Plugin() {
             HubPerformanceSettings.COMPATIBLE,
             HubPerformanceSettings.FEATURE
         )
-        val profileSpinner = Spinner(themedContext).apply {
-            adapter = ArrayAdapter(
-                themedContext, android.R.layout.simple_spinner_dropdown_item,
-                listOf("Otomatik", "Uyumluluk öncelikli (Düşük RAM/TV)", "4K / REMUX öncelikli")
-            )
-            setSelection(profileValues.indexOf(HubPerformanceSettings.profile).coerceAtLeast(0))
-        }
+        val profileSpinner = createTvSpinner(
+            options = listOf("Otomatik", "Uyumluluk öncelikli (Düşük RAM/TV)", "4K / REMUX öncelikli"),
+            initialSelection = profileValues.indexOf(HubPerformanceSettings.profile).coerceAtLeast(0)
+        )
         panelOynatma.addView(profileSpinner)
 
         val hardwareInfo = TextView(themedContext).apply {
@@ -480,17 +596,14 @@ class CloudStreamHubPlugin : Plugin() {
             HubSettingsManager.PERF_MODE_BALANCED,
             HubSettingsManager.PERF_MODE_COMPREHENSIVE
         )
-        val perfModeSpinner = Spinner(themedContext).apply {
-            adapter = ArrayAdapter(
-                themedContext, android.R.layout.simple_spinner_dropdown_item,
-                listOf(
-                    "Hızlı (Düşük RAM / Erken sonuç)",
-                    "Dengeli (Varsayılan TV deneyimi)",
-                    "Kapsamlı (Bütün kaynakları derin tara)"
-                )
-            )
-            setSelection(perfModeValues.indexOf(settingsState.perfMode).coerceAtLeast(0))
-        }
+        val perfModeSpinner = createTvSpinner(
+            options = listOf(
+                "Hızlı (Düşük RAM / Erken sonuç)",
+                "Dengeli (Varsayılan TV deneyimi)",
+                "Kapsamlı (Bütün kaynakları derin tara)"
+            ),
+            initialSelection = perfModeValues.indexOf(settingsState.perfMode).coerceAtLeast(0)
+        )
         panelPerformans.addView(perfModeSpinner)
 
         val concurrencyValues = listOf(2, 4, 6)
@@ -500,13 +613,10 @@ class CloudStreamHubPlugin : Plugin() {
             setTextColor(primaryTextColor)
             setPadding(0, dp(8), 0, dp(2))
         }
-        val concurrencySpinner = Spinner(themedContext).apply {
-            adapter = ArrayAdapter(
-                themedContext, android.R.layout.simple_spinner_dropdown_item,
-                listOf("2 eşzamanlı", "4 eşzamanlı (Önerilen)", "6 eşzamanlı")
-            )
-            setSelection(concurrencyValues.indexOf(settingsState.maxConcurrency).coerceAtLeast(1))
-        }
+        val concurrencySpinner = createTvSpinner(
+            options = listOf("2 eşzamanlı", "4 eşzamanlı (Önerilen)", "6 eşzamanlı"),
+            initialSelection = concurrencyValues.indexOf(settingsState.maxConcurrency).coerceAtLeast(1)
+        )
         panelPerformans.addView(concurrencyLabel)
         panelPerformans.addView(concurrencySpinner)
 
@@ -517,13 +627,10 @@ class CloudStreamHubPlugin : Plugin() {
             setTextColor(primaryTextColor)
             setPadding(0, dp(8), 0, dp(2))
         }
-        val timeoutSpinner = Spinner(themedContext).apply {
-            adapter = ArrayAdapter(
-                themedContext, android.R.layout.simple_spinner_dropdown_item,
-                listOf("15 saniye", "30 saniye (Varsayılan)", "45 saniye")
-            )
-            setSelection(timeoutValues.indexOf(settingsState.searchTimeoutSec).coerceAtLeast(1))
-        }
+        val timeoutSpinner = createTvSpinner(
+            options = listOf("15 saniye", "30 saniye (Varsayılan)", "45 saniye"),
+            initialSelection = timeoutValues.indexOf(settingsState.searchTimeoutSec).coerceAtLeast(1)
+        )
         panelPerformans.addView(timeoutLabel)
         panelPerformans.addView(timeoutSpinner)
 
@@ -534,15 +641,21 @@ class CloudStreamHubPlugin : Plugin() {
             setTextColor(primaryTextColor)
             setPadding(0, dp(8), 0, dp(2))
         }
-        val ttlSpinner = Spinner(themedContext).apply {
-            adapter = ArrayAdapter(
-                themedContext, android.R.layout.simple_spinner_dropdown_item,
-                listOf("15 dakika", "1 saat (Önerilen)", "6 saat", "24 saat")
-            )
-            setSelection(ttlValues.indexOf(settingsState.cacheTtlMin).coerceAtLeast(1))
-        }
+        val ttlSpinner = createTvSpinner(
+            options = listOf("15 dakika", "1 saat (Önerilen)", "6 saat", "24 saat"),
+            initialSelection = ttlValues.indexOf(settingsState.cacheTtlMin).coerceAtLeast(1)
+        )
         panelPerformans.addView(ttlLabel)
         panelPerformans.addView(ttlSpinner)
+
+        val enableBackgroundCrawlerCheck = CheckBox(themedContext).apply {
+            text = "Arka planda otomatik katalog indeksleme (TV'de akıcılık için kapalı önerilir)"
+            isChecked = settingsState.enableBackgroundCrawler
+            setTextColor(primaryTextColor)
+            HubAppearancePreferences.tint(this, appearance)
+            setPadding(0, dp(8), 0, 0)
+        }
+        panelPerformans.addView(enableBackgroundCrawlerCheck)
 
         // 6. Tanılama Tab Content
         val panelTanilama = LinearLayout(themedContext).apply { orientation = LinearLayout.VERTICAL }
@@ -597,26 +710,20 @@ class CloudStreamHubPlugin : Plugin() {
             setTextColor(primaryTextColor)
         }
         val themeModes = HubAppearancePreferences.modes
-        val modeSpinner = Spinner(themedContext).apply {
-            adapter = ArrayAdapter(
-                themedContext, android.R.layout.simple_spinner_dropdown_item,
-                listOf("Sistem varsayılanı", "Açık", "Koyu")
-            )
-            setSelection(themeModes.indexOf(appearance.mode).coerceAtLeast(0))
-        }
+        val modeSpinner = createTvSpinner(
+            options = listOf("Sistem varsayılanı", "Açık", "Koyu"),
+            initialSelection = themeModes.indexOf(appearance.mode).coerceAtLeast(0)
+        )
         val accentLabel = TextView(themedContext).apply {
             text = "Vurgu rengi:"
             textSize = 13f
             setTextColor(primaryTextColor)
             setPadding(0, dp(8), 0, dp(2))
         }
-        val accentSpinner = Spinner(themedContext).apply {
-            adapter = ArrayAdapter(
-                themedContext, android.R.layout.simple_spinner_dropdown_item,
-                HubAppearancePreferences.accents.map { it.label }
-            )
-            setSelection(HubAppearancePreferences.accents.indexOfFirst { it.id == appearance.accent }.coerceAtLeast(0))
-        }
+        val accentSpinner = createTvSpinner(
+            options = HubAppearancePreferences.accents.map { it.label },
+            initialSelection = HubAppearancePreferences.accents.indexOfFirst { it.id == appearance.accent }.coerceAtLeast(0)
+        )
         val appearanceHint = TextView(themedContext).apply {
             text = "Tema yalnız CloudStreamHub penceresini etkiler. Değişiklikler için ayar penceresini yeniden açın."
             textSize = 12f
@@ -753,7 +860,8 @@ class CloudStreamHubPlugin : Plugin() {
                     perfMode = perfModeValues[perfModeSpinner.selectedItemPosition],
                     searchTimeoutSec = timeoutValues[timeoutSpinner.selectedItemPosition],
                     maxConcurrency = concurrencyValues[concurrencySpinner.selectedItemPosition],
-                    cacheTtlMin = ttlValues[ttlSpinner.selectedItemPosition]
+                    cacheTtlMin = ttlValues[ttlSpinner.selectedItemPosition],
+                    enableBackgroundCrawler = enableBackgroundCrawlerCheck.isChecked
                 )
                 HubSettingsManager.save(context, nextState)
 

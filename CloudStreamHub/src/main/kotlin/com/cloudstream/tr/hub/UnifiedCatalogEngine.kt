@@ -15,28 +15,52 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withTimeoutOrNull
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Orchestrates unified catalog aggregation across TMDB and all active providers.
  * Enforces:
- * - Bounded concurrency & low RAM usage
+ * - Global bounded concurrency & low RAM usage for Android TV stability
+ * - In-flight request deduplication per (category, page) within the same session
  * - TTL caching & incremental indexing with zero-loss overflow pagination
+ * - Stale cache preservation (never overwrites valid catalog cache with empty results)
  * - Consumption of crawled provider catalog pages (getProviderCatalog) in homepage & search
- * - Fallback to live federated search
- * - Truthful coverage and capability matrix
+ * - Opt-in, cooldown-guarded background indexing (disabled by default on TV)
  */
 object UnifiedCatalogEngine {
 
-    private const val PROVIDER_FETCH_TIMEOUT_MS = 8000L
+    private const val DEFAULT_PROVIDER_FETCH_TIMEOUT_MS = 6000L
+    private const val MIN_PREWARM_INTERVAL_MS = 30 * 60 * 1000L // 30 minutes cooldown
+
+    private val categoryLocks = ConcurrentHashMap<String, Mutex>()
+
+    @Volatile
+    private var activeSemaphoreLimit: Int = 4
+
+    @Volatile
+    private var globalProviderSemaphore: Semaphore = Semaphore(4)
+
+    @Synchronized
+    private fun getGlobalSemaphore(desiredConcurrency: Int): Semaphore {
+        val bounded = desiredConcurrency.coerceIn(1, 8)
+        if (bounded != activeSemaphoreLimit) {
+            activeSemaphoreLimit = bounded
+            globalProviderSemaphore = Semaphore(bounded)
+        }
+        return globalProviderSemaphore
+    }
 
     /**
-     * Fetches unified page items for a given category across ALL eligible providers.
-     * Concurrency is strictly bounded by maxConcurrency semaphore, ensuring TV stability
-     * while giving full coverage without dropping any providers or truncating >300 items.
+     * Fetches unified page items for a given category across eligible providers.
+     * Concurrency is strictly bounded by a global semaphore and in-flight per-page mutex,
+     * ensuring smooth Android TV performance without redundant network calls.
      */
     suspend fun getCategoryPage(
         categoryName: String,
@@ -44,6 +68,27 @@ object UnifiedCatalogEngine {
         allProviders: List<MainAPI>,
         tmdbFetch: (suspend () -> List<SearchResponse>)? = null,
         context: Context? = null
+    ): Pair<List<SearchResponse>, Boolean> {
+        val lockKey = "$categoryName:$page"
+        val mutex = categoryLocks.getOrPut(lockKey) { Mutex() }
+
+        return mutex.withLock {
+            getCategoryPageInternal(
+                categoryName = categoryName,
+                page = page,
+                allProviders = allProviders,
+                tmdbFetch = tmdbFetch,
+                context = context
+            )
+        }
+    }
+
+    private suspend fun getCategoryPageInternal(
+        categoryName: String,
+        page: Int,
+        allProviders: List<MainAPI>,
+        tmdbFetch: (suspend () -> List<SearchResponse>)?,
+        context: Context?
     ): Pair<List<SearchResponse>, Boolean> {
         val providerTargets = ProviderCapabilityMatrix.getProvidersForCategory(categoryName, allProviders)
 
@@ -101,13 +146,102 @@ object UnifiedCatalogEngine {
 
         val collected = mutableListOf<SearchResponse>()
         var hasMorePages = false
+        val settings = HubSettingsManager.snapshot()
+        val fetchTimeoutMs = settings.effectiveCategoryTimeoutMs.coerceAtLeast(DEFAULT_PROVIDER_FETCH_TIMEOUT_MS)
+        val semaphore = getGlobalSemaphore(settings.maxConcurrency)
+
+        // First, consume all already-cached provider pages across all targets (0 network cost)
+        val uncachedTargets = mutableListOf<Pair<MainAPI, ProviderCategoryInfo>>()
+        for ((provider, categoryInfo) in providerTargets) {
+            if (categoryInfo == null) continue
+            val cursorKey = categoryInfo.categoryUrl.ifBlank { categoryInfo.categoryName }
+            if (upstreamPage == 1) {
+                val (cachedProvItems, cachedProvHasNext) =
+                    HubCatalogCache.getAllCachedProviderPages(provider.name, cursorKey, context)
+                if (cachedProvItems.isNotEmpty()) {
+                    if (cachedProvHasNext) hasMorePages = true
+                    collected.addAll(cachedProvItems)
+                    continue
+                }
+            } else {
+                val cachedPage = HubCatalogCache.getProviderCatalog(provider.name, cursorKey, upstreamPage, context)
+                if (cachedPage != null && cachedPage.first.isNotEmpty()) {
+                    if (cachedPage.second) hasMorePages = true
+                    collected.addAll(cachedPage.first)
+                    continue
+                }
+            }
+            uncachedTargets.add(provider to categoryInfo)
+        }
+
+        // Deduplicate live network requests so a single provider is not scraped multiple times in one category call
+        val distinctUncachedTargets = uncachedTargets.distinctBy { it.first.name }
+
+        // When TMDB is present on homepage rows in FAST or BALANCED mode, bound live provider scrapes per row
+        // so opening 16 homepage rows on Android TV never triggers hundreds of simultaneous HTML scrapes.
+        // When tmdbFetch == null or in COMPREHENSIVE mode, query all matching providers.
+        val primaryLiveTargets = if (tmdbFetch != null && settings.perfMode != HubSettingsManager.PERF_MODE_COMPREHENSIVE) {
+            val maxLivePerRow = if (settings.perfMode == HubSettingsManager.PERF_MODE_FAST) 3 else 5
+            distinctUncachedTargets.take(maxLivePerRow)
+        } else {
+            distinctUncachedTargets
+        }
+
+        suspend fun fetchProviderTarget(provider: MainAPI, categoryInfo: ProviderCategoryInfo): List<SearchResponse> {
+            val cursorKey = categoryInfo.categoryUrl.ifBlank { categoryInfo.categoryName }
+            return semaphore.withPermit {
+                try {
+                    withTimeoutOrNull(fetchTimeoutMs) {
+                        val req = MainPageRequest(
+                            name = categoryInfo.categoryName,
+                            data = categoryInfo.categoryUrl,
+                            horizontalImages = false
+                        )
+                        val resp = provider.getMainPage(upstreamPage, req)
+                        val list = resp?.items?.flatMap { it.list } ?: emptyList()
+                        val provHasNext = resp?.hasNext == true
+                        if (provHasNext) hasMorePages = true
+
+                        if (list.isNotEmpty()) {
+                            HubCatalogCache.putProviderCatalog(
+                                providerName = provider.name,
+                                categoryKey = cursorKey,
+                                page = upstreamPage,
+                                items = list,
+                                hasNext = provHasNext,
+                                context = context
+                            )
+                            val currentCursor = HubCatalogCache.getCrawlerCursor(context, provider.name, cursorKey)
+                            if (currentCursor == upstreamPage) {
+                                if (!provHasNext) {
+                                    HubCatalogCache.setCrawlerFinished(context, provider.name, cursorKey, true)
+                                } else {
+                                    HubCatalogCache.saveCrawlerCursor(context, provider.name, cursorKey, upstreamPage + 1)
+                                }
+                            }
+                        }
+                        list
+                    } ?: emptyList()
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Throwable) {
+                    DiagnosticLogger.log(
+                        provider = provider.name,
+                        stage = DiagnosticStage.HOMEPAGE,
+                        category = DiagnosticCategory.SOURCE_DISCOVERY,
+                        message = "Provider catalog fetch failed for category '$categoryName': ${e.message}"
+                    )
+                    emptyList()
+                }
+            }
+        }
 
         coroutineScope {
-            // 2. Fetch primary TMDB items if available
+            // 2. Fetch primary TMDB items immediately (never blocked behind provider HTML scraping semaphore)
             val tmdbDeferred = async {
                 if (tmdbFetch != null) {
                     try {
-                        withTimeoutOrNull(PROVIDER_FETCH_TIMEOUT_MS) { tmdbFetch() } ?: emptyList()
+                        withTimeoutOrNull(fetchTimeoutMs) { tmdbFetch() } ?: emptyList()
                     } catch (e: CancellationException) {
                         throw e
                     } catch (_: Throwable) {
@@ -116,77 +250,9 @@ object UnifiedCatalogEngine {
                 } else emptyList()
             }
 
-            // 3. Fetch from all matching providers for this category (consuming getProviderCatalog first)
-            val maxConcurrency = HubSettingsManager.snapshot().maxConcurrency.coerceIn(1, 10)
-            val semaphore = Semaphore(maxConcurrency)
-
-            val providerDeferreds = providerTargets.map { (provider, categoryInfo) ->
-                async {
-                    if (categoryInfo == null) return@async emptyList<SearchResponse>()
-                    val cursorKey = categoryInfo.categoryUrl.ifBlank { categoryInfo.categoryName }
-
-                    // Consume already-crawled provider catalog pages before making any network request
-                    if (upstreamPage == 1) {
-                        val (cachedProvItems, cachedProvHasNext) =
-                            HubCatalogCache.getAllCachedProviderPages(provider.name, cursorKey, context)
-                        if (cachedProvItems.isNotEmpty()) {
-                            if (cachedProvHasNext) hasMorePages = true
-                            return@async cachedProvItems
-                        }
-                    } else {
-                        val cachedPage = HubCatalogCache.getProviderCatalog(provider.name, cursorKey, upstreamPage, context)
-                        if (cachedPage != null) {
-                            if (cachedPage.second) hasMorePages = true
-                            return@async cachedPage.first
-                        }
-                    }
-
-                    semaphore.withPermit {
-                        try {
-                            withTimeoutOrNull(PROVIDER_FETCH_TIMEOUT_MS) {
-                                val req = MainPageRequest(
-                                    name = categoryInfo.categoryName,
-                                    data = categoryInfo.categoryUrl,
-                                    horizontalImages = false
-                                )
-                                val resp = provider.getMainPage(upstreamPage, req)
-                                val list = resp?.items?.flatMap { it.list } ?: emptyList()
-                                val provHasNext = resp?.hasNext == true
-                                if (provHasNext) hasMorePages = true
-
-                                if (list.isNotEmpty()) {
-                                    HubCatalogCache.putProviderCatalog(
-                                        providerName = provider.name,
-                                        categoryKey = cursorKey,
-                                        page = upstreamPage,
-                                        items = list,
-                                        hasNext = provHasNext,
-                                        context = context
-                                    )
-                                    val currentCursor = HubCatalogCache.getCrawlerCursor(context, provider.name, cursorKey)
-                                    if (currentCursor == upstreamPage) {
-                                        if (!provHasNext) {
-                                            HubCatalogCache.setCrawlerFinished(context, provider.name, cursorKey, true)
-                                        } else {
-                                            HubCatalogCache.saveCrawlerCursor(context, provider.name, cursorKey, upstreamPage + 1)
-                                        }
-                                    }
-                                }
-                                list
-                            } ?: emptyList()
-                        } catch (e: CancellationException) {
-                            throw e
-                        } catch (e: Throwable) {
-                            DiagnosticLogger.log(
-                                provider = provider.name,
-                                stage = DiagnosticStage.HOMEPAGE,
-                                category = DiagnosticCategory.SOURCE_DISCOVERY,
-                                message = "Provider catalog fetch failed for category '$categoryName': ${e.message}"
-                            )
-                            emptyList()
-                        }
-                    }
-                }
+            // 3. Fetch bounded live provider targets
+            val providerDeferreds = primaryLiveTargets.map { (provider, categoryInfo) ->
+                async { fetchProviderTarget(provider, categoryInfo) }
             }
 
             val tmdbItems = tmdbDeferred.await()
@@ -196,18 +262,42 @@ object UnifiedCatalogEngine {
             for (batch in providerBatches) {
                 collected.addAll(batch)
             }
+
+            // Fallback: if TMDB + primary live targets both returned 0 items and there are remaining providers, try them
+            if (collected.isEmpty() && distinctUncachedTargets.size > primaryLiveTargets.size) {
+                val fallbackTargets = distinctUncachedTargets.drop(primaryLiveTargets.size).take(6)
+                val fallbackBatches = fallbackTargets.map { (provider, categoryInfo) ->
+                    async { fetchProviderTarget(provider, categoryInfo) }
+                }.awaitAll()
+                for (batch in fallbackBatches) {
+                    collected.addAll(batch)
+                }
+            }
         }
 
         if (tmdbFetch != null && collected.isNotEmpty()) {
             hasMorePages = true
         }
 
-        HubCatalogCache.saveLastUpstreamPage(context, categoryName, upstreamPage)
+        // Only advance upstream page cursor when items were actually obtained
+        if (collected.isNotEmpty()) {
+            HubCatalogCache.saveLastUpstreamPage(context, categoryName, upstreamPage)
+        }
 
-        // 4. Merge items into single cards with high confidence
+        // 4. If all live fetches failed/returned empty, serve stale cache if available rather than wiping catalog
+        if (collected.isEmpty()) {
+            HubCatalogCache.getUnifiedStale(categoryName, page, context)?.let { stale ->
+                if (stale.first.isNotEmpty()) {
+                    return stale
+                }
+            }
+            return emptyList<SearchResponse>() to false
+        }
+
+        // 5. Merge items into single cards with high confidence
         val merged = HubSingleCardMerger.mergeCandidates(collected)
 
-        // 5. Store in unified TTL cache (memory + persistent disk) with zero-loss overflow slicing
+        // 6. Store in unified TTL cache (memory + persistent disk) with zero-loss overflow slicing
         return HubCatalogCache.putUnified(categoryName, page, merged, hasMorePages, context)
     }
 
@@ -261,7 +351,9 @@ object UnifiedCatalogEngine {
         maxPagesPerProvider: Int = 1
     ): Int {
         var totalCrawled = 0
-        val maxConcurrency = HubSettingsManager.snapshot().maxConcurrency.coerceIn(1, 6)
+        val settings = HubSettingsManager.snapshot()
+        val maxConcurrency = settings.maxConcurrency.coerceIn(1, 6)
+        val fetchTimeoutMs = settings.effectiveCategoryTimeoutMs.coerceAtLeast(DEFAULT_PROVIDER_FETCH_TIMEOUT_MS)
         val semaphore = Semaphore(maxConcurrency)
 
         coroutineScope {
@@ -307,7 +399,7 @@ object UnifiedCatalogEngine {
 
                             semaphore.withPermit {
                                 try {
-                                    withTimeoutOrNull(PROVIDER_FETCH_TIMEOUT_MS) {
+                                    withTimeoutOrNull(fetchTimeoutMs) {
                                         val req = MainPageRequest(
                                             name = cat.categoryName,
                                             data = cat.categoryUrl,
@@ -368,15 +460,26 @@ object UnifiedCatalogEngine {
 
     private var prewarmJob: Job? = null
 
+    @Volatile
+    private var lastPrewarmTimestampMs: Long = 0L
+
     /**
-     * Non-blocking background pre-warming of catalog pages across all providers.
-     * Guaranteed safe for Android TV lifecycle; never executes concurrently with another prewarm pass.
+     * Non-blocking, opt-in background pre-warming of catalog pages.
+     * - Disabled by default (`enableBackgroundCrawler == false`) so Android TV startup and UI navigation never lag.
+     * - Even when enabled in Settings, enforces a 30-minute session cooldown and a 15-second startup delay,
+     *   crawling at most 4 providers per pass.
      */
     fun triggerBackgroundPrewarm(providers: List<MainAPI>, context: Context? = null) {
+        if (!HubSettingsManager.snapshot().enableBackgroundCrawler) return
         if (prewarmJob?.isActive == true) return
+        val now = System.currentTimeMillis()
+        if (now - lastPrewarmTimestampMs < MIN_PREWARM_INTERVAL_MS) return
+        lastPrewarmTimestampMs = now
+
         prewarmJob = CoroutineScope(Dispatchers.IO).launch {
             try {
-                crawlBatch(providers, context, maxPagesPerProvider = 1)
+                delay(15_000L)
+                crawlBatch(providers.take(4), context, maxPagesPerProvider = 1)
             } catch (_: Throwable) {}
         }
     }

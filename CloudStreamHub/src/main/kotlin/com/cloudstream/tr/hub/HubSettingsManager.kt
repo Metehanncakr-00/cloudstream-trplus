@@ -26,6 +26,7 @@ object HubSettingsManager {
     private const val KEY_SEARCH_TIMEOUT_SEC = "search_timeout_sec"
     private const val KEY_CONCURRENCY = "max_concurrency"
     private const val KEY_CACHE_TTL_MIN = "cache_ttl_min"
+    private const val KEY_ENABLE_BG_CRAWLER = "enable_bg_crawler"
 
     // Defaults
     const val PERF_MODE_FAST = "FAST"
@@ -40,7 +41,8 @@ object HubSettingsManager {
         val perfMode: String = PERF_MODE_BALANCED,
         val searchTimeoutSec: Int = 30,
         val maxConcurrency: Int = 4,
-        val cacheTtlMin: Int = 60
+        val cacheTtlMin: Int = 60,
+        val enableBackgroundCrawler: Boolean = false
     ) {
         val effectiveSearchTimeoutMs: Long
             get() = when (perfMode) {
@@ -54,6 +56,13 @@ object HubSettingsManager {
                 PERF_MODE_FAST -> 12000L
                 PERF_MODE_COMPREHENSIVE -> 45000L
                 else -> 30000L
+            }
+
+        val effectiveCategoryTimeoutMs: Long
+            get() = when (perfMode) {
+                PERF_MODE_FAST -> 4500L
+                PERF_MODE_COMPREHENSIVE -> 9000L
+                else -> 6000L
             }
 
         val effectivePreflightTimeoutMs: Long
@@ -80,7 +89,8 @@ object HubSettingsManager {
             perfMode = prefs.getString(KEY_PERF_MODE, PERF_MODE_BALANCED) ?: PERF_MODE_BALANCED,
             searchTimeoutSec = prefs.getInt(KEY_SEARCH_TIMEOUT_SEC, 30),
             maxConcurrency = prefs.getInt(KEY_CONCURRENCY, 4),
-            cacheTtlMin = prefs.getInt(KEY_CACHE_TTL_MIN, 60)
+            cacheTtlMin = prefs.getInt(KEY_CACHE_TTL_MIN, 60),
+            enableBackgroundCrawler = prefs.getBoolean(KEY_ENABLE_BG_CRAWLER, false)
         )
         state = loaded
         HubCatalogCache.setTtlMinutes(loaded.cacheTtlMin)
@@ -97,6 +107,7 @@ object HubSettingsManager {
             .putInt(KEY_SEARCH_TIMEOUT_SEC, newState.searchTimeoutSec)
             .putInt(KEY_CONCURRENCY, newState.maxConcurrency)
             .putInt(KEY_CACHE_TTL_MIN, newState.cacheTtlMin)
+            .putBoolean(KEY_ENABLE_BG_CRAWLER, newState.enableBackgroundCrawler)
             .apply()
         state = newState
         HubCatalogCache.setTtlMinutes(newState.cacheTtlMin)

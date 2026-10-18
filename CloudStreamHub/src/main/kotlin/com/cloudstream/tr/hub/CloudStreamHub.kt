@@ -51,10 +51,44 @@ class CloudStreamHub : MainAPI() {
     private val tmdbToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MGFkM2VjODkxZTU5MjMxNTAyODNiOTk3MTlkODkwZiIsIm5iZiI6MTc4OTgxODY1Mi40NzksInN1YiI6IjZhYWU3NzFjOTZlY2VmMDkzYmExZGU4NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2iN-8AMjIO4zMGL60TwvBY0sVdDThmf66GRfkanrtvc"
     private val imageBase = "https://image.tmdb.org/t/p/w500"
 
+    private val jsonAcceptHeaders = mapOf(
+        "Accept" to "application/json"
+    )
+
     private val authHeaders = mapOf(
         "Authorization" to "Bearer $tmdbToken",
         "Accept" to "application/json"
     )
+
+    private suspend fun fetchTmdbPage(targetUrl: String): TmdbPageResponse? {
+        return try {
+            app.get(targetUrl, headers = jsonAcceptHeaders).parsedSafe<TmdbPageResponse>()
+                ?: app.get(targetUrl, headers = authHeaders).parsedSafe<TmdbPageResponse>()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Throwable) {
+            try {
+                app.get(targetUrl, headers = authHeaders).parsedSafe<TmdbPageResponse>()
+            } catch (_: Throwable) {
+                null
+            }
+        }
+    }
+
+    private suspend fun fetchTmdbDetail(targetUrl: String): TmdbDetailResponse? {
+        return try {
+            app.get(targetUrl, headers = jsonAcceptHeaders).parsedSafe<TmdbDetailResponse>()
+                ?: app.get(targetUrl, headers = authHeaders).parsedSafe<TmdbDetailResponse>()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Throwable) {
+            try {
+                app.get(targetUrl, headers = authHeaders).parsedSafe<TmdbDetailResponse>()
+            } catch (_: Throwable) {
+                null
+            }
+        }
+    }
 
     private val availableHomePages by lazy { mainPageOf(
         "${mainUrl}/trending/all/day?language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.ALL_CONTENT,
@@ -68,11 +102,11 @@ class CloudStreamHub : MainAPI() {
         "${mainUrl}/discover/tv?with_genres=16&with_origin_country=JP&sort_by=popularity.desc&language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.ANIME,
         "${mainUrl}/discover/movie?with_genres=99&language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.DOCUMENTARIES,
         "${mainUrl}/discover/movie?with_origin_country=TR&primary_release_date.lte=1995-12-31&sort_by=popularity.desc&language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.YESILCAM,
-        "hub://catalog/tr_dub" to UnifiedCategories.TR_DUB,
-        "hub://catalog/tr_sub" to UnifiedCategories.TR_SUB,
+        "${mainUrl}/discover/movie?sort_by=popularity.desc&with_original_language=en&language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.TR_DUB,
+        "${mainUrl}/discover/tv?sort_by=vote_average.desc&vote_count.gte=200&language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.TR_SUB,
         "${mainUrl}/movie/now_playing?language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.NEW_RELEASES,
         "${mainUrl}/movie/popular?language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.POPULAR,
-        "hub://catalog/continue_watching" to UnifiedCategories.CONTINUE_WATCHING
+        "${mainUrl}/trending/all/week?language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.CONTINUE_WATCHING
     ) }
 
     // The CloudStream host may snapshot this list; reopening the app refreshes it.
@@ -85,6 +119,16 @@ class CloudStreamHub : MainAPI() {
             return newHomePageResponse(request.name, emptyList(), hasNext = false)
         }
 
+        val context = HubContextHolder.pluginContext
+
+        // Fast-path for Continue Watching from recently cached/visited catalog items
+        if (request.name == UnifiedCategories.CONTINUE_WATCHING && page == 1) {
+            val recent = HubCatalogCache.getRecentCatalogItems(limit = 40, context = context)
+            if (recent.isNotEmpty()) {
+                return newHomePageResponse(request.name, recent, hasNext = false)
+            }
+        }
+
         val providers = CloudStreamProviderRegistryAdapter.getRegisteredProviders(
             excludeName = this@CloudStreamHub.name,
             onlyEnabled = true
@@ -93,12 +137,11 @@ class CloudStreamHub : MainAPI() {
         val tmdbFetch: (suspend () -> List<SearchResponse>)? = if (request.data.startsWith(mainUrl)) {
             suspend {
                 val targetUrl = "${request.data}&page=${page}"
-                val resp = app.get(targetUrl, headers = authHeaders).parsedSafe<TmdbPageResponse>()
+                val resp = fetchTmdbPage(targetUrl)
                 resp?.results?.mapNotNull { parseTmdbItem(it) } ?: emptyList()
             }
         } else null
 
-        val context = HubContextHolder.pluginContext
         if (page == 1 && context != null) {
             UnifiedCatalogEngine.triggerBackgroundPrewarm(providers, context)
         }
@@ -116,13 +159,7 @@ class CloudStreamHub : MainAPI() {
 
     override suspend fun search(query: String, page: Int): SearchResponseList {
         val targetUrl = "${mainUrl}/search/multi?query=${query}&language=tr-TR&page=${page}&api_key=${tmdbApiKey}"
-        val tmdbResp = try {
-            app.get(targetUrl, headers = authHeaders).parsedSafe<TmdbPageResponse>()
-        } catch (e: CancellationException) {
-            throw e
-        } catch (_: Throwable) {
-            null
-        }
+        val tmdbResp = fetchTmdbPage(targetUrl)
         val tmdbItems = tmdbResp?.results?.mapNotNull { parseTmdbItem(it) } ?: emptyList()
         val totalPages = tmdbResp?.totalPages ?: 1
 
@@ -217,44 +254,89 @@ class CloudStreamHub : MainAPI() {
     }
 
     override suspend fun load(url: String): LoadResponse? {
+        val context = HubContextHolder.pluginContext
         if (url.startsWith(mainUrl)) {
-            val resp = app.get(url, headers = authHeaders).parsedSafe<TmdbDetailResponse>() ?: return null
-            return parseTmdbDetail(resp, url)
+            val resp = fetchTmdbDetail(url)
+            if (resp != null) {
+                return parseTmdbDetail(resp, url)
+            }
+            // Fallback to HubMediaRegistry if TMDB detail endpoint fails transiently
+            val tmdbId = Regex("/(?:movie|tv)/(\\d+)").find(url)?.groupValues?.get(1)?.toIntOrNull()
+            val isMovie = url.contains("/movie/")
+            val fallbackMedia = (if (tmdbId != null) HubMediaRegistry.findByTmdb(tmdbId, isMovie, context) else null)
+                ?: HubMediaRegistry.getByUrl(url, context)
+            if (fallbackMedia != null) {
+                val provUrls = fallbackMedia.providerReferences
+                    .filter { it.providerName != "TMDB" }
+                    .associate { it.providerName to it.url }
+                if (fallbackMedia.isMovie) {
+                    val payload = AggregatorLinkPayload(
+                        title = fallbackMedia.title,
+                        year = fallbackMedia.year,
+                        isMovie = true,
+                        tmdbId = fallbackMedia.tmdbId,
+                        imdbId = fallbackMedia.imdbId,
+                        originalTitle = fallbackMedia.originalTitle,
+                        canonicalId = fallbackMedia.id,
+                        providerUrls = provUrls
+                    ).toUrlData()
+                    return newMovieLoadResponse(fallbackMedia.title, url, fallbackMedia.tvType, payload) {
+                        this.posterUrl = fallbackMedia.posterUrl
+                        this.backgroundPosterUrl = fallbackMedia.backdropUrl
+                        this.plot = fallbackMedia.plot
+                        this.year = fallbackMedia.year
+                        this.score = Score.from10(fallbackMedia.score)
+                    }
+                }
+            }
+            return null
         }
 
-        val context = HubContextHolder.pluginContext
         val canonicalMedia = HubMediaRegistry.getByUrl(url, context)
         val providers = CloudStreamProviderRegistryAdapter.getRegisteredProviders(excludeName = this@CloudStreamHub.name)
-        val matchedProvider = providers.firstOrNull { p -> url.contains(p.mainUrl) }
+        val matchedProvider = CloudStreamProviderRegistryAdapter.findProviderForUrl(url, providers)
+            ?: canonicalMedia?.providerReferences?.firstNotNullOfOrNull { ref ->
+                providers.firstOrNull { it.name.equals(ref.providerName, ignoreCase = true) }
+            }
+
         if (matchedProvider != null) {
             val baseLoad = matchedProvider.load(url) ?: return null
-            if (canonicalMedia != null && canonicalMedia.providerReferences.isNotEmpty()) {
-                val provUrls = canonicalMedia.providerReferences.associate { it.providerName to it.url }
-                if (baseLoad is MovieLoadResponse) {
+            val provUrls = buildMap {
+                canonicalMedia?.providerReferences
+                    ?.filter { it.providerName != "TMDB" }
+                    ?.forEach { put(it.providerName, it.url) }
+                put(matchedProvider.name, url)
+            }
+            val effectiveYear = baseLoad.year ?: canonicalMedia?.year
+            val effectiveCanonicalId = canonicalMedia?.id
+
+            when (baseLoad) {
+                is MovieLoadResponse -> {
                     val payload = AggregatorLinkPayload(
                         title = baseLoad.name,
-                        year = baseLoad.year ?: canonicalMedia.year,
+                        year = effectiveYear,
                         isMovie = true,
-                        canonicalId = canonicalMedia.id,
+                        canonicalId = effectiveCanonicalId,
                         providerUrls = provUrls
                     ).toUrlData()
                     return newMovieLoadResponse(baseLoad.name, url, baseLoad.type, payload) {
-                        this.posterUrl = baseLoad.posterUrl ?: canonicalMedia.posterUrl
+                        this.posterUrl = baseLoad.posterUrl ?: canonicalMedia?.posterUrl
                         this.backgroundPosterUrl = baseLoad.backgroundPosterUrl
                         this.plot = baseLoad.plot
-                        this.year = baseLoad.year ?: canonicalMedia.year
+                        this.year = effectiveYear
                         this.tags = baseLoad.tags
                         this.score = baseLoad.score
                     }
-                } else if (baseLoad is TvSeriesLoadResponse) {
+                }
+                is TvSeriesLoadResponse -> {
                     val wrappedEpisodes = baseLoad.episodes.map { ep ->
                         val epPayload = AggregatorLinkPayload(
                             title = baseLoad.name,
-                            year = baseLoad.year ?: canonicalMedia.year,
+                            year = effectiveYear,
                             isMovie = false,
                             season = ep.season ?: 1,
                             episode = ep.episode ?: 1,
-                            canonicalId = canonicalMedia.id,
+                            canonicalId = effectiveCanonicalId,
                             providerUrls = provUrls
                         ).toUrlData()
                         newEpisode(epPayload) {
@@ -267,16 +349,46 @@ class CloudStreamHub : MainAPI() {
                         }
                     }
                     return newTvSeriesLoadResponse(baseLoad.name, url, baseLoad.type, wrappedEpisodes) {
-                        this.posterUrl = baseLoad.posterUrl ?: canonicalMedia.posterUrl
+                        this.posterUrl = baseLoad.posterUrl ?: canonicalMedia?.posterUrl
                         this.backgroundPosterUrl = baseLoad.backgroundPosterUrl
                         this.plot = baseLoad.plot
-                        this.year = baseLoad.year ?: canonicalMedia.year
+                        this.year = effectiveYear
                         this.tags = baseLoad.tags
                         this.score = baseLoad.score
                     }
                 }
+                is AnimeLoadResponse -> {
+                    val allRawEpisodes = baseLoad.episodes.values.flatten()
+                    val wrappedEpisodes = allRawEpisodes.map { ep ->
+                        val epPayload = AggregatorLinkPayload(
+                            title = baseLoad.name,
+                            year = effectiveYear,
+                            isMovie = false,
+                            season = ep.season ?: 1,
+                            episode = ep.episode ?: 1,
+                            canonicalId = effectiveCanonicalId,
+                            providerUrls = provUrls
+                        ).toUrlData()
+                        newEpisode(epPayload) {
+                            this.name = ep.name
+                            this.season = ep.season
+                            this.episode = ep.episode
+                            this.posterUrl = ep.posterUrl
+                            this.description = ep.description
+                            this.data = epPayload
+                        }
+                    }
+                    return newTvSeriesLoadResponse(baseLoad.name, url, baseLoad.type, wrappedEpisodes) {
+                        this.posterUrl = baseLoad.posterUrl ?: canonicalMedia?.posterUrl
+                        this.backgroundPosterUrl = baseLoad.backgroundPosterUrl
+                        this.plot = baseLoad.plot
+                        this.year = effectiveYear
+                        this.tags = baseLoad.tags
+                        this.score = baseLoad.score
+                    }
+                }
+                else -> return baseLoad
             }
-            return baseLoad
         }
 
         return null
@@ -381,7 +493,15 @@ class CloudStreamHub : MainAPI() {
         subtitleCallback: (SubtitleFile) -> Unit,
         callback: (ExtractorLink) -> Unit
     ): Boolean {
-        val payload = AggregatorLinkPayload.fromUrlData(data) ?: return false
+        val payload = AggregatorLinkPayload.fromUrlData(data) ?: run {
+            val providers = CloudStreamProviderRegistryAdapter.getRegisteredProviders(excludeName = this@CloudStreamHub.name)
+            val directProvider = CloudStreamProviderRegistryAdapter.findProviderForUrl(data, providers)
+            return if (directProvider != null) {
+                directProvider.loadLinks(data, isCasting, subtitleCallback, callback)
+            } else {
+                false
+            }
+        }
         val torrentSourcesEnabled = com.cloudstream.tr.core.resolvers.DebridConfig.enableTorrentSources
         val debridEnabled = com.cloudstream.tr.core.resolvers.DebridConfig.isDebridEnabled
         val collector = HubLinkCollector(torrentSourcesEnabled, debridEnabled, callback, rankedDelivery = true)

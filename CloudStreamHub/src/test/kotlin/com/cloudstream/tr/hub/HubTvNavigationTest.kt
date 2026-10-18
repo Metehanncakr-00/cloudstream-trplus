@@ -61,4 +61,37 @@ class HubTvNavigationTest {
         assertTrue(UnifiedCategories.ALL.contains("Popüler İçerikler"))
         assertTrue(UnifiedCategories.ALL.contains("İzlemeye Devam Et"))
     }
+
+    @Test
+    fun testSpinnerStylePolicyProducesVisibleHighContrastTextInDarkAndLightModes() {
+        // v43 Stabilization Regression:
+        // Spinner selected value and dropdown items must have high-contrast text and non-blank labels in both Dark and Light themes
+        val darkPalette = HubSpinnerStylePolicy.paletteFor(isDark = true, accentHex = "#2196F3")
+        val lightPalette = HubSpinnerStylePolicy.paletteFor(isDark = false, accentHex = "#F57C00")
+
+        // Dark mode: white text (#FFFFFF) on dark container (#2C2C2E) and dark dropdown (#252528)
+        assertEquals("#FFFFFF", darkPalette.selectedTextHex)
+        assertEquals("#2C2C2E", darkPalette.containerBgHex)
+        assertEquals("#FFFFFF", darkPalette.dropdownTextHex)
+        assertEquals("#252528", darkPalette.dropdownBgHex)
+        assertTrue("Selected text color must never equal container background in dark mode", darkPalette.selectedTextHex != darkPalette.containerBgHex)
+        assertTrue("Dropdown text color must never equal dropdown background in dark mode", darkPalette.dropdownTextHex != darkPalette.dropdownBgHex)
+
+        // Light mode: near-black text (#111111) on light container (#EFEFF4) and white dropdown (#FFFFFF)
+        assertEquals("#111111", lightPalette.selectedTextHex)
+        assertEquals("#EFEFF4", lightPalette.containerBgHex)
+        assertEquals("#111111", lightPalette.dropdownTextHex)
+        assertEquals("#FFFFFF", lightPalette.dropdownBgHex)
+        assertTrue("Selected text color must never equal container background in light mode", lightPalette.selectedTextHex != lightPalette.containerBgHex)
+        assertTrue("Dropdown text color must never equal dropdown background in light mode", lightPalette.dropdownTextHex != lightPalette.dropdownBgHex)
+
+        // Formatted labels must be non-blank and include visual indicators for TV D-Pad users
+        val collapsed = HubSpinnerStylePolicy.formatCollapsedLabel("Dengeli (Varsayılan TV deneyimi)")
+        val dropdownSelected = HubSpinnerStylePolicy.formatDropdownLabel("Dengeli (Varsayılan TV deneyimi)", isSelected = true)
+        val dropdownUnselected = HubSpinnerStylePolicy.formatDropdownLabel("Hızlı (Düşük RAM / Erken sonuç)", isSelected = false)
+
+        assertTrue(collapsed.isNotBlank() && collapsed.contains("Dengeli"))
+        assertTrue(dropdownSelected.isNotBlank() && dropdownSelected.startsWith("✓"))
+        assertTrue(dropdownUnselected.isNotBlank() && dropdownUnselected.contains("Hızlı"))
+    }
 }
