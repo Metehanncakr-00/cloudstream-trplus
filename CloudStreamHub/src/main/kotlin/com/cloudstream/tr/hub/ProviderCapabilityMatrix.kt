@@ -15,24 +15,35 @@ object ProviderCapabilityMatrix {
 
     /**
      * Maps provider raw category names into canonical UnifiedCategories.
+     * Explicit category title keywords are evaluated first so multi-type providers
+     * never misclassify Dublaj/Altyazı/Film/Dizi rows into Belgesel or Anime.
      */
     fun mapCategoryNameToUnified(categoryName: String, providerTypes: Set<TvType>): String {
         val lower = categoryName.lowercase(Locale("tr", "TR"))
         return when {
             "yeşilçam" in lower || "yesilcam" in lower || "klasik türk" in lower -> UnifiedCategories.YESILCAM
             "nostalji" in lower || "eski dizi" in lower || "90lar" in lower || "80ler" in lower -> UnifiedCategories.NOSTALGIC_TURKISH_SERIES
-            "türk dizi" in lower || "yerli dizi" in lower -> UnifiedCategories.TURKISH_SERIES
-            "belgesel" in lower || TvType.Documentary in providerTypes -> UnifiedCategories.DOCUMENTARIES
-            "anime" in lower || TvType.Anime in providerTypes || TvType.AnimeMovie in providerTypes -> UnifiedCategories.ANIME
-            "çizgi dizi" in lower || "animasyon dizi" in lower -> UnifiedCategories.CARTOON_SERIES
-            "çizgi" in lower || "çocuk" in lower || TvType.Cartoon in providerTypes -> UnifiedCategories.CARTOONS
-            "animasyon" in lower -> UnifiedCategories.ANIMATION_MOVIES
             "dublaj" in lower -> UnifiedCategories.TR_DUB
             "altyazı" in lower || "altyazi" in lower -> UnifiedCategories.TR_SUB
-            "yeni" in lower || "vizyon" in lower || "son eklenen" in lower || "güncel" in lower -> UnifiedCategories.NEW_RELEASES
-            "popüler" in lower || "trend" in lower || "en çok" in lower || "hit" in lower -> UnifiedCategories.POPULAR
-            "dizi" in lower || TvType.TvSeries in providerTypes || TvType.AsianDrama in providerTypes -> UnifiedCategories.SERIES
-            "film" in lower || "sinema" in lower || TvType.Movie in providerTypes -> UnifiedCategories.MOVIES
+            "türk dizi" in lower || "yerli dizi" in lower -> UnifiedCategories.TURKISH_SERIES
+            "belgesel" in lower -> UnifiedCategories.DOCUMENTARIES
+            "anime" in lower -> UnifiedCategories.ANIME
+            "çizgi dizi" in lower || "animasyon dizi" in lower -> UnifiedCategories.CARTOON_SERIES
+            "çizgi" in lower || "çocuk" in lower || "cocuk" in lower -> UnifiedCategories.CARTOONS
+            "animasyon" in lower -> UnifiedCategories.ANIMATION_MOVIES
+            "yeni" in lower || "vizyon" in lower || "son eklenen" in lower || "güncel" in lower || "guncel" in lower -> UnifiedCategories.NEW_RELEASES
+            "popüler" in lower || "populer" in lower || "trend" in lower || "en çok" in lower || "en cok" in lower || "hit" in lower || "imdb" in lower -> UnifiedCategories.POPULAR
+            "dizi" in lower || "sezon" in lower || "bölüm" in lower || "bolum" in lower -> UnifiedCategories.SERIES
+            "film" in lower || "sinema" in lower || "movie" in lower -> UnifiedCategories.MOVIES
+            // Fallback to provider supportedTypes only when category name has no specific keyword
+            TvType.Documentary in providerTypes && providerTypes.size == 1 -> UnifiedCategories.DOCUMENTARIES
+            (TvType.Anime in providerTypes || TvType.AnimeMovie in providerTypes) && TvType.Movie !in providerTypes && TvType.TvSeries !in providerTypes -> UnifiedCategories.ANIME
+            TvType.Cartoon in providerTypes && TvType.Movie !in providerTypes && TvType.TvSeries !in providerTypes -> UnifiedCategories.CARTOONS
+            TvType.TvSeries in providerTypes || TvType.AsianDrama in providerTypes -> UnifiedCategories.SERIES
+            TvType.Movie in providerTypes -> UnifiedCategories.MOVIES
+            TvType.Documentary in providerTypes -> UnifiedCategories.DOCUMENTARIES
+            TvType.Anime in providerTypes || TvType.AnimeMovie in providerTypes -> UnifiedCategories.ANIME
+            TvType.Cartoon in providerTypes -> UnifiedCategories.CARTOONS
             else -> UnifiedCategories.ALL_CONTENT
         }
     }
@@ -144,9 +155,11 @@ object ProviderCapabilityMatrix {
                     matches.add(provider to cat)
                 }
             } else {
-                // Secondary match based on supported types (select primary category to prevent fan-out explosion)
+                // Secondary match based on supported types (select primary category to prevent fan-out explosion).
+                // Note: TR_DUB and TR_SUB are intentionally excluded here so language categories are NEVER fabricated
+                // from generic untagged provider categories.
                 val typeMatch = when (category) {
-                    UnifiedCategories.MOVIES, UnifiedCategories.TR_DUB, UnifiedCategories.TR_SUB -> TvType.Movie in cap.supportedTypes
+                    UnifiedCategories.MOVIES -> TvType.Movie in cap.supportedTypes
                     UnifiedCategories.SERIES, UnifiedCategories.TURKISH_SERIES -> TvType.TvSeries in cap.supportedTypes || TvType.AsianDrama in cap.supportedTypes
                     UnifiedCategories.ANIME -> TvType.Anime in cap.supportedTypes || TvType.AnimeMovie in cap.supportedTypes
                     UnifiedCategories.CARTOONS, UnifiedCategories.CARTOON_SERIES, UnifiedCategories.ANIMATION_MOVIES ->

@@ -90,6 +90,7 @@ object UnifiedCatalogEngine {
         tmdbFetch: (suspend () -> List<SearchResponse>)?,
         context: Context?
     ): Pair<List<SearchResponse>, Boolean> {
+        val startedNs = System.nanoTime()
         val providerTargets = ProviderCapabilityMatrix.getProvidersForCategory(categoryName, allProviders)
 
         // 1. Check TTL cache (memory + persistent disk)
@@ -123,16 +124,35 @@ object UnifiedCatalogEngine {
                         combined.addAll(allUnifiedItems)
                         combined.addAll(crawledBatches)
                         val remerged = HubSingleCardMerger.mergeCandidates(combined)
-                        return HubCatalogCache.putUnified(
+                        val updated = HubCatalogCache.putUnified(
                             category = categoryName,
                             page = 1,
                             items = remerged,
                             hasNext = unifiedLastHasNext || crawledHasNext,
                             context = context
                         )
+                        val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+                        HubCatalogDiagnostics.record(
+                            category = categoryName,
+                            source = "HubCatalogCache",
+                            stage = "CACHE_HIT_EXPANDED",
+                            status = "OK",
+                            itemCount = updated.first.size,
+                            elapsedMs = elapsedMs
+                        )
+                        return updated
                     }
                 }
             }
+            val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+            HubCatalogDiagnostics.record(
+                category = categoryName,
+                source = "HubCatalogCache",
+                stage = "CACHE_HIT",
+                status = "OK",
+                itemCount = cached.first.size,
+                elapsedMs = elapsedMs
+            )
             return cached
         }
 
@@ -177,100 +197,183 @@ object UnifiedCatalogEngine {
         // Deduplicate live network requests so a single provider is not scraped multiple times in one category call
         val distinctUncachedTargets = uncachedTargets.distinctBy { it.first.name }
 
-        // When TMDB is present on homepage rows in FAST or BALANCED mode, bound live provider scrapes per row
-        // so opening 16 homepage rows on Android TV never triggers hundreds of simultaneous HTML scrapes.
-        // When tmdbFetch == null or in COMPREHENSIVE mode, query all matching providers.
-        val primaryLiveTargets = if (tmdbFetch != null && settings.perfMode != HubSettingsManager.PERF_MODE_COMPREHENSIVE) {
-            val maxLivePerRow = if (settings.perfMode == HubSettingsManager.PERF_MODE_FAST) 3 else 5
-            distinctUncachedTargets.take(maxLivePerRow)
-        } else {
-            distinctUncachedTargets
-        }
-
-        suspend fun fetchProviderTarget(provider: MainAPI, categoryInfo: ProviderCategoryInfo): List<SearchResponse> {
+        suspend fun fetchProviderTarget(
+            provider: MainAPI,
+            categoryInfo: ProviderCategoryInfo,
+            budgetMs: Long = fetchTimeoutMs
+        ): List<SearchResponse> {
             val cursorKey = categoryInfo.categoryUrl.ifBlank { categoryInfo.categoryName }
-            return semaphore.withPermit {
-                try {
-                    withTimeoutOrNull(fetchTimeoutMs) {
-                        val req = MainPageRequest(
-                            name = categoryInfo.categoryName,
-                            data = categoryInfo.categoryUrl,
-                            horizontalImages = false
-                        )
-                        val resp = provider.getMainPage(upstreamPage, req)
-                        val list = resp?.items?.flatMap { it.list } ?: emptyList()
-                        val provHasNext = resp?.hasNext == true
-                        if (provHasNext) hasMorePages = true
-
-                        if (list.isNotEmpty()) {
-                            HubCatalogCache.putProviderCatalog(
-                                providerName = provider.name,
-                                categoryKey = cursorKey,
-                                page = upstreamPage,
-                                items = list,
-                                hasNext = provHasNext,
-                                context = context
+            val provStartNs = System.nanoTime()
+            return try {
+                // Two-tier timeout:
+                // 1. Outer bound (budgetMs * 4) prevents unbounded semaphore queue starvation.
+                // 2. Inner bound (budgetMs) inside semaphore.withPermit ensures each provider gets its full execution budget once scheduled and releases the permit promptly on timeout.
+                val outcome = withTimeoutOrNull(budgetMs * 4) {
+                    semaphore.withPermit {
+                        withTimeoutOrNull(budgetMs) {
+                            val req = MainPageRequest(
+                                name = categoryInfo.categoryName,
+                                data = categoryInfo.categoryUrl,
+                                horizontalImages = false
                             )
-                            val currentCursor = HubCatalogCache.getCrawlerCursor(context, provider.name, cursorKey)
-                            if (currentCursor == upstreamPage) {
-                                if (!provHasNext) {
-                                    HubCatalogCache.setCrawlerFinished(context, provider.name, cursorKey, true)
-                                } else {
-                                    HubCatalogCache.saveCrawlerCursor(context, provider.name, cursorKey, upstreamPage + 1)
+                            val resp = provider.getMainPage(upstreamPage, req)
+                            val list = resp?.items?.flatMap { it.list } ?: emptyList()
+                            val provHasNext = resp?.hasNext == true
+                            if (provHasNext) hasMorePages = true
+
+                            if (list.isNotEmpty()) {
+                                HubCatalogCache.putProviderCatalog(
+                                    providerName = provider.name,
+                                    categoryKey = cursorKey,
+                                    page = upstreamPage,
+                                    items = list,
+                                    hasNext = provHasNext,
+                                    context = context
+                                )
+                                val currentCursor = HubCatalogCache.getCrawlerCursor(context, provider.name, cursorKey)
+                                if (currentCursor == upstreamPage) {
+                                    if (!provHasNext) {
+                                        HubCatalogCache.setCrawlerFinished(context, provider.name, cursorKey, true)
+                                    } else {
+                                        HubCatalogCache.saveCrawlerCursor(context, provider.name, cursorKey, upstreamPage + 1)
+                                    }
                                 }
                             }
+                            list
                         }
-                        list
-                    } ?: emptyList()
-                } catch (e: CancellationException) {
-                    throw e
-                } catch (e: Throwable) {
-                    DiagnosticLogger.log(
-                        provider = provider.name,
-                        stage = DiagnosticStage.HOMEPAGE,
-                        category = DiagnosticCategory.SOURCE_DISCOVERY,
-                        message = "Provider catalog fetch failed for category '$categoryName': ${e.message}"
+                    }
+                }
+                val provElapsedMs = (System.nanoTime() - provStartNs) / 1_000_000
+                if (outcome == null) {
+                    HubCatalogDiagnostics.record(
+                        category = categoryName,
+                        source = provider.name,
+                        stage = "PROVIDER_FETCH",
+                        status = "TIMEOUT",
+                        itemCount = 0,
+                        elapsedMs = provElapsedMs
                     )
                     emptyList()
+                } else {
+                    HubCatalogDiagnostics.record(
+                        category = categoryName,
+                        source = provider.name,
+                        stage = "PROVIDER_FETCH",
+                        status = if (outcome.isNotEmpty()) "OK" else "EMPTY",
+                        itemCount = outcome.size,
+                        elapsedMs = provElapsedMs
+                    )
+                    outcome
                 }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Throwable) {
+                val provElapsedMs = (System.nanoTime() - provStartNs) / 1_000_000
+                HubCatalogDiagnostics.record(
+                    category = categoryName,
+                    source = provider.name,
+                    stage = "PROVIDER_FETCH",
+                    status = "ERROR:${e.javaClass.simpleName}",
+                    itemCount = 0,
+                    elapsedMs = provElapsedMs
+                )
+                DiagnosticLogger.log(
+                    provider = provider.name,
+                    stage = DiagnosticStage.HOMEPAGE,
+                    category = DiagnosticCategory.SOURCE_DISCOVERY,
+                    message = "Provider catalog fetch failed for category '$categoryName': ${e.message}"
+                )
+                emptyList()
             }
         }
 
         coroutineScope {
             // 2. Fetch primary TMDB items immediately (never blocked behind provider HTML scraping semaphore)
-            val tmdbDeferred = async {
-                if (tmdbFetch != null) {
-                    try {
-                        withTimeoutOrNull(fetchTimeoutMs) { tmdbFetch() } ?: emptyList()
-                    } catch (e: CancellationException) {
-                        throw e
-                    } catch (_: Throwable) {
+            val tmdbItems = if (tmdbFetch != null) {
+                val tmdbStartNs = System.nanoTime()
+                try {
+                    val res = withTimeoutOrNull(fetchTimeoutMs) { tmdbFetch() }
+                    val tmdbElapsedMs = (System.nanoTime() - tmdbStartNs) / 1_000_000
+                    if (res == null) {
+                        HubCatalogDiagnostics.record(
+                            category = categoryName,
+                            source = "TMDB",
+                            stage = "TMDB_FETCH",
+                            status = "TIMEOUT",
+                            itemCount = 0,
+                            elapsedMs = tmdbElapsedMs
+                        )
                         emptyList()
+                    } else {
+                        res
                     }
-                } else emptyList()
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Throwable) {
+                    val tmdbElapsedMs = (System.nanoTime() - tmdbStartNs) / 1_000_000
+                    HubCatalogDiagnostics.record(
+                        category = categoryName,
+                        source = "TMDB",
+                        stage = "TMDB_FETCH",
+                        status = "ERROR:${e.javaClass.simpleName}",
+                        itemCount = 0,
+                        elapsedMs = tmdbElapsedMs
+                    )
+                    emptyList()
+                }
+            } else {
+                emptyList()
             }
 
-            // 3. Fetch bounded live provider targets
-            val providerDeferreds = primaryLiveTargets.map { (provider, categoryInfo) ->
-                async { fetchProviderTarget(provider, categoryInfo) }
+            if (tmdbItems.isNotEmpty()) {
+                collected.addAll(tmdbItems)
             }
 
-            val tmdbItems = tmdbDeferred.await()
-            val providerBatches = providerDeferreds.awaitAll()
+            // 3. Determine whether live provider HTML scrapes are needed for this row:
+            // - Always when tmdbFetch == null (e.g. Türkçe Dublaj, Türkçe Altyazı, or provider-only catalog rows)
+            // - Always when TMDB returned empty (automatic provider catalog fallback when TMDB fails/times out!)
+            // - Also when in COMPREHENSIVE mode or when a small provider list (<= 6) is passed for direct merging
+            val shouldQueryLiveProviders = tmdbFetch == null ||
+                tmdbItems.isEmpty() ||
+                settings.perfMode == HubSettingsManager.PERF_MODE_COMPREHENSIVE ||
+                allProviders.size <= 6
 
-            collected.addAll(tmdbItems)
-            for (batch in providerBatches) {
-                collected.addAll(batch)
-            }
+            if (shouldQueryLiveProviders && distinctUncachedTargets.isNotEmpty()) {
+                if (tmdbFetch != null && tmdbItems.isEmpty()) {
+                    HubCatalogDiagnostics.record(
+                        category = categoryName,
+                        source = "UnifiedCatalog",
+                        stage = "FALLBACK_TO_PROVIDERS",
+                        status = "TMDB_EMPTY_FALLBACK",
+                        itemCount = distinctUncachedTargets.size,
+                        elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+                    )
+                }
 
-            // Fallback: if TMDB + primary live targets both returned 0 items and there are remaining providers, try them
-            if (collected.isEmpty() && distinctUncachedTargets.size > primaryLiveTargets.size) {
-                val fallbackTargets = distinctUncachedTargets.drop(primaryLiveTargets.size).take(6)
-                val fallbackBatches = fallbackTargets.map { (provider, categoryInfo) ->
-                    async { fetchProviderTarget(provider, categoryInfo) }
+                val liveTargets = if (tmdbFetch != null && settings.perfMode != HubSettingsManager.PERF_MODE_COMPREHENSIVE) {
+                    val maxLivePerRow = if (settings.perfMode == HubSettingsManager.PERF_MODE_FAST) 3 else 5
+                    distinctUncachedTargets.take(maxLivePerRow)
+                } else {
+                    distinctUncachedTargets
+                }
+
+                val providerBatches = liveTargets.map { (provider, categoryInfo) ->
+                    async { fetchProviderTarget(provider, categoryInfo, fetchTimeoutMs) }
                 }.awaitAll()
-                for (batch in fallbackBatches) {
+
+                for (batch in providerBatches) {
                     collected.addAll(batch)
+                }
+
+                // Secondary fallback if the first wave of fallback providers all failed/returned empty
+                if (collected.isEmpty() && distinctUncachedTargets.size > liveTargets.size) {
+                    val fallbackTargets = distinctUncachedTargets.drop(liveTargets.size).take(6)
+                    val fallbackBatches = fallbackTargets.map { (provider, categoryInfo) ->
+                        async { fetchProviderTarget(provider, categoryInfo, fetchTimeoutMs) }
+                    }.awaitAll()
+                    for (batch in fallbackBatches) {
+                        collected.addAll(batch)
+                    }
                 }
             }
         }
@@ -288,9 +391,27 @@ object UnifiedCatalogEngine {
         if (collected.isEmpty()) {
             HubCatalogCache.getUnifiedStale(categoryName, page, context)?.let { stale ->
                 if (stale.first.isNotEmpty()) {
+                    val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+                    HubCatalogDiagnostics.record(
+                        category = categoryName,
+                        source = "HubCatalogCache",
+                        stage = "STALE_FALLBACK",
+                        status = "OK_STALE",
+                        itemCount = stale.first.size,
+                        elapsedMs = elapsedMs
+                    )
                     return stale
                 }
             }
+            val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+            HubCatalogDiagnostics.record(
+                category = categoryName,
+                source = "UnifiedCatalog",
+                stage = "CATEGORY_EMPTY",
+                status = "ALL_SOURCES_EMPTY",
+                itemCount = 0,
+                elapsedMs = elapsedMs
+            )
             return emptyList<SearchResponse>() to false
         }
 
@@ -298,7 +419,17 @@ object UnifiedCatalogEngine {
         val merged = HubSingleCardMerger.mergeCandidates(collected)
 
         // 6. Store in unified TTL cache (memory + persistent disk) with zero-loss overflow slicing
-        return HubCatalogCache.putUnified(categoryName, page, merged, hasMorePages, context)
+        val finalSlice = HubCatalogCache.putUnified(categoryName, page, merged, hasMorePages, context)
+        val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+        HubCatalogDiagnostics.record(
+            category = categoryName,
+            source = "UnifiedCatalog",
+            stage = "MERGE_COMPLETE",
+            status = "OK",
+            itemCount = finalSlice.first.size,
+            elapsedMs = elapsedMs
+        )
+        return finalSlice
     }
 
     /**

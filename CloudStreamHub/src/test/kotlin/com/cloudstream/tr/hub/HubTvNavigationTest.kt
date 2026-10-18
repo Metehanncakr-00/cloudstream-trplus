@@ -94,4 +94,54 @@ class HubTvNavigationTest {
         assertTrue(dropdownSelected.isNotBlank() && dropdownSelected.startsWith("✓"))
         assertTrue(dropdownUnselected.isNotBlank() && dropdownUnselected.contains("Hızlı"))
     }
+
+    @Test
+    fun testCheckBoxStylePolicyProducesDistinctFocusedAndUnfocusedVisualStatesAndCheckedBadges() {
+        // v44 Android TV Focus Fix Regression:
+        // CheckBox style/focus policy must produce clearly distinct visual states when focused vs unfocused,
+        // and clearly distinguishable checked vs unchecked indicators in both Dark and Light themes.
+        val darkCb = HubCheckBoxStylePolicy.paletteFor(isDark = true, accentHex = "#2196F3")
+        val lightCb = HubCheckBoxStylePolicy.paletteFor(isDark = false, accentHex = "#F57C00")
+
+        // 1. Focused vs unfocused container background and border must differ in both themes
+        assertTrue("Dark mode focused bg must differ from normal bg", darkCb.focusedBgHex != darkCb.normalBgHex)
+        assertTrue("Dark mode focused border must differ from normal border", darkCb.focusedBorderHex != darkCb.normalBorderHex)
+        assertEquals("#FFFFFF", darkCb.focusedBorderHex)
+        assertEquals("#FFFFFF", darkCb.focusedTextHex)
+        assertTrue("Dark mode normal text must contrast with normal bg", darkCb.normalTextHex != darkCb.normalBgHex)
+
+        assertTrue("Light mode focused bg must differ from normal bg", lightCb.focusedBgHex != lightCb.normalBgHex)
+        assertTrue("Light mode focused border must differ from normal border", lightCb.focusedBorderHex != lightCb.normalBorderHex)
+        assertEquals("#111111", lightCb.focusedBorderHex)
+        assertEquals("#FFFFFF", lightCb.focusedTextHex)
+        assertTrue("Light mode normal text must contrast with normal bg", lightCb.normalTextHex != lightCb.normalBgHex)
+
+        // 2. Checked vs unchecked box tint must differ when unfocused, and focused box tint must contrast with focused bg
+        assertTrue("Dark checked tint must differ from unchecked tint", darkCb.checkedBoxTintHex != darkCb.uncheckedBoxTintHex)
+        assertTrue("Light checked tint must differ from unchecked tint", lightCb.checkedBoxTintHex != lightCb.uncheckedBoxTintHex)
+        assertTrue("Focused box tint must contrast with focused background", darkCb.focusedBoxTintHex != darkCb.focusedBgHex)
+
+        // 3. Formatted labels must distinguish (checked, focused), (checked, unfocused), (unchecked, focused), (unchecked, unfocused)
+        val raw = "FilmMakinesi (Movie, TvSeries)"
+        val checkedUnfocused = HubCheckBoxStylePolicy.formatStateLabel(raw, isChecked = true, hasFocus = false)
+        val checkedFocused = HubCheckBoxStylePolicy.formatStateLabel(raw, isChecked = true, hasFocus = true)
+        val uncheckedUnfocused = HubCheckBoxStylePolicy.formatStateLabel(raw, isChecked = false, hasFocus = false)
+        val uncheckedFocused = HubCheckBoxStylePolicy.formatStateLabel(raw, isChecked = false, hasFocus = true)
+
+        assertTrue(checkedUnfocused.startsWith("[✓]"))
+        assertTrue(checkedFocused.startsWith("▶ [✓]"))
+        assertTrue(uncheckedUnfocused.startsWith("[ ]"))
+        assertTrue(uncheckedFocused.startsWith("▶ [ ]"))
+        assertTrue(checkedFocused != checkedUnfocused)
+        assertTrue(uncheckedFocused != uncheckedUnfocused)
+        assertTrue(checkedFocused != uncheckedFocused)
+        assertTrue(checkedUnfocused != uncheckedUnfocused)
+
+        // Idempotent prefix stripping so repeated focus/check toggles never duplicate prefixes
+        assertEquals(
+            checkedFocused,
+            HubCheckBoxStylePolicy.formatStateLabel(checkedUnfocused, isChecked = true, hasFocus = true)
+        )
+    }
 }
+

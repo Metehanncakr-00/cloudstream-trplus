@@ -1,9 +1,13 @@
 package com.cloudstream.tr.hub
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import java.net.URLDecoder
 import java.net.URLEncoder
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class TmdbPageResponse(
     @JsonProperty("page") val page: Int? = null,
     @JsonProperty("results") val results: List<TmdbItem>? = null,
@@ -11,6 +15,7 @@ data class TmdbPageResponse(
     @JsonProperty("total_results") val totalResults: Int? = null
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class TmdbItem(
     @JsonProperty("id") val id: Int? = null,
     @JsonProperty("title") val title: String? = null,
@@ -27,11 +32,13 @@ data class TmdbItem(
     @JsonProperty("genre_ids") val genreIds: List<Int>? = null
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class TmdbGenre(
     @JsonProperty("id") val id: Int? = null,
     @JsonProperty("name") val name: String? = null
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class TmdbCast(
     @JsonProperty("id") val id: Int? = null,
     @JsonProperty("name") val name: String? = null,
@@ -39,10 +46,12 @@ data class TmdbCast(
     @JsonProperty("character") val character: String? = null
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class TmdbCredits(
     @JsonProperty("cast") val cast: List<TmdbCast>? = null
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class TmdbVideo(
     @JsonProperty("id") val id: String? = null,
     @JsonProperty("key") val key: String? = null,
@@ -50,10 +59,12 @@ data class TmdbVideo(
     @JsonProperty("type") val type: String? = null
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class TmdbVideos(
     @JsonProperty("results") val results: List<TmdbVideo>? = null
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class TmdbSeason(
     @JsonProperty("id") val id: Int? = null,
     @JsonProperty("season_number") val seasonNumber: Int? = null,
@@ -62,10 +73,12 @@ data class TmdbSeason(
     @JsonProperty("poster_path") val posterPath: String? = null
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class TmdbExternalIds(
     @JsonProperty("imdb_id") val imdbId: String? = null
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class TmdbDetailResponse(
     @JsonProperty("id") val id: Int? = null,
     @JsonProperty("title") val title: String? = null,
@@ -84,6 +97,134 @@ data class TmdbDetailResponse(
     @JsonProperty("seasons") val seasons: List<TmdbSeason>? = null,
     @JsonProperty("external_ids") val externalIds: TmdbExternalIds? = null
 )
+
+/**
+ * Deterministic, reflection-free AST parser for TMDB responses.
+ * Bypasses Kotlin metadata reflection (which can fail when D8 rewrites Kotlin 2.3 metadata in .cs3 dex files).
+ */
+object TmdbJsonParser {
+    private val treeMapper = ObjectMapper()
+
+    private fun JsonNode?.optString(field: String): String? {
+        val node = this?.get(field) ?: return null
+        if (node.isNull || node.isMissingNode) return null
+        return node.asText(null)?.takeIf { it.isNotEmpty() && it != "null" }
+    }
+
+    private fun JsonNode?.optInt(field: String): Int? {
+        val node = this?.get(field) ?: return null
+        if (node.isNull || node.isMissingNode || !node.isNumber) return null
+        return node.asInt()
+    }
+
+    private fun JsonNode?.optDouble(field: String): Double? {
+        val node = this?.get(field) ?: return null
+        if (node.isNull || node.isMissingNode || !node.isNumber) return null
+        return node.asDouble()
+    }
+
+    fun parsePage(rawJson: String?): TmdbPageResponse? {
+        if (rawJson.isNullOrBlank()) return null
+        return try {
+            val root = treeMapper.readTree(rawJson) ?: return null
+            if (!root.isObject) return null
+            val resultsNode = root.get("results")
+            val items = if (resultsNode != null && resultsNode.isArray) {
+                resultsNode.mapNotNull { itemNode ->
+                    val id = itemNode.optInt("id") ?: return@mapNotNull null
+                    val genreIdsNode = itemNode.get("genre_ids")
+                    val genreIds = if (genreIdsNode != null && genreIdsNode.isArray) {
+                        genreIdsNode.mapNotNull { g -> if (g.isNumber) g.asInt() else null }
+                    } else null
+                    TmdbItem(
+                        id = id,
+                        title = itemNode.optString("title"),
+                        name = itemNode.optString("name"),
+                        originalTitle = itemNode.optString("original_title"),
+                        originalName = itemNode.optString("original_name"),
+                        overview = itemNode.optString("overview"),
+                        posterPath = itemNode.optString("poster_path"),
+                        backdropPath = itemNode.optString("backdrop_path"),
+                        mediaType = itemNode.optString("media_type"),
+                        releaseDate = itemNode.optString("release_date"),
+                        firstAirDate = itemNode.optString("first_air_date"),
+                        voteAverage = itemNode.optDouble("vote_average"),
+                        genreIds = genreIds
+                    )
+                }
+            } else null
+
+            if (items == null && root.optInt("page") == null) return null
+            TmdbPageResponse(
+                page = root.optInt("page") ?: 1,
+                results = items ?: emptyList(),
+                totalPages = root.optInt("total_pages") ?: 1,
+                totalResults = root.optInt("total_results") ?: (items?.size ?: 0)
+            )
+        } catch (_: Throwable) {
+            null
+        }
+    }
+
+    fun parseDetail(rawJson: String?): TmdbDetailResponse? {
+        if (rawJson.isNullOrBlank()) return null
+        return try {
+            val root = treeMapper.readTree(rawJson) ?: return null
+            val id = root.optInt("id") ?: return null
+            val genres = root.get("genres")?.takeIf { it.isArray }?.map { g ->
+                TmdbGenre(id = g.optInt("id"), name = g.optString("name"))
+            }
+            val cast = root.get("credits")?.get("cast")?.takeIf { it.isArray }?.map { c ->
+                TmdbCast(
+                    id = c.optInt("id"),
+                    name = c.optString("name"),
+                    profilePath = c.optString("profile_path"),
+                    character = c.optString("character")
+                )
+            }
+            val videos = root.get("videos")?.get("results")?.takeIf { it.isArray }?.map { v ->
+                TmdbVideo(
+                    id = v.optString("id"),
+                    key = v.optString("key"),
+                    site = v.optString("site"),
+                    type = v.optString("type")
+                )
+            }
+            val seasons = root.get("seasons")?.takeIf { it.isArray }?.map { s ->
+                TmdbSeason(
+                    id = s.optInt("id"),
+                    seasonNumber = s.optInt("season_number"),
+                    episodeCount = s.optInt("episode_count"),
+                    name = s.optString("name"),
+                    posterPath = s.optString("poster_path")
+                )
+            }
+            val imdbId = root.get("external_ids")?.optString("imdb_id") ?: root.optString("imdb_id")
+
+            TmdbDetailResponse(
+                id = id,
+                title = root.optString("title"),
+                name = root.optString("name"),
+                originalTitle = root.optString("original_title"),
+                originalName = root.optString("original_name"),
+                overview = root.optString("overview"),
+                posterPath = root.optString("poster_path"),
+                backdropPath = root.optString("backdrop_path"),
+                releaseDate = root.optString("release_date"),
+                firstAirDate = root.optString("first_air_date"),
+                voteAverage = root.optDouble("vote_average"),
+                genres = genres,
+                credits = if (cast != null) TmdbCredits(cast) else null,
+                videos = if (videos != null) TmdbVideos(videos) else null,
+                seasons = seasons,
+                externalIds = if (imdbId != null) TmdbExternalIds(imdbId) else null
+            )
+        } catch (_: Throwable) {
+            null
+        }
+    }
+}
+
 
 data class AggregatorLinkPayload(
     val title: String,

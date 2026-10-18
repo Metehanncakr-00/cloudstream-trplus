@@ -50,6 +50,82 @@ internal object HubPerformanceTelemetry {
     @Synchronized fun clear() = entries.clear()
 }
 
+/**
+ * Visible, secret-redacted catalog diagnostics for the Tanılama screen.
+ * Tracks category requests, source, stage, HTTP/parse status, item count, and duration.
+ * Never logs API keys, Bearer tokens, or user credentials.
+ */
+object HubCatalogDiagnostics {
+    data class Entry(
+        val category: String,
+        val source: String,
+        val stage: String,
+        val status: String,
+        val itemCount: Int,
+        val elapsedMs: Long
+    ) {
+        fun formatLine(): String =
+            "[$category] kaynak=$source aşama=$stage durum=$status öğe=$itemCount süre=${elapsedMs}ms"
+    }
+
+    private const val MAX_ENTRIES = 80
+    private val entries = ArrayDeque<Entry>()
+    private val latestByCategory = ConcurrentHashMap<String, Entry>()
+
+    fun sanitize(raw: String): String {
+        if (raw.isBlank()) return raw
+        return raw
+            .replace(Regex("(?i)(api_key|apikey|token|access_token|key)=[^&\\s\"']+"), "$1=[REDACTED]")
+            .replace(Regex("(?i)Bearer\\s+[A-Za-z0-9._\\-]+"), "Bearer [REDACTED]")
+            .replace(Regex("eyJ[A-Za-z0-9_\\-]+\\.[A-Za-z0-9_\\-]+\\.[A-Za-z0-9_\\-]+"), "[REDACTED_JWT]")
+            .replace("90ad3ec891e5923150283b99719d890f", "[REDACTED_TMDB_KEY]")
+    }
+
+    @Synchronized
+    fun record(
+        category: String,
+        source: String,
+        stage: String,
+        status: String,
+        itemCount: Int,
+        elapsedMs: Long
+    ) {
+        val entry = Entry(
+            category = sanitize(category).take(60),
+            source = sanitize(source).take(40),
+            stage = sanitize(stage).take(40),
+            status = sanitize(status).take(80),
+            itemCount = itemCount.coerceAtLeast(0),
+            elapsedMs = elapsedMs.coerceAtLeast(0L)
+        )
+        if (entries.size >= MAX_ENTRIES) {
+            entries.removeFirst()
+        }
+        entries.addLast(entry)
+        latestByCategory[entry.category] = entry
+    }
+
+    @Synchronized
+    fun entriesSnapshot(): List<Entry> = entries.toList()
+
+    fun latestForCategory(category: String): Entry? = latestByCategory[category]
+
+    @Synchronized
+    fun report(): String {
+        if (entries.isEmpty()) {
+            return "Henüz katalog isteği kaydedilmedi."
+        }
+        return entries.joinToString("\n") { it.formatLine() }
+    }
+
+    @Synchronized
+    fun clear() {
+        entries.clear()
+        latestByCategory.clear()
+    }
+}
+
+
 /** Adaptive source latency budgets, in-session only; all values clamped. */
 internal object HubAdaptiveTimeout {
     private data class Sample(var millis: Long, var failures: Int)

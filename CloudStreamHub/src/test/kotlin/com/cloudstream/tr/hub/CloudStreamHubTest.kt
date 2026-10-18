@@ -552,4 +552,103 @@ class CloudStreamHubTest {
         assertEquals(50, consumedLinks.size)
         assertTrue("50th valid link must reach consumer", consumedLinks.contains("https://cdn.example.com/valid-master.m3u8"))
     }
+
+    @Test
+    fun testTmdbJsonParserDeterministicallyParsesPageAndDetailWithoutReflection() = kotlinx.coroutines.test.runTest {
+        // v44 Regression: TmdbJsonParser must deterministically parse TMDB page and detail responses
+        // even when unknown fields are present, without relying on Kotlin metadata reflection.
+        val stream = javaClass.classLoader?.getResourceAsStream("tmdb_trending.json")
+        assertNotNull("tmdb_trending.json fixture missing", stream)
+        val json = stream!!.bufferedReader().use { it.readText() }
+
+        val pageResp = TmdbJsonParser.parsePage(json)
+        assertNotNull(pageResp)
+        assertEquals(2, pageResp?.results?.size)
+
+        val item1 = hub.parseTmdbItem(pageResp!!.results!![0]) as? MovieSearchResponse
+        assertNotNull(item1)
+        assertEquals("Geleceğe Dönüş", item1?.name)
+        assertEquals(1985, item1?.year)
+
+        val detailJson = """
+            {
+              "id": 105,
+              "title": "Geleceğe Dönüş",
+              "original_title": "Back to the Future",
+              "overview": "Marty McFly 1955 yılına gider.",
+              "poster_path": "/bttf.jpg",
+              "release_date": "1985-07-03",
+              "vote_average": 8.3,
+              "unknown_future_field": {"nested": true},
+              "genres": [{"id": 12, "name": "Macera"}],
+              "external_ids": {"imdb_id": "tt0088763"}
+            }
+        """.trimIndent()
+        val detailResp = TmdbJsonParser.parseDetail(detailJson)
+        assertNotNull(detailResp)
+        assertEquals(105, detailResp?.id)
+        assertEquals("tt0088763", detailResp?.externalIds?.imdbId)
+        val loadResp = hub.parseTmdbDetail(detailResp!!, "https://api.themoviedb.org/3/movie/105")
+        assertNotNull(loadResp)
+        assertEquals("Geleceğe Dönüş", loadResp?.name)
+    }
+
+    @Test
+    fun testTrDubAndTrSubHomePagesUseProviderCategoryUrisInsteadOfFakeTmdbUrls() {
+        // v44 Regression: Türkçe Dublaj and Türkçe Altyazı must NOT pull generic English TMDB discover lists.
+        val trDubRow = hub.mainPage.single { it.name == UnifiedCategories.TR_DUB }
+        val trSubRow = hub.mainPage.single { it.name == UnifiedCategories.TR_SUB }
+
+        assertEquals("hub://category/tr_dub", trDubRow.data)
+        assertEquals("hub://category/tr_sub", trSubRow.data)
+        assertTrue("TR_DUB must not point to TMDB", !trDubRow.data.contains("themoviedb.org"))
+        assertTrue("TR_SUB must not point to TMDB", !trSubRow.data.contains("themoviedb.org"))
+    }
+
+    @Test
+    fun testGetMainPageReturnsNonEmptyForVisibleCategoryAndEmptyForHiddenCategory() = kotlinx.coroutines.test.runTest {
+        // v44 Regression:
+        // 1. CloudStreamHub.getMainPage() returns non-empty results for a visible category (backed by unified cache/provider)
+        // 2. Hidden category requests return emptyList() and record HIDDEN_BY_USER in diagnostics
+        HubCatalogCache.clear()
+        HubCatalogDiagnostics.clear()
+
+        val seededMovie = hub.newMovieSearchResponse("Kış Uykusu", "https://prov.com/kis-uykusu", TvType.Movie) {
+            year = 2014
+        }
+        HubCatalogCache.putUnified(UnifiedCategories.MOVIES, 1, listOf(seededMovie), hasNext = true)
+
+        val visibleReq = com.lagradost.cloudstream3.MainPageRequest(
+            name = UnifiedCategories.MOVIES,
+            data = "hub://category/movies",
+            horizontalImages = false
+        )
+        val visibleResp = hub.getMainPage(1, visibleReq)
+        val visibleItems = visibleResp.items.flatMap { it.list }
+        assertEquals("Visible category must return non-empty catalog items", 1, visibleItems.size)
+        assertEquals("Kış Uykusu", visibleItems.first().name)
+
+        // Legacy v41 category label ("Popüler Filmler") must also resolve to canonical "Filmler"
+        val legacyReq = com.lagradost.cloudstream3.MainPageRequest(
+            name = "Popüler Filmler",
+            data = "hub://category/movies",
+            horizontalImages = false
+        )
+        val legacyResp = hub.getMainPage(1, legacyReq)
+        assertEquals("Legacy host category label must resolve and return catalog items", 1, legacyResp.items.flatMap { it.list }.size)
+
+        // Unknown/hidden category request must return empty and record diagnostics
+        val hiddenReq = com.lagradost.cloudstream3.MainPageRequest(
+            name = "Gizli Kategori",
+            data = "hub://category/hidden",
+            horizontalImages = false
+        )
+        val hiddenResp = hub.getMainPage(1, hiddenReq)
+        assertTrue("Hidden category request must return empty", hiddenResp.items.flatMap { it.list }.isEmpty())
+        assertTrue(
+            "Hidden category must record HIDDEN_BY_USER in diagnostics",
+            HubCatalogDiagnostics.report().contains("HIDDEN_BY_USER")
+        )
+    }
 }
+

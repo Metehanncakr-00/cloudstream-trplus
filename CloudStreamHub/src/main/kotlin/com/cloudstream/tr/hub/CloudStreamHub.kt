@@ -60,16 +60,69 @@ class CloudStreamHub : MainAPI() {
         "Accept" to "application/json"
     )
 
-    private suspend fun fetchTmdbPage(targetUrl: String): TmdbPageResponse? {
+    private suspend fun fetchTmdbPage(targetUrl: String, categoryLabel: String = "TMDB"): TmdbPageResponse? {
+        val startedNs = System.nanoTime()
         return try {
-            app.get(targetUrl, headers = jsonAcceptHeaders).parsedSafe<TmdbPageResponse>()
-                ?: app.get(targetUrl, headers = authHeaders).parsedSafe<TmdbPageResponse>()
+            val primaryResp = app.get(targetUrl, headers = authHeaders)
+            val primaryParsed = TmdbJsonParser.parsePage(primaryResp.text)
+                ?: primaryResp.parsedSafe<TmdbPageResponse>()
+            if (primaryParsed != null && !primaryParsed.results.isNullOrEmpty()) {
+                val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+                HubCatalogDiagnostics.record(
+                    category = categoryLabel,
+                    source = "TMDB",
+                    stage = "HTTP_JSON",
+                    status = "HTTP_${primaryResp.code}_OK",
+                    itemCount = primaryParsed.results.size,
+                    elapsedMs = elapsedMs
+                )
+                return primaryParsed
+            }
+
+            val fallbackResp = app.get(targetUrl, headers = jsonAcceptHeaders)
+            val fallbackParsed = TmdbJsonParser.parsePage(fallbackResp.text)
+                ?: fallbackResp.parsedSafe<TmdbPageResponse>()
+            val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+            val count = fallbackParsed?.results?.size ?: 0
+            HubCatalogDiagnostics.record(
+                category = categoryLabel,
+                source = "TMDB",
+                stage = "HTTP_JSON_FALLBACK",
+                status = if (count > 0) "HTTP_${fallbackResp.code}_OK" else "HTTP_${fallbackResp.code}_EMPTY",
+                itemCount = count,
+                elapsedMs = elapsedMs
+            )
+            fallbackParsed ?: primaryParsed
         } catch (e: CancellationException) {
             throw e
-        } catch (_: Throwable) {
+        } catch (firstErr: Throwable) {
             try {
-                app.get(targetUrl, headers = authHeaders).parsedSafe<TmdbPageResponse>()
-            } catch (_: Throwable) {
+                val retryResp = app.get(targetUrl, headers = jsonAcceptHeaders)
+                val retryParsed = TmdbJsonParser.parsePage(retryResp.text)
+                    ?: retryResp.parsedSafe<TmdbPageResponse>()
+                val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+                val count = retryParsed?.results?.size ?: 0
+                HubCatalogDiagnostics.record(
+                    category = categoryLabel,
+                    source = "TMDB",
+                    stage = "HTTP_RETRY",
+                    status = if (count > 0) "HTTP_${retryResp.code}_OK" else "HTTP_${retryResp.code}_EMPTY",
+                    itemCount = count,
+                    elapsedMs = elapsedMs
+                )
+                retryParsed
+            } catch (e: CancellationException) {
+                throw e
+            } catch (secondErr: Throwable) {
+                val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+                HubCatalogDiagnostics.record(
+                    category = categoryLabel,
+                    source = "TMDB",
+                    stage = "HTTP_REQUEST",
+                    status = "ERROR:${secondErr.javaClass.simpleName ?: firstErr.javaClass.simpleName}",
+                    itemCount = 0,
+                    elapsedMs = elapsedMs
+                )
                 null
             }
         }
@@ -77,19 +130,31 @@ class CloudStreamHub : MainAPI() {
 
     private suspend fun fetchTmdbDetail(targetUrl: String): TmdbDetailResponse? {
         return try {
-            app.get(targetUrl, headers = jsonAcceptHeaders).parsedSafe<TmdbDetailResponse>()
-                ?: app.get(targetUrl, headers = authHeaders).parsedSafe<TmdbDetailResponse>()
+            val primaryResp = app.get(targetUrl, headers = authHeaders)
+            TmdbJsonParser.parseDetail(primaryResp.text)
+                ?: primaryResp.parsedSafe<TmdbDetailResponse>()
+                ?: run {
+                    val fallbackResp = app.get(targetUrl, headers = jsonAcceptHeaders)
+                    TmdbJsonParser.parseDetail(fallbackResp.text)
+                        ?: fallbackResp.parsedSafe<TmdbDetailResponse>()
+                }
         } catch (e: CancellationException) {
             throw e
         } catch (_: Throwable) {
             try {
-                app.get(targetUrl, headers = authHeaders).parsedSafe<TmdbDetailResponse>()
+                val retryResp = app.get(targetUrl, headers = jsonAcceptHeaders)
+                TmdbJsonParser.parseDetail(retryResp.text)
+                    ?: retryResp.parsedSafe<TmdbDetailResponse>()
+            } catch (e: CancellationException) {
+                throw e
             } catch (_: Throwable) {
                 null
             }
         }
     }
 
+    // Truthfulness invariant: TR_DUB and TR_SUB use hub://category/... URIs so they never pull
+    // generic untagged English/foreign TMDB discover lists and claim Turkish dubbing/subtitles.
     private val availableHomePages by lazy { mainPageOf(
         "${mainUrl}/trending/all/day?language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.ALL_CONTENT,
         "${mainUrl}/discover/movie?sort_by=popularity.desc&language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.MOVIES,
@@ -102,8 +167,8 @@ class CloudStreamHub : MainAPI() {
         "${mainUrl}/discover/tv?with_genres=16&with_origin_country=JP&sort_by=popularity.desc&language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.ANIME,
         "${mainUrl}/discover/movie?with_genres=99&language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.DOCUMENTARIES,
         "${mainUrl}/discover/movie?with_origin_country=TR&primary_release_date.lte=1995-12-31&sort_by=popularity.desc&language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.YESILCAM,
-        "${mainUrl}/discover/movie?sort_by=popularity.desc&with_original_language=en&language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.TR_DUB,
-        "${mainUrl}/discover/tv?sort_by=vote_average.desc&vote_count.gte=200&language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.TR_SUB,
+        "hub://category/tr_dub" to UnifiedCategories.TR_DUB,
+        "hub://category/tr_sub" to UnifiedCategories.TR_SUB,
         "${mainUrl}/movie/now_playing?language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.NEW_RELEASES,
         "${mainUrl}/movie/popular?language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.POPULAR,
         "${mainUrl}/trending/all/week?language=tr-TR&api_key=${tmdbApiKey}" to UnifiedCategories.CONTINUE_WATCHING
@@ -114,52 +179,100 @@ class CloudStreamHub : MainAPI() {
         get() = HubHomePreferences.filtered(availableHomePages)
 
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
+        val canonicalCategory = HubHomePreferences.canonicalCategoryName(request.name)
+
         // Even with a previously captured host tab, no hidden category should fetch TMDB.
-        if (!HubHomePreferences.isVisible(request.name)) {
+        if (!HubHomePreferences.isVisible(canonicalCategory)) {
+            HubCatalogDiagnostics.record(
+                category = canonicalCategory,
+                source = "HubHomePreferences",
+                stage = "VISIBILITY_CHECK",
+                status = "HIDDEN_BY_USER",
+                itemCount = 0,
+                elapsedMs = 0L
+            )
             return newHomePageResponse(request.name, emptyList(), hasNext = false)
         }
 
-        val context = HubContextHolder.pluginContext
+        val startedNs = System.nanoTime()
+        return try {
+            val context = HubContextHolder.pluginContext
 
-        // Fast-path for Continue Watching from recently cached/visited catalog items
-        if (request.name == UnifiedCategories.CONTINUE_WATCHING && page == 1) {
-            val recent = HubCatalogCache.getRecentCatalogItems(limit = 40, context = context)
-            if (recent.isNotEmpty()) {
-                return newHomePageResponse(request.name, recent, hasNext = false)
+            // Fast-path for Continue Watching from recently cached/visited catalog items
+            if (canonicalCategory == UnifiedCategories.CONTINUE_WATCHING && page == 1) {
+                val recent = HubCatalogCache.getRecentCatalogItems(limit = 40, context = context)
+                if (recent.isNotEmpty()) {
+                    val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+                    HubCatalogDiagnostics.record(
+                        category = canonicalCategory,
+                        source = "HubCatalogCache",
+                        stage = "CONTINUE_WATCHING_RECENT",
+                        status = "OK",
+                        itemCount = recent.size,
+                        elapsedMs = elapsedMs
+                    )
+                    return newHomePageResponse(request.name, recent, hasNext = false)
+                }
             }
-        }
 
-        val providers = CloudStreamProviderRegistryAdapter.getRegisteredProviders(
-            excludeName = this@CloudStreamHub.name,
-            onlyEnabled = true
-        )
+            val providers = CloudStreamProviderRegistryAdapter.getRegisteredProviders(
+                excludeName = this@CloudStreamHub.name,
+                onlyEnabled = true
+            )
 
-        val tmdbFetch: (suspend () -> List<SearchResponse>)? = if (request.data.startsWith(mainUrl)) {
-            suspend {
-                val targetUrl = "${request.data}&page=${page}"
-                val resp = fetchTmdbPage(targetUrl)
-                resp?.results?.mapNotNull { parseTmdbItem(it) } ?: emptyList()
+            // Resolve effective request URL (supporting both current and legacy host snapshots)
+            val effectiveDataUrl = if (request.data.startsWith(mainUrl) || request.data.startsWith("hub://")) {
+                request.data
+            } else {
+                availableHomePages.firstOrNull { it.name == canonicalCategory }?.data ?: request.data
             }
-        } else null
 
-        if (page == 1 && context != null) {
-            UnifiedCatalogEngine.triggerBackgroundPrewarm(providers, context)
+            // Never use TMDB as a fake source for TR_DUB or TR_SUB
+            val isLanguageSpecificCategory =
+                canonicalCategory == UnifiedCategories.TR_DUB || canonicalCategory == UnifiedCategories.TR_SUB
+
+            val tmdbFetch: (suspend () -> List<SearchResponse>)? =
+                if (!isLanguageSpecificCategory && effectiveDataUrl.startsWith(mainUrl)) {
+                    suspend {
+                        val separator = if ("?" in effectiveDataUrl) "&" else "?"
+                        val targetUrl = "${effectiveDataUrl}${separator}page=${page}"
+                        val resp = fetchTmdbPage(targetUrl, canonicalCategory)
+                        resp?.results?.mapNotNull { parseTmdbItem(it) } ?: emptyList()
+                    }
+                } else null
+
+            if (page == 1 && context != null) {
+                UnifiedCatalogEngine.triggerBackgroundPrewarm(providers, context)
+            }
+
+            val (items, hasNext) = UnifiedCatalogEngine.getCategoryPage(
+                categoryName = canonicalCategory,
+                page = page,
+                allProviders = providers,
+                tmdbFetch = tmdbFetch,
+                context = context
+            )
+
+            newHomePageResponse(request.name, items, hasNext = hasNext)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (t: Throwable) {
+            val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+            HubCatalogDiagnostics.record(
+                category = canonicalCategory,
+                source = "CloudStreamHub",
+                stage = "GET_MAIN_PAGE",
+                status = "UNHANDLED_ERROR:${t.javaClass.simpleName}",
+                itemCount = 0,
+                elapsedMs = elapsedMs
+            )
+            newHomePageResponse(request.name, emptyList(), hasNext = false)
         }
-
-        val (items, hasNext) = UnifiedCatalogEngine.getCategoryPage(
-            categoryName = request.name,
-            page = page,
-            allProviders = providers,
-            tmdbFetch = tmdbFetch,
-            context = context
-        )
-
-        return newHomePageResponse(request.name, items, hasNext = hasNext)
     }
 
     override suspend fun search(query: String, page: Int): SearchResponseList {
         val targetUrl = "${mainUrl}/search/multi?query=${query}&language=tr-TR&page=${page}&api_key=${tmdbApiKey}"
-        val tmdbResp = fetchTmdbPage(targetUrl)
+        val tmdbResp = fetchTmdbPage(targetUrl, "Arama")
         val tmdbItems = tmdbResp?.results?.mapNotNull { parseTmdbItem(it) } ?: emptyList()
         val totalPages = tmdbResp?.totalPages ?: 1
 

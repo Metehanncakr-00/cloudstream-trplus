@@ -661,5 +661,146 @@ class UnifiedCatalogEngineTest {
             CloudStreamProviderRegistryAdapter.bundledInstantiationCount
         )
     }
+
+    @Test
+    fun testMultiTypeProviderDoesNotMisclassifyDubSubOrMovieCategoriesAsDocumentary() {
+        // v44 Regression: Providers supporting TvType.Documentary alongside TvType.Movie/TvSeries
+        // must classify explicit category keywords ("Dublaj", "Altyazı", "Dizi", "Film") accurately
+        // rather than misclassifying everything as Belgeseller.
+        val multiTypeTypes = setOf(TvType.Movie, TvType.TvSeries, TvType.Documentary, TvType.Anime)
+
+        assertEquals(
+            UnifiedCategories.TR_DUB,
+            ProviderCapabilityMatrix.mapCategoryNameToUnified("Türkçe Dublaj Filmler", multiTypeTypes)
+        )
+        assertEquals(
+            UnifiedCategories.TR_SUB,
+            ProviderCapabilityMatrix.mapCategoryNameToUnified("Türkçe Altyazılı Filmler", multiTypeTypes)
+        )
+        assertEquals(
+            UnifiedCategories.SERIES,
+            ProviderCapabilityMatrix.mapCategoryNameToUnified("Yabancı Diziler", multiTypeTypes)
+        )
+        assertEquals(
+            UnifiedCategories.MOVIES,
+            ProviderCapabilityMatrix.mapCategoryNameToUnified("Son Filmler", multiTypeTypes)
+        )
+
+        // Verify TR_DUB does not pull untagged providers that lack a dubbing category
+        val untaggedProvider = object : MainAPI() {
+            override var name = "UntaggedMovieProvider"
+            override var mainUrl = "https://untagged.com"
+            override val hasMainPage = true
+            override val supportedTypes = setOf(TvType.Movie)
+            override val mainPage = listOf(MainPageData("Genel Filmler", "https://untagged.com/filmler"))
+        }
+        val realDubProvider = object : MainAPI() {
+            override var name = "VerifiedDubProvider"
+            override var mainUrl = "https://dub.com"
+            override val hasMainPage = true
+            override val supportedTypes = setOf(TvType.Movie, TvType.Documentary)
+            override val mainPage = listOf(MainPageData("Türkçe Dublaj Filmler", "https://dub.com/dublaj"))
+        }
+        ProviderCapabilityMatrix.evaluate(untaggedProvider)
+        ProviderCapabilityMatrix.evaluate(realDubProvider)
+
+        val trDubTargets = ProviderCapabilityMatrix.getProvidersForCategory(
+            UnifiedCategories.TR_DUB,
+            listOf(untaggedProvider, realDubProvider)
+        )
+        assertEquals("Only providers with a real dubbing category may supply TR_DUB", 1, trDubTargets.size)
+        assertEquals("VerifiedDubProvider", trDubTargets.first().first.name)
+    }
+
+    @Test
+    fun testTmdbSuccessMergesWithCachedProviderItemsWithoutTriggering25LiveHtmlScrapes() = runTest {
+        // v44 Regression: When TMDB succeeds on homepage rows across 25 bundled providers in BALANCED/FAST mode,
+        // TMDB items + cached provider items must merge into single cards immediately without queuing 25 live HTML scrapes.
+        HubCatalogDiagnostics.clear()
+        val tmdbInception = hub.newMovieSearchResponse("Başlangıç", "https://api.themoviedb.org/3/movie/27205", TvType.Movie) {
+            year = 2010
+        }
+        val cachedProvInception = hub.newMovieSearchResponse("Başlangıç (Türkçe Dublaj)", "https://prov1.com/baslangic-2010", TvType.Movie) {
+            year = 2010
+        }
+
+        // Seed provider 1 cache
+        HubCatalogCache.putProviderCatalog("Prov_1", "https://prov1.com/filmler", 1, listOf(cachedProvInception), hasNext = false)
+
+        var uncachedLiveScrapeCount = 0
+        val twentyProviders = (1..20).map { idx ->
+            object : MainAPI() {
+                override var name = "Prov_$idx"
+                override var mainUrl = "https://prov$idx.com"
+                override val hasMainPage = true
+                override val supportedTypes = setOf(TvType.Movie)
+                override val mainPage = listOf(MainPageData("Filmler", "https://prov$idx.com/filmler"))
+
+                override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
+                    uncachedLiveScrapeCount++
+                    return newHomePageResponse(
+                        request.name,
+                        listOf(hub.newMovieSearchResponse("Extra $idx", "https://prov$idx.com/e$idx", TvType.Movie)),
+                        hasNext = false
+                    )
+                }
+            }
+        }
+        twentyProviders.forEach { ProviderCapabilityMatrix.evaluate(it) }
+
+        val (mergedItems, hasNext) = UnifiedCatalogEngine.getCategoryPage(
+            categoryName = UnifiedCategories.MOVIES,
+            page = 1,
+            allProviders = twentyProviders,
+            tmdbFetch = { listOf(tmdbInception) }
+        )
+
+        assertTrue(hasNext)
+        assertEquals("TMDB + cached provider item for same movie/year must merge into 1 canonical card", 1, mergedItems.size)
+        assertEquals("No live HTML scrapes should stall homepage when TMDB succeeds across 20 providers in BALANCED mode", 0, uncachedLiveScrapeCount)
+        val canonical = HubSingleCardMerger.getCanonicalMedia(mergedItems.first())
+        assertNotNull(canonical)
+        assertTrue("Merged card must retain provider reference from cached provider catalog", canonical!!.providerReferences.any { it.url == "https://prov1.com/baslangic-2010" })
+    }
+
+    @Test
+    fun testTmdbFailureAutomaticallyFallsBackToLiveProviderCatalogsAndRecordsDiagnostics() = runTest {
+        // v44 Regression: When TMDB fails or returns empty, getCategoryPage must automatically fall back
+        // to live provider catalogs and record visible, sanitized diagnostics in HubCatalogDiagnostics.
+        HubCatalogDiagnostics.clear()
+        val fallbackMovie = hub.newMovieSearchResponse("Babam ve Oğlum", "https://fallbackprov.com/babam-ve-oglum", TvType.Movie) {
+            year = 2005
+        }
+
+        val fallbackProvider = object : MainAPI() {
+            override var name = "FallbackProvider"
+            override var mainUrl = "https://fallbackprov.com"
+            override val hasMainPage = true
+            override val supportedTypes = setOf(TvType.Movie)
+            override val mainPage = listOf(MainPageData("Filmler", "https://fallbackprov.com/filmler"))
+
+            override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
+                return newHomePageResponse(request.name, listOf(fallbackMovie), hasNext = false)
+            }
+        }
+        ProviderCapabilityMatrix.evaluate(fallbackProvider)
+
+        val (items, _) = UnifiedCatalogEngine.getCategoryPage(
+            categoryName = UnifiedCategories.MOVIES,
+            page = 1,
+            allProviders = listOf(fallbackProvider),
+            tmdbFetch = { throw RuntimeException("Simulated TMDB network failure with api_key=90ad3ec891e5923150283b99719d890f") }
+        )
+
+        assertEquals("Provider fallback must supply catalog items when TMDB fails", 1, items.size)
+        assertEquals("Babam ve Oğlum", items.first().name)
+
+        val diagReport = HubSettingsManager.getSanitizedDiagnosticsReport()
+        assertTrue("Diagnostics must record TMDB failure stage", diagReport.contains("TMDB_FETCH"))
+        assertTrue("Diagnostics must record provider fallback stage", diagReport.contains("FALLBACK_TO_PROVIDERS"))
+        assertTrue("Diagnostics must record successful merge", diagReport.contains("MERGE_COMPLETE"))
+        assertFalse("Diagnostics must NEVER leak TMDB API key", diagReport.contains("90ad3ec891e5923150283b99719d890f"))
+    }
 }
+
 

@@ -2,6 +2,7 @@ package com.cloudstream.tr.hub
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
@@ -71,6 +72,63 @@ internal object HubSpinnerStylePolicy {
     }
 }
 
+internal object HubCheckBoxStylePolicy {
+    data class Palette(
+        val normalBgHex: String,
+        val normalBorderHex: String,
+        val normalTextHex: String,
+        val focusedBgHex: String,
+        val focusedBorderHex: String,
+        val focusedTextHex: String,
+        val checkedBoxTintHex: String,
+        val uncheckedBoxTintHex: String,
+        val focusedBoxTintHex: String
+    )
+
+    fun paletteFor(isDark: Boolean, accentHex: String = "#2196F3"): Palette {
+        return if (isDark) {
+            Palette(
+                normalBgHex = "#252528",
+                normalBorderHex = "#48484E",
+                normalTextHex = "#EEEEEE",
+                focusedBgHex = accentHex,
+                focusedBorderHex = "#FFFFFF",
+                focusedTextHex = "#FFFFFF",
+                checkedBoxTintHex = accentHex,
+                uncheckedBoxTintHex = "#B0B0B8",
+                focusedBoxTintHex = "#FFFFFF"
+            )
+        } else {
+            Palette(
+                normalBgHex = "#F2F2F7",
+                normalBorderHex = "#C5C5CE",
+                normalTextHex = "#111111",
+                focusedBgHex = accentHex,
+                focusedBorderHex = "#111111",
+                focusedTextHex = "#FFFFFF",
+                checkedBoxTintHex = accentHex,
+                uncheckedBoxTintHex = "#55555E",
+                focusedBoxTintHex = "#FFFFFF"
+            )
+        }
+    }
+
+    fun stripStatePrefix(label: String): String {
+        return label
+            .removePrefix("▶ ")
+            .removePrefix("[✓] ")
+            .removePrefix("[ ] ")
+            .trim()
+    }
+
+    fun formatStateLabel(rawLabel: String, isChecked: Boolean, hasFocus: Boolean = false): String {
+        val clean = stripStatePrefix(rawLabel)
+        val badge = if (isChecked) "[✓]" else "[ ]"
+        return if (hasFocus) "▶ $badge  $clean" else "$badge  $clean"
+    }
+}
+
+
 @CloudstreamPlugin
 class CloudStreamHubPlugin : Plugin() {
     companion object {
@@ -128,6 +186,7 @@ class CloudStreamHubPlugin : Plugin() {
         val dialogBgColor = if (isDark) Color.parseColor("#1C1C1E") else Color.parseColor("#FFFFFF")
         val tabBgColor = if (isDark) Color.parseColor("#2C2C2E") else Color.parseColor("#E5E5EA")
         val spinnerPalette = HubSpinnerStylePolicy.paletteFor(isDark, accentHex)
+        val checkBoxPalette = HubCheckBoxStylePolicy.paletteFor(isDark, accentHex)
 
         // Dialog container layout
         val rootLayout = LinearLayout(themedContext).apply {
@@ -168,6 +227,7 @@ class CloudStreamHubPlugin : Plugin() {
         )
         val tabButtons = mutableListOf<Button>()
         val tabPanels = mutableListOf<LinearLayout>()
+        var onTanilamaSelected: (() -> Unit)? = null
 
         val tabScroll = HorizontalScrollView(themedContext).apply {
             isFillViewport = true
@@ -194,6 +254,9 @@ class CloudStreamHubPlugin : Plugin() {
                 }
                 tabPanels[i].visibility = if (isSelected) View.VISIBLE else View.GONE
             }
+            if (tabs.getOrNull(selectedIndex) == "Tanılama") {
+                onTanilamaSelected?.invoke()
+            }
         }
 
         // Helper for TV D-Pad visible focus highlight
@@ -207,6 +270,82 @@ class CloudStreamHubPlugin : Plugin() {
                 } else {
                     v.setBackgroundColor(if (isPrimaryButton) accentColor else Color.TRANSPARENT)
                     if (v is TextView) v.setTextColor(if (isPrimaryButton) Color.WHITE else primaryTextColor)
+                }
+            }
+        }
+
+        // High-contrast, D-Pad focusable CheckBox factory for Android 12 TV
+        val unfocusedBoxTintList = ColorStateList(
+            arrayOf(
+                intArrayOf(android.R.attr.state_checked),
+                intArrayOf(-android.R.attr.state_checked)
+            ),
+            intArrayOf(
+                Color.parseColor(checkBoxPalette.checkedBoxTintHex),
+                Color.parseColor(checkBoxPalette.uncheckedBoxTintHex)
+            )
+        )
+        val focusedBoxTintList = ColorStateList.valueOf(Color.parseColor(checkBoxPalette.focusedBoxTintHex))
+
+        fun createTvCheckBox(
+            rawLabel: String,
+            initialChecked: Boolean,
+            fontSizeSp: Float = 13.5f,
+            rowContainer: View? = null,
+            onToggle: (( CheckBox, Boolean) -> Unit)? = null
+        ): CheckBox {
+            val baseLabel = HubCheckBoxStylePolicy.stripStatePrefix(rawLabel)
+            val normalDrawable = GradientDrawable().apply {
+                cornerRadius = dp(6).toFloat()
+                setColor(Color.parseColor(checkBoxPalette.normalBgHex))
+                setStroke(dp(1), Color.parseColor(checkBoxPalette.normalBorderHex))
+            }
+            val focusedDrawable = GradientDrawable().apply {
+                cornerRadius = dp(6).toFloat()
+                setColor(Color.parseColor(checkBoxPalette.focusedBgHex))
+                setStroke(dp(2), Color.parseColor(checkBoxPalette.focusedBorderHex))
+            }
+
+            return CheckBox(themedContext).apply {
+                isChecked = initialChecked
+                text = HubCheckBoxStylePolicy.formatStateLabel(baseLabel, initialChecked, hasFocus = false)
+                textSize = fontSizeSp
+                setTextColor(Color.parseColor(checkBoxPalette.normalTextHex))
+                setTypeface(null, if (initialChecked) Typeface.BOLD else Typeface.NORMAL)
+                buttonTintList = unfocusedBoxTintList
+                background = normalDrawable
+                isFocusable = true
+                isFocusableInTouchMode = true
+                setPadding(dp(10), dp(8), dp(12), dp(8))
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(0, dp(3), 0, dp(3))
+                }
+
+                fun refreshVisualState(focused: Boolean, checked: Boolean) {
+                    background = if (focused) focusedDrawable else normalDrawable
+                    setTextColor(
+                        if (focused) Color.parseColor(checkBoxPalette.focusedTextHex)
+                        else Color.parseColor(checkBoxPalette.normalTextHex)
+                    )
+                    setTypeface(null, if (focused || checked) Typeface.BOLD else Typeface.NORMAL)
+                    buttonTintList = if (focused) focusedBoxTintList else unfocusedBoxTintList
+                    val formatted = HubCheckBoxStylePolicy.formatStateLabel(baseLabel, checked, focused)
+                    if (text.toString() != formatted) {
+                        text = formatted
+                    }
+                    rowContainer?.alpha = 1.0f
+                }
+
+                setOnFocusChangeListener { _, hasFocus ->
+                    refreshVisualState(hasFocus, isChecked)
+                }
+
+                setOnCheckedChangeListener { buttonView, checked ->
+                    onToggle?.invoke(this, checked)
+                    refreshVisualState(buttonView.hasFocus(), isChecked)
                 }
             }
         }
@@ -322,15 +461,12 @@ class CloudStreamHubPlugin : Plugin() {
 
         val providerChecks = mutableMapOf<String, CheckBox>()
         for (p in discoverableProviders) {
-            val cb = CheckBox(themedContext).apply {
-                text = "${p.name} (${p.supportedTypes.joinToString { it.name }})"
-                isChecked = p.name !in disabledProvidersMutable
-                setTextColor(primaryTextColor)
-                HubAppearancePreferences.tint(this, appearance)
-                setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) disabledProvidersMutable.remove(p.name)
-                    else disabledProvidersMutable.add(p.name)
-                }
+            val cb = createTvCheckBox(
+                rawLabel = "${p.name} (${p.supportedTypes.joinToString { it.name }})",
+                initialChecked = p.name !in disabledProvidersMutable
+            ) { _, isChecked ->
+                if (isChecked) disabledProvidersMutable.remove(p.name)
+                else disabledProvidersMutable.add(p.name)
             }
             providerChecks[p.name] = cb
             panelGenel.addView(cb)
@@ -345,13 +481,10 @@ class CloudStreamHubPlugin : Plugin() {
             providerChecks.values.forEach { it.isChecked = false }
         }
 
-        val reportFailuresCheck = CheckBox(themedContext).apply {
-            text = "Başarısız sağlayıcıları tanılama kaydına ekle"
-            isChecked = settingsState.reportFailures
-            setTextColor(primaryTextColor)
-            HubAppearancePreferences.tint(this, appearance)
-            setPadding(0, dp(8), 0, 0)
-        }
+        val reportFailuresCheck = createTvCheckBox(
+            rawLabel = "Başarısız sağlayıcıları tanılama kaydına ekle",
+            initialChecked = settingsState.reportFailures
+        )
         panelGenel.addView(reportFailuresCheck)
 
         val rdLabel = TextView(themedContext).apply {
@@ -401,30 +534,38 @@ class CloudStreamHubPlugin : Plugin() {
         val homeRows = LinearLayout(themedContext).apply { orientation = LinearLayout.VERTICAL }
         val arrowWidth = dp(48)
 
-        fun renderHomeRows() {
+        fun renderHomeRows(focusSectionId: String? = null, focusAction: String? = null) {
             homeRows.removeAllViews()
+            var targetViewToFocus: View? = null
             for ((index, sectionId) in homeOrder.withIndex()) {
                 val title = HubHomePreferences.sections.firstOrNull { it.id == sectionId }?.label ?: sectionId
                 val row = LinearLayout(themedContext).apply {
                     orientation = LinearLayout.HORIZONTAL
                     gravity = Gravity.CENTER_VERTICAL
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        setMargins(0, dp(2), 0, dp(2))
+                    }
                 }
-                val check = CheckBox(themedContext).apply {
-                    text = title
-                    textSize = 13f
-                    isChecked = sectionId !in homeHidden
-                    setTextColor(primaryTextColor)
-                    layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-                    HubAppearancePreferences.tint(this, appearance)
-                    setOnCheckedChangeListener { _, enabled ->
-                        if (!enabled && homeHidden.size == homeOrder.size - 1) {
-                            isChecked = true
-                            Toast.makeText(context, "En az bir kategori açık kalmalıdır.", Toast.LENGTH_SHORT).show()
-                        } else if (enabled) {
-                            homeHidden.remove(sectionId)
-                        } else {
-                            homeHidden.add(sectionId)
-                        }
+                val check = createTvCheckBox(
+                    rawLabel = title,
+                    initialChecked = sectionId !in homeHidden,
+                    fontSizeSp = 13f,
+                    rowContainer = row
+                ) { cb, enabled ->
+                    if (!enabled && homeHidden.size == homeOrder.size - 1) {
+                        cb.isChecked = true
+                        Toast.makeText(context, "En az bir kategori açık kalmalıdır.", Toast.LENGTH_SHORT).show()
+                    } else if (enabled) {
+                        homeHidden.remove(sectionId)
+                    } else {
+                        homeHidden.add(sectionId)
+                    }
+                }.apply {
+                    layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
+                        setMargins(0, 0, dp(6), 0)
                     }
                 }
                 val up = Button(themedContext).apply {
@@ -435,7 +576,7 @@ class CloudStreamHubPlugin : Plugin() {
                     setOnClickListener {
                         homeOrder.removeAt(index)
                         homeOrder.add(index - 1, sectionId)
-                        renderHomeRows()
+                        renderHomeRows(focusSectionId = sectionId, focusAction = "up")
                     }
                 }
                 val down = Button(themedContext).apply {
@@ -446,14 +587,22 @@ class CloudStreamHubPlugin : Plugin() {
                     setOnClickListener {
                         homeOrder.removeAt(index)
                         homeOrder.add(index + 1, sectionId)
-                        renderHomeRows()
+                        renderHomeRows(focusSectionId = sectionId, focusAction = "down")
                     }
                 }
                 row.addView(check)
                 row.addView(up, LinearLayout.LayoutParams(arrowWidth, dp(44)))
                 row.addView(down, LinearLayout.LayoutParams(arrowWidth, dp(44)))
                 homeRows.addView(row)
+                if (sectionId == focusSectionId) {
+                    targetViewToFocus = when (focusAction) {
+                        "up" -> if (up.isEnabled) up else down
+                        "down" -> if (down.isEnabled) down else up
+                        else -> check
+                    }
+                }
             }
+            targetViewToFocus?.post { targetViewToFocus.requestFocus() }
         }
         renderHomeRows()
         panelKatalog.addView(homeRows)
@@ -558,24 +707,18 @@ class CloudStreamHubPlugin : Plugin() {
         }
         panelOynatma.addView(hardwareInfo)
 
-        val torrentCheck = CheckBox(themedContext).apply {
-            text = "P2P Torrent Kaynaklarını Göster (Torrentio/YTS)"
-            isChecked = DebridConfig.enableTorrentSources
-            setTextColor(primaryTextColor)
-            HubAppearancePreferences.tint(this, appearance)
-        }
-        val cdnCheck = CheckBox(themedContext).apply {
-            text = "4KHDHub Doğrudan CDN Akışlarını Önceliklendir"
-            isChecked = DebridConfig.prioritizeDirectCdn
-            setTextColor(primaryTextColor)
-            HubAppearancePreferences.tint(this, appearance)
-        }
-        val torrentAtBottomCheck = CheckBox(themedContext).apply {
-            text = "Torrent kaynaklarını listenin sonuna yerleştir"
-            isChecked = settingsState.torrentsAtBottom
-            setTextColor(primaryTextColor)
-            HubAppearancePreferences.tint(this, appearance)
-        }
+        val torrentCheck = createTvCheckBox(
+            rawLabel = "P2P Torrent Kaynaklarını Göster (Torrentio/YTS)",
+            initialChecked = DebridConfig.enableTorrentSources
+        )
+        val cdnCheck = createTvCheckBox(
+            rawLabel = "4KHDHub Doğrudan CDN Akışlarını Önceliklendir",
+            initialChecked = DebridConfig.prioritizeDirectCdn
+        )
+        val torrentAtBottomCheck = createTvCheckBox(
+            rawLabel = "Torrent kaynaklarını listenin sonuna yerleştir",
+            initialChecked = settingsState.torrentsAtBottom
+        )
         panelOynatma.addView(torrentCheck)
         panelOynatma.addView(cdnCheck)
         panelOynatma.addView(torrentAtBottomCheck)
@@ -648,13 +791,10 @@ class CloudStreamHubPlugin : Plugin() {
         panelPerformans.addView(ttlLabel)
         panelPerformans.addView(ttlSpinner)
 
-        val enableBackgroundCrawlerCheck = CheckBox(themedContext).apply {
-            text = "Arka planda otomatik katalog indeksleme (TV'de akıcılık için kapalı önerilir)"
-            isChecked = settingsState.enableBackgroundCrawler
-            setTextColor(primaryTextColor)
-            HubAppearancePreferences.tint(this, appearance)
-            setPadding(0, dp(8), 0, 0)
-        }
+        val enableBackgroundCrawlerCheck = createTvCheckBox(
+            rawLabel = "Arka planda otomatik katalog indeksleme (TV'de akıcılık için kapalı önerilir)",
+            initialChecked = settingsState.enableBackgroundCrawler
+        )
         panelPerformans.addView(enableBackgroundCrawlerCheck)
 
         // 6. Tanılama Tab Content
@@ -676,22 +816,59 @@ class CloudStreamHubPlugin : Plugin() {
         }
         panelTanilama.addView(diagSecurityNote)
 
+        val diagLiveBox = TextView(themedContext).apply {
+            text = HubSettingsManager.getSanitizedDiagnosticsReport()
+            textSize = 11.5f
+            typeface = Typeface.MONOSPACE
+            setTextColor(primaryTextColor)
+            setPadding(dp(10), dp(8), dp(10), dp(8))
+            background = GradientDrawable().apply {
+                cornerRadius = dp(6).toFloat()
+                setColor(Color.parseColor(checkBoxPalette.normalBgHex))
+                setStroke(dp(1), Color.parseColor(checkBoxPalette.normalBorderHex))
+            }
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(0, dp(4), 0, dp(8))
+            }
+        }
+        onTanilamaSelected = {
+            diagLiveBox.text = HubSettingsManager.getSanitizedDiagnosticsReport()
+        }
+
         val btnShowDiag = Button(themedContext).apply {
             text = "Performans ve Kaynak Ölçümlerini Göster"
             applyTvFocus(this)
             setOnClickListener {
+                diagLiveBox.text = HubSettingsManager.getSanitizedDiagnosticsReport()
                 AlertDialog.Builder(themedContext)
-                    .setTitle("CloudStream TR+ Performans Raporu")
+                    .setTitle("CloudStream TR+ Performans & Katalog Raporu")
                     .setMessage(HubSettingsManager.getSanitizedDiagnosticsReport())
                     .setPositiveButton("Kapat", null)
                     .setNeutralButton("Kayıtları Temizle") { _, _ ->
                         HubPerformanceTelemetry.clear()
+                        HubCatalogDiagnostics.clear()
+                        diagLiveBox.text = HubSettingsManager.getSanitizedDiagnosticsReport()
                         Toast.makeText(context, "Kayıtlar temizlendi.", Toast.LENGTH_SHORT).show()
                     }
                     .show()
             }
         }
+        val btnClearDiagInline = Button(themedContext).apply {
+            text = "Tanılama Kayıtlarını Temizle"
+            applyTvFocus(this)
+            setOnClickListener {
+                HubPerformanceTelemetry.clear()
+                HubCatalogDiagnostics.clear()
+                diagLiveBox.text = HubSettingsManager.getSanitizedDiagnosticsReport()
+                Toast.makeText(context, "Tanılama kayıtları temizlendi.", Toast.LENGTH_SHORT).show()
+            }
+        }
         panelTanilama.addView(btnShowDiag)
+        panelTanilama.addView(btnClearDiagInline)
+        panelTanilama.addView(diagLiveBox)
 
         // 7. Görünüm Tab Content
         val panelGorunum = LinearLayout(themedContext).apply { orientation = LinearLayout.VERTICAL }

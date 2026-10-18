@@ -48,6 +48,17 @@ internal object HubHomePreferences {
         "documentary_series" to "documentaries"
     )
 
+    private val legacyLabelToSectionId = mapOf(
+        "Günün Trendleri" to "all_content",
+        "Popüler Filmler" to "movies",
+        "Popüler Diziler" to "series",
+        "En Çok Oy Alan Filmler" to "popular",
+        "Vizyondaki Filmler" to "new_releases",
+        "Belgesel Filmler" to "documentaries",
+        "Belgesel Dizileri" to "documentaries",
+        "Anime ve Animasyon" to "anime"
+    )
+
     private val identifiers = sections.map { it.id }.toSet()
 
     data class Config(val order: List<String>, val hidden: Set<String>)
@@ -84,8 +95,20 @@ internal object HubHomePreferences {
         config = next
     }
 
-    @Synchronized fun isVisible(label: String): Boolean =
-        sections.firstOrNull { it.label == label }?.id?.let { it !in config.hidden } ?: false
+    fun canonicalCategoryName(label: String): String {
+        val trimmed = label.trim()
+        val legacyId = legacyLabelToSectionId[trimmed] ?: legacyAliases[trimmed]
+        if (legacyId != null) {
+            sections.firstOrNull { it.id == legacyId }?.let { return it.label }
+        }
+        return trimmed
+    }
+
+    @Synchronized fun isVisible(label: String): Boolean {
+        val canonical = canonicalCategoryName(label)
+        val sectionId = sections.firstOrNull { it.label == canonical || it.id == canonical }?.id
+        return sectionId != null && sectionId !in config.hidden
+    }
 
     fun filtered(pages: List<MainPageData>, value: Config = snapshot()): List<MainPageData> {
         val selected = normalized(value.order, value.hidden)

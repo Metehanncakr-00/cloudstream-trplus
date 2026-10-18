@@ -125,18 +125,19 @@ object HubSettingsManager {
     }
 
     /**
-     * Sanitizes telemetry reports by stripping API tokens and credentials.
+     * Sanitizes telemetry and catalog diagnostic reports by stripping API tokens and credentials.
      */
     fun getSanitizedDiagnosticsReport(): String {
-        val raw = HubPerformanceTelemetry.report()
-        var sanitized = raw
+        val catalogSection = "=== Katalog Tanılama Kayıtları ===\n" + HubCatalogDiagnostics.report()
+        val telemetrySection = "=== Kaynak ve Oynatma Ölçümleri ===\n" + HubPerformanceTelemetry.report()
+        var sanitized = "$catalogSection\n\n$telemetrySection"
         DebridConfig.realDebridToken?.takeIf { it.isNotBlank() }?.let { token ->
             sanitized = sanitized.replace(token, "[REDACTED_RD_TOKEN]")
         }
         DebridConfig.torboxToken?.takeIf { it.isNotBlank() }?.let { token ->
             sanitized = sanitized.replace(token, "[REDACTED_TORBOX_TOKEN]")
         }
-        return sanitized
+        return HubCatalogDiagnostics.sanitize(sanitized)
     }
 
     fun resetToDefaults(context: Context) {
