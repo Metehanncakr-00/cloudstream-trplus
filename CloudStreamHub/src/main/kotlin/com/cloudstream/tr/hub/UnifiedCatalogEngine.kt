@@ -330,13 +330,10 @@ object UnifiedCatalogEngine {
             }
 
             // 3. Determine whether live provider HTML scrapes are needed for this row:
-            // - Always when tmdbFetch == null (e.g. Türkçe Dublaj, Türkçe Altyazı, or provider-only catalog rows)
-            // - Always when TMDB returned empty (automatic provider catalog fallback when TMDB fails/times out!)
-            // - Also when in COMPREHENSIVE mode or when a small provider list (<= 6) is passed for direct merging
-            val shouldQueryLiveProviders = tmdbFetch == null ||
-                tmdbItems.isEmpty() ||
-                settings.perfMode == HubSettingsManager.PERF_MODE_COMPREHENSIVE ||
-                allProviders.size <= 6
+            // - When tmdbFetch == null (e.g. Türkçe Dublaj, Türkçe Altyazı, or provider-only catalog rows)
+            // - When TMDB returned empty (automatic provider catalog fallback when TMDB fails/times out!)
+            // NEVER scrape live provider HTML when TMDB already returned valid items!
+            val shouldQueryLiveProviders = tmdbFetch == null || tmdbItems.isEmpty()
 
             if (shouldQueryLiveProviders && distinctUncachedTargets.isNotEmpty()) {
                 if (tmdbFetch != null && tmdbItems.isEmpty()) {
@@ -351,25 +348,30 @@ object UnifiedCatalogEngine {
                 }
 
                 val liveTargets = if (tmdbFetch != null && settings.perfMode != HubSettingsManager.PERF_MODE_COMPREHENSIVE) {
-                    val maxLivePerRow = if (settings.perfMode == HubSettingsManager.PERF_MODE_FAST) 3 else 5
+                    val maxLivePerRow = if (settings.perfMode == HubSettingsManager.PERF_MODE_FAST) 3 else 4
                     distinctUncachedTargets.take(maxLivePerRow)
                 } else {
                     distinctUncachedTargets
                 }
+                val providerBudgetMs = if (tmdbFetch != null) {
+                    fetchTimeoutMs.coerceIn(2000L, 3500L)
+                } else {
+                    fetchTimeoutMs
+                }
 
                 val providerBatches = liveTargets.map { (provider, categoryInfo) ->
-                    async { fetchProviderTarget(provider, categoryInfo, fetchTimeoutMs) }
+                    async { fetchProviderTarget(provider, categoryInfo, providerBudgetMs) }
                 }.awaitAll()
 
                 for (batch in providerBatches) {
                     collected.addAll(batch)
                 }
 
-                // Secondary fallback if the first wave of fallback providers all failed/returned empty
-                if (collected.isEmpty() && distinctUncachedTargets.size > liveTargets.size) {
-                    val fallbackTargets = distinctUncachedTargets.drop(liveTargets.size).take(6)
+                // Secondary fallback only if STILL empty and not timed out
+                if (tmdbFetch != null && collected.isEmpty() && distinctUncachedTargets.size > liveTargets.size) {
+                    val fallbackTargets = distinctUncachedTargets.drop(liveTargets.size).take(2)
                     val fallbackBatches = fallbackTargets.map { (provider, categoryInfo) ->
-                        async { fetchProviderTarget(provider, categoryInfo, fetchTimeoutMs) }
+                        async { fetchProviderTarget(provider, categoryInfo, 2500L) }
                     }.awaitAll()
                     for (batch in fallbackBatches) {
                         collected.addAll(batch)
@@ -416,10 +418,32 @@ object UnifiedCatalogEngine {
         }
 
         // 5. Merge items into single cards with high confidence
+        val mergeStartNs = System.nanoTime()
+        val preMergeCount = collected.size
         val merged = HubSingleCardMerger.mergeCandidates(collected)
+        val mergeElapsedMs = (System.nanoTime() - mergeStartNs) / 1_000_000
+        HubCatalogDiagnostics.record(
+            category = categoryName,
+            source = "HubSingleCardMerger",
+            stage = "CARD_MERGE",
+            status = "PRE:${preMergeCount}->POST:${merged.size}",
+            itemCount = merged.size,
+            elapsedMs = mergeElapsedMs
+        )
 
         // 6. Store in unified TTL cache (memory + persistent disk) with zero-loss overflow slicing
+        val diskStartNs = System.nanoTime()
         val finalSlice = HubCatalogCache.putUnified(categoryName, page, merged, hasMorePages, context)
+        val diskElapsedMs = (System.nanoTime() - diskStartNs) / 1_000_000
+        HubCatalogDiagnostics.record(
+            category = categoryName,
+            source = "HubCatalogCache",
+            stage = "DISK_WRITE",
+            status = "OK_SLICE_${finalSlice.first.size}",
+            itemCount = finalSlice.first.size,
+            elapsedMs = diskElapsedMs
+        )
+
         val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
         HubCatalogDiagnostics.record(
             category = categoryName,

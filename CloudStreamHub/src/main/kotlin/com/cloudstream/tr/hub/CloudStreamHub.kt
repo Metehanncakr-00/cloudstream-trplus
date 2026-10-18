@@ -28,6 +28,7 @@ import kotlinx.coroutines.awaitAll
 import java.util.concurrent.ConcurrentHashMap
 import java.util.Collections
 import java.util.concurrent.atomic.AtomicInteger
+import java.net.URLEncoder
 
 class CloudStreamHub : MainAPI() {
     override var mainUrl = "https://api.themoviedb.org/3"
@@ -195,6 +196,15 @@ class CloudStreamHub : MainAPI() {
         }
 
         val startedNs = System.nanoTime()
+        HubCatalogDiagnostics.record(
+            category = canonicalCategory,
+            source = "CloudStreamHub",
+            stage = "GET_MAIN_PAGE_START",
+            status = "PAGE_$page",
+            itemCount = 0,
+            elapsedMs = 0L
+        )
+
         return try {
             val context = HubContextHolder.pluginContext
 
@@ -234,10 +244,22 @@ class CloudStreamHub : MainAPI() {
             val tmdbFetch: (suspend () -> List<SearchResponse>)? =
                 if (!isLanguageSpecificCategory && effectiveDataUrl.startsWith(mainUrl)) {
                     suspend {
+                        val parseStartNs = System.nanoTime()
                         val separator = if ("?" in effectiveDataUrl) "&" else "?"
                         val targetUrl = "${effectiveDataUrl}${separator}page=${page}"
                         val resp = fetchTmdbPage(targetUrl, canonicalCategory)
-                        resp?.results?.mapNotNull { parseTmdbItem(it) } ?: emptyList()
+                        val rawResults = resp?.results.orEmpty()
+                        val parsed = rawResults.mapNotNull { parseTmdbItem(it) }
+                        val parseElapsedMs = (System.nanoTime() - parseStartNs) / 1_000_000
+                        HubCatalogDiagnostics.record(
+                            category = canonicalCategory,
+                            source = "TMDB",
+                            stage = "TMDB_PARSE_CONVERSION",
+                            status = "RAW:${rawResults.size}->PARSED:${parsed.size}",
+                            itemCount = parsed.size,
+                            elapsedMs = parseElapsedMs
+                        )
+                        parsed
                     }
                 } else null
 
@@ -253,8 +275,27 @@ class CloudStreamHub : MainAPI() {
                 context = context
             )
 
+            val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+            HubCatalogDiagnostics.record(
+                category = canonicalCategory,
+                source = "CloudStreamHub",
+                stage = "GET_MAIN_PAGE_SUCCESS",
+                status = "OK",
+                itemCount = items.size,
+                elapsedMs = elapsedMs
+            )
+
             newHomePageResponse(request.name, items, hasNext = hasNext)
         } catch (e: CancellationException) {
+            val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
+            HubCatalogDiagnostics.record(
+                category = canonicalCategory,
+                source = "CloudStreamHub",
+                stage = "GET_MAIN_PAGE_CANCELLED",
+                status = "TIMEOUT_OR_CANCELLED",
+                itemCount = 0,
+                elapsedMs = elapsedMs
+            )
             throw e
         } catch (t: Throwable) {
             val elapsedMs = (System.nanoTime() - startedNs) / 1_000_000
@@ -270,58 +311,142 @@ class CloudStreamHub : MainAPI() {
         }
     }
 
+    override suspend fun search(query: String): List<SearchResponse> = search(query, 1).items
+
     override suspend fun search(query: String, page: Int): SearchResponseList {
-        val targetUrl = "${mainUrl}/search/multi?query=${query}&language=tr-TR&page=${page}&api_key=${tmdbApiKey}"
-        val tmdbResp = fetchTmdbPage(targetUrl, "Arama")
-        val tmdbItems = tmdbResp?.results?.mapNotNull { parseTmdbItem(it) } ?: emptyList()
-        val totalPages = tmdbResp?.totalPages ?: 1
+        val searchStartNs = System.nanoTime()
+        HubCatalogDiagnostics.record(
+            category = "Arama",
+            source = "CloudStreamHub",
+            stage = "SEARCH_START",
+            status = "QUERY:${query.take(30)}_PAGE_$page",
+            itemCount = 0,
+            elapsedMs = 0L
+        )
 
-        val allFound = mutableListOf<SearchResponse>()
-        allFound.addAll(tmdbItems)
+        return try {
+            val encodedQuery = try {
+                URLEncoder.encode(query.trim(), "UTF-8")
+            } catch (_: Throwable) {
+                query.trim().replace(" ", "%20")
+            }
+            val targetUrl = "${mainUrl}/search/multi?query=${encodedQuery}&language=tr-TR&page=${page}&api_key=${tmdbApiKey}"
+            val tmdbResp = fetchTmdbPage(targetUrl, "Arama")
+            val tmdbItems = tmdbResp?.results?.mapNotNull { parseTmdbItem(it) } ?: emptyList()
+            val totalPages = tmdbResp?.totalPages ?: 1
 
-        // Augment with indexed provider catalog cache (getProviderCatalog) and live federated search on ALL enabled providers for page 1
-        if (page == 1) {
-            val enabledProviders = CloudStreamProviderRegistryAdapter.getRegisteredProviders(
-                excludeName = this@CloudStreamHub.name,
-                onlyEnabled = true
+            val tmdbElapsedMs = (System.nanoTime() - searchStartNs) / 1_000_000
+            HubCatalogDiagnostics.record(
+                category = "Arama",
+                source = "TMDB",
+                stage = "SEARCH_TMDB",
+                status = if (tmdbItems.isNotEmpty()) "OK" else "EMPTY",
+                itemCount = tmdbItems.size,
+                elapsedMs = tmdbElapsedMs
             )
 
-            // 1. Consume crawled provider catalog cache first (zero network overhead)
-            val indexedItems = UnifiedCatalogEngine.searchIndexedCatalog(
-                query = query,
-                allProviders = enabledProviders,
-                context = HubContextHolder.pluginContext
-            )
-            allFound.addAll(indexedItems)
+            val allFound = mutableListOf<SearchResponse>()
+            allFound.addAll(tmdbItems)
 
-            // 2. Live federated search across enabled providers
-            val searchTimeoutMs = HubSettingsManager.snapshot().effectiveSearchTimeoutMs
-            val maxConcurrency = HubSettingsManager.snapshot().maxConcurrency.coerceIn(1, 10)
-            val semaphore = Semaphore(maxConcurrency)
+            // Augment with indexed provider catalog cache (getProviderCatalog) and live federated search on ALL enabled providers for page 1
+            if (page == 1) {
+                val enabledProviders = CloudStreamProviderRegistryAdapter.getRegisteredProviders(
+                    excludeName = this@CloudStreamHub.name,
+                    onlyEnabled = true
+                )
 
-            coroutineScope {
-                val searches = enabledProviders.map { provider ->
-                    async {
-                        semaphore.withPermit {
-                            try {
-                                withTimeoutOrNull(searchTimeoutMs) {
-                                    HubMatchingEngine.searchProvider(provider, query)
-                                } ?: emptyList()
-                            } catch (e: CancellationException) {
-                                throw e
-                            } catch (_: Throwable) {
-                                emptyList<SearchResponse>()
+                // 1. Consume crawled provider catalog cache first (zero network overhead)
+                val indexedItems = UnifiedCatalogEngine.searchIndexedCatalog(
+                    query = query,
+                    allProviders = enabledProviders,
+                    context = HubContextHolder.pluginContext
+                )
+                if (indexedItems.isNotEmpty()) {
+                    allFound.addAll(indexedItems)
+                    HubCatalogDiagnostics.record(
+                        category = "Arama",
+                        source = "HubCatalogCache",
+                        stage = "SEARCH_INDEXED",
+                        status = "OK",
+                        itemCount = indexedItems.size,
+                        elapsedMs = (System.nanoTime() - searchStartNs) / 1_000_000
+                    )
+                }
+
+                // 2. Live federated search across enabled providers
+                val searchTimeoutMs = HubSettingsManager.snapshot().effectiveSearchTimeoutMs
+                val maxConcurrency = HubSettingsManager.snapshot().maxConcurrency.coerceIn(1, 10)
+                val semaphore = Semaphore(maxConcurrency)
+
+                val providerStartNs = System.nanoTime()
+                coroutineScope {
+                    val searches = enabledProviders.map { provider ->
+                        async {
+                            semaphore.withPermit {
+                                try {
+                                    withTimeoutOrNull(searchTimeoutMs) {
+                                        HubMatchingEngine.searchProvider(provider, query)
+                                    } ?: emptyList()
+                                } catch (e: CancellationException) {
+                                    throw e
+                                } catch (_: Throwable) {
+                                    emptyList<SearchResponse>()
+                                }
                             }
                         }
                     }
+                    val batches = searches.awaitAll()
+                    var liveProviderFoundCount = 0
+                    for (b in batches) {
+                        allFound.addAll(b)
+                        liveProviderFoundCount += b.size
+                    }
+                    val providerElapsedMs = (System.nanoTime() - providerStartNs) / 1_000_000
+                    HubCatalogDiagnostics.record(
+                        category = "Arama",
+                        source = "Providers",
+                        stage = "SEARCH_PROVIDERS",
+                        status = "PROVIDERS_${enabledProviders.size}",
+                        itemCount = liveProviderFoundCount,
+                        elapsedMs = providerElapsedMs
+                    )
                 }
-                val batches = searches.awaitAll()
-                for (b in batches) allFound.addAll(b)
             }
-        }
 
-        val deduped = HubSingleCardMerger.mergeCandidates(allFound)
-        return newSearchResponseList(deduped, hasNext = page < totalPages)
+            val deduped = HubSingleCardMerger.mergeCandidates(allFound)
+            val totalElapsedMs = (System.nanoTime() - searchStartNs) / 1_000_000
+            HubCatalogDiagnostics.record(
+                category = "Arama",
+                source = "CloudStreamHub",
+                stage = "SEARCH_SUCCESS",
+                status = "OK_MERGED_${deduped.size}",
+                itemCount = deduped.size,
+                elapsedMs = totalElapsedMs
+            )
+            newSearchResponseList(deduped, hasNext = page < totalPages)
+        } catch (e: CancellationException) {
+            val totalElapsedMs = (System.nanoTime() - searchStartNs) / 1_000_000
+            HubCatalogDiagnostics.record(
+                category = "Arama",
+                source = "CloudStreamHub",
+                stage = "SEARCH_CANCELLED",
+                status = "TIMEOUT_OR_CANCELLED",
+                itemCount = 0,
+                elapsedMs = totalElapsedMs
+            )
+            throw e
+        } catch (t: Throwable) {
+            val totalElapsedMs = (System.nanoTime() - searchStartNs) / 1_000_000
+            HubCatalogDiagnostics.record(
+                category = "Arama",
+                source = "CloudStreamHub",
+                stage = "SEARCH_ERROR",
+                status = "ERROR:${t.javaClass.simpleName}",
+                itemCount = 0,
+                elapsedMs = totalElapsedMs
+            )
+            newSearchResponseList(emptyList(), hasNext = false)
+        }
     }
 
     override suspend fun quickSearch(query: String): List<SearchResponse>? = search(query, 1).items

@@ -650,5 +650,46 @@ class CloudStreamHubTest {
             HubCatalogDiagnostics.report().contains("HIDDEN_BY_USER")
         )
     }
+
+    @Test
+    fun testSearchEncodesQueryAndOverloadDelegation() = kotlinx.coroutines.test.runTest {
+        // v45 Regression:
+        // 1. Single-argument search(query) delegates to search(query, 1).items
+        // 2. Query containing spaces and Turkish characters is URL-encoded without throwing IllegalArgumentException
+        // 3. HubCatalogDiagnostics records SEARCH_START and SEARCH_SUCCESS or SEARCH_ERROR
+        HubCatalogDiagnostics.clear()
+
+        val results = hub.search("kurtlar vadisi")
+        assertNotNull("Search must return a list (not null or uncaught exception)", results)
+
+        val report = HubCatalogDiagnostics.report()
+        assertTrue("Diagnostics must record SEARCH_START", report.contains("aşama=SEARCH_START"))
+        assertTrue("Diagnostics must record query", report.contains("kurtlar vadisi"))
+        assertTrue(
+            "Diagnostics must record search outcome (SEARCH_SUCCESS or SEARCH_ERROR)",
+            report.contains("SEARCH_SUCCESS") || report.contains("SEARCH_ERROR")
+        )
+    }
+
+    @Test
+    fun testMainPageRecordsStartAndSuccessDiagnostics() = kotlinx.coroutines.test.runTest {
+        // v45 Regression: CloudStreamHub.getMainPage records GET_MAIN_PAGE_START and GET_MAIN_PAGE_SUCCESS
+        HubCatalogDiagnostics.clear()
+        val movie = hub.newMovieSearchResponse("Gora", "https://prov.com/gora", TvType.Movie) { year = 2004 }
+        HubCatalogCache.putUnified(UnifiedCategories.MOVIES, 1, listOf(movie), hasNext = true)
+
+        val req = com.lagradost.cloudstream3.MainPageRequest(
+            name = UnifiedCategories.MOVIES,
+            data = "hub://category/movies",
+            horizontalImages = false
+        )
+        val resp = hub.getMainPage(1, req)
+        assertEquals(1, resp.items.flatMap { it.list }.size)
+
+        val report = HubCatalogDiagnostics.report()
+        assertTrue("Diagnostics must record GET_MAIN_PAGE_START", report.contains("aşama=GET_MAIN_PAGE_START"))
+        assertTrue("Diagnostics must record GET_MAIN_PAGE_SUCCESS", report.contains("aşama=GET_MAIN_PAGE_SUCCESS"))
+        assertTrue("Diagnostics must record OK status", report.contains("durum=OK"))
+    }
 }
 

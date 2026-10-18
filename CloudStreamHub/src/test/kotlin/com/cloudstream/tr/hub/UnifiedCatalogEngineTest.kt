@@ -801,6 +801,57 @@ class UnifiedCatalogEngineTest {
         assertTrue("Diagnostics must record successful merge", diagReport.contains("MERGE_COMPLETE"))
         assertFalse("Diagnostics must NEVER leak TMDB API key", diagReport.contains("90ad3ec891e5923150283b99719d890f"))
     }
+
+    @Test
+    fun testTmdbSuccessWithFewProvidersDoesNotScrapeLiveProvidersAndLogsMergeDiskDiagnostics() = runTest {
+        // v45 Regression: Even when provider list is small (<= 6), TMDB success must NOT trigger slow live provider scraping.
+        // It must merge immediately and record CARD_MERGE and DISK_WRITE diagnostics.
+        HubCatalogDiagnostics.clear()
+        var liveScrapeCount = 0
+
+        val fewProviders = (1..3).map { idx ->
+            object : MainAPI() {
+                override var name = "SmallProv_$idx"
+                override var mainUrl = "https://small$idx.com"
+                override val hasMainPage = true
+                override val supportedTypes = setOf(TvType.Movie)
+                override val mainPage = listOf(MainPageData("Filmler", "https://small$idx.com/filmler"))
+
+                override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
+                    liveScrapeCount++
+                    return newHomePageResponse(
+                        request.name,
+                        listOf(hub.newMovieSearchResponse("Small Movie $idx", "https://small$idx.com/m$idx", TvType.Movie)),
+                        hasNext = false
+                    )
+                }
+            }
+        }
+        fewProviders.forEach { ProviderCapabilityMatrix.evaluate(it) }
+
+        val tmdbItems = (1..20).map { i ->
+            hub.newMovieSearchResponse("TMDB Movie $i", "https://api.themoviedb.org/3/movie/$i", TvType.Movie) {
+                year = 2020 + (i % 5)
+            }
+        }
+
+        val (mergedItems, hasNext) = UnifiedCatalogEngine.getCategoryPage(
+            categoryName = UnifiedCategories.MOVIES,
+            page = 1,
+            allProviders = fewProviders,
+            tmdbFetch = { tmdbItems }
+        )
+
+        assertEquals("TMDB 20 items must be returned immediately without live provider scraping", 20, mergedItems.size)
+        assertTrue("HasNext must be true for TMDB pages", hasNext)
+        assertEquals("Zero live provider scraping must occur when TMDB returns 20 items even with <= 6 providers", 0, liveScrapeCount)
+
+        val report = HubCatalogDiagnostics.report()
+        assertTrue("Diagnostics must record CARD_MERGE stage", report.contains("aşama=CARD_MERGE"))
+        assertTrue("Diagnostics must record PRE:20->POST:20 conversion", report.contains("durum=PRE:20->POST:20"))
+        assertTrue("Diagnostics must record DISK_WRITE stage", report.contains("aşama=DISK_WRITE"))
+        assertTrue("Diagnostics must record MERGE_COMPLETE", report.contains("aşama=MERGE_COMPLETE"))
+    }
 }
 
 
