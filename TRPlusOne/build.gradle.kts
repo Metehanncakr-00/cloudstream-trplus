@@ -1,4 +1,4 @@
-version = 1
+version = 2
 
 dependencies {
     add("cloudstream", "com.lagradost.cloudstream3:cloudstream:pre-release")

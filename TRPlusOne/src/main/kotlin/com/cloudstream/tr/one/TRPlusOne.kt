@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap
 /** No CloudStreamHub imports; this provider is independently registered by TRPlusOnePlugin. */
 class TRPlusOne : MainAPI() {
     override var name = "TR+ ONE"
-    override var mainUrl = "https://trplus.one.invalid" // stable local routing identity, never requested
+    override var mainUrl = OneRouteCodec.BASE_URL // "https://trplus.one.invalid", never requested on network
     override var lang = "tr"
     override val hasMainPage = true
     override val hasQuickSearch = true
@@ -53,7 +53,8 @@ class TRPlusOne : MainAPI() {
             return newHomePageResponse(request.name, existing.map(::card), hasNext = existing.size >= 15)
         }
         val results = withTimeoutOrNull(8500L) { fetchAndStore(category, page) }.orEmpty()
-        OneDiagnostics.record("home", "$catalogKey RETURNED items=${results.size} ms=${(System.nanoTime()-started)/1_000_000}")
+        val elapsedMs = (System.nanoTime() - started) / 1_000_000
+        OneDiagnostics.record("home", "$catalogKey RETURNED items=${results.size} ms=$elapsedMs")
         return newHomePageResponse(request.name, results.map(::card), hasNext = results.isNotEmpty())
     }
 
@@ -93,8 +94,8 @@ class TRPlusOne : MainAPI() {
 
     override suspend fun quickSearch(query: String): List<SearchResponse>? = search(query)
 
-    private fun card(media: CanonicalMedia): SearchResponse {
-        val url = "one://media/${media.id}"
+    internal fun card(media: CanonicalMedia): SearchResponse {
+        val url = OneRouteCodec.mediaUrl(media.id)
         return when (media.kind) {
             OneKind.MOVIE -> newMovieSearchResponse(media.name, url, TvType.Movie) {
                 this.posterUrl = media.posterUrl
@@ -120,12 +121,22 @@ class TRPlusOne : MainAPI() {
             async(Dispatchers.IO) {
                 val api = OneProviders.byId(listing.providerId) ?: return@async null
                 if (!OneSettings.isEnabled(listing.providerId)) return@async null
+                val startNs = System.nanoTime()
+                OneDiagnostics.log("PROVIDER_LOAD_START", "provider=${listing.providerId} url=${listing.url}")
                 try {
-                    val load = withTimeoutOrNull(4500L) { api.load(listing.url) } ?: return@async null
-                    listing to load
+                    val load = withTimeoutOrNull(4500L) { api.load(listing.url) }
+                    val durationMs = (System.nanoTime() - startNs) / 1_000_000
+                    if (load != null) {
+                        OneDiagnostics.log("PROVIDER_LOAD_SUCCESS", "provider=${listing.providerId} type=${load.javaClass.simpleName} ms=$durationMs")
+                        listing to load
+                    } else {
+                        OneDiagnostics.log("PROVIDER_LOAD_FAILED", "provider=${listing.providerId} reason=TIMEOUT_OR_NULL ms=$durationMs")
+                        null
+                    }
                 } catch (e: CancellationException) { throw e }
                 catch (e: Exception) {
-                    OneDiagnostics.record(listing.providerId, "load ERROR:${e.javaClass.simpleName}")
+                    val durationMs = (System.nanoTime() - startNs) / 1_000_000
+                    OneDiagnostics.log("PROVIDER_LOAD_FAILED", "provider=${listing.providerId} reason=${e.javaClass.simpleName} ms=$durationMs")
                     null
                 }
             }
@@ -133,19 +144,43 @@ class TRPlusOne : MainAPI() {
     }
 
     override suspend fun load(url: String): LoadResponse? {
-        val id = url.removePrefix("one://media/")
-        val media = OneIndex.media(id) ?: return null
-        val detailed = withTimeoutOrNull(8500L) { providerDetails(media) }.orEmpty()
-        if (detailed.isEmpty()) {
-            OneDiagnostics.record("details", "NO_PROVIDER_DETAIL id=$id")
+        val startNs = System.nanoTime()
+        OneDiagnostics.log("LOAD_START", "url=$url")
+
+        val route = OneRouteCodec.parse(url)
+        val routeDesc = when (route) {
+            is OneRoute.Media -> "Media(id=${route.id})"
+            is OneRoute.Movie -> "Movie(id=${route.id})"
+            is OneRoute.Episode -> "Episode(id=${route.id}, s=${route.season}, e=${route.episode})"
+            null -> "INVALID"
+        }
+        OneDiagnostics.log("ROUTE_PARSED", "route=$routeDesc raw=$url")
+
+        val mediaId = (route as? OneRoute.Media)?.id
+        if (mediaId == null) {
+            OneDiagnostics.log("LOAD_FAILED", "REASON=INVALID_ROUTE url=$url")
             return null
         }
+
+        val media = OneIndex.media(mediaId)
+        if (media == null) {
+            OneDiagnostics.log("MEDIA_NOT_FOUND", "id=$mediaId")
+            return null
+        }
+        OneDiagnostics.log("MEDIA_FOUND", "id=${media.id} name=${media.name} kind=${media.kind} listings=${media.listings.size}")
+
+        val detailed = withTimeoutOrNull(8500L) { providerDetails(media) }.orEmpty()
+        if (detailed.isEmpty()) {
+            OneDiagnostics.log("LOAD_FAILED", "REASON=NO_PROVIDER_DETAIL id=$mediaId")
+            return null
+        }
+
         val base = detailed.first().second
-        OneDiagnostics.record("details", "id=$id listingCount=${media.listings.size} loaded=${detailed.size}")
-        return if (media.kind == OneKind.MOVIE) {
+        val response = if (media.kind == OneKind.MOVIE) {
             val m = detailed.firstNotNullOfOrNull { it.second as? MovieLoadResponse }
                 ?: return null
-            newMovieLoadResponse(media.name, url, m.type, "one://movie/$id") {
+            val moviePlayUrl = OneRouteCodec.movieUrl(media.id)
+            newMovieLoadResponse(media.name, url, m.type, moviePlayUrl) {
                 this.posterUrl = m.posterUrl ?: media.posterUrl
                 this.plot = m.plot
                 this.year = media.year ?: m.year
@@ -160,13 +195,13 @@ class TRPlusOne : MainAPI() {
                     val e = ep.episode
                     // Unknown-number episodes cannot safely route between providers.
                     if (s == null || e == null) {
-                        OneDiagnostics.record("episodes", "UNKNOWN_NUMBER_SKIPPED id=$id")
+                        OneDiagnostics.record("episodes", "UNKNOWN_NUMBER_SKIPPED id=$mediaId")
                         return@forEach
                     }
                     val key = "$s:$e"
                     if (key !in episodes) {
-                        val route = "one://episode/$id/$s/$e"
-                        episodes[key] = newEpisode(route) {
+                        val epPlayUrl = OneRouteCodec.episodeUrl(media.id, s, e)
+                        episodes[key] = newEpisode(epPlayUrl) {
                             this.name = ep.name
                             this.season = s
                             this.episode = e
@@ -176,8 +211,16 @@ class TRPlusOne : MainAPI() {
                     }
                 }
             }
-            if (episodes.isEmpty()) return null
-            newTvSeriesLoadResponse(media.name, url, if (media.kind == OneKind.ANIME_SERIES || media.kind == OneKind.ANIME_MOVIE) TvType.Anime else TvType.TvSeries, episodes.values.toList()) {
+            if (episodes.isEmpty()) {
+                OneDiagnostics.log("LOAD_FAILED", "REASON=NO_EPISODES id=$mediaId")
+                return null
+            }
+            newTvSeriesLoadResponse(
+                media.name,
+                url,
+                if (media.kind == OneKind.ANIME_SERIES || media.kind == OneKind.ANIME_MOVIE) TvType.Anime else TvType.TvSeries,
+                episodes.values.toList()
+            ) {
                 this.posterUrl = base.posterUrl ?: media.posterUrl
                 this.plot = base.plot
                 this.year = media.year ?: base.year
@@ -185,6 +228,11 @@ class TRPlusOne : MainAPI() {
                 this.score = base.score
             }
         }
+
+        val durationMs = (System.nanoTime() - startNs) / 1_000_000
+        val epCount = (response as? TvSeriesLoadResponse)?.episodes?.size ?: 1
+        OneDiagnostics.log("LOAD_RESPONSE_READY", "id=${media.id} type=${response.type} episodes=$epCount durationMs=$durationMs")
+        return response
     }
 
     override suspend fun loadLinks(
@@ -192,45 +240,75 @@ class TRPlusOne : MainAPI() {
         subtitleCallback: (SubtitleFile) -> Unit,
         callback: (ExtractorLink) -> Unit
     ): Boolean {
-        if (!data.startsWith("one://movie/") && !data.startsWith("one://episode/")) return false
-        val bits = data.removePrefix("one://").split("/")
-        if (bits.size < 2) return false
-        val media = OneIndex.media(bits[1]) ?: return false
-        val episode = bits[0] == "episode"
-        val season = bits.getOrNull(2)?.toIntOrNull()
-        val number = bits.getOrNull(3)?.toIntOrNull()
+        val startNs = System.nanoTime()
+        OneDiagnostics.log("LOAD_LINKS_START", "data=$data")
+
+        val route = OneRouteCodec.parse(data)
+        if (route == null || (route !is OneRoute.Movie && route !is OneRoute.Episode)) {
+            val totalMs = (System.nanoTime() - startNs) / 1_000_000
+            OneDiagnostics.log("LOAD_LINKS_RESULT", "yielded=0 links REASON=INVALID_ROUTE data=$data totalMs=$totalMs")
+            return false
+        }
+
+        val mediaId = when (route) {
+            is OneRoute.Movie -> route.id
+            is OneRoute.Episode -> route.id
+        }
+
+        val media = OneIndex.media(mediaId)
+        if (media == null) {
+            val totalMs = (System.nanoTime() - startNs) / 1_000_000
+            OneDiagnostics.log("LOAD_LINKS_RESULT", "yielded=0 links REASON=MEDIA_NOT_FOUND id=$mediaId totalMs=$totalMs")
+            return false
+        }
+
+        val isEpisode = route is OneRoute.Episode
+        val season = (route as? OneRoute.Episode)?.season
+        val number = (route as? OneRoute.Episode)?.episode
+
         var count = 0
         // Preserve every provider choice; a broken provider must not hide working peers.
         for (listing in media.listings) {
             val api = OneProviders.byId(listing.providerId) ?: continue
             if (!OneSettings.isEnabled(listing.providerId)) continue
             try {
+                val pStartNs = System.nanoTime()
                 val worked = withTimeoutOrNull(6500L) {
                     val load = api.load(listing.url) ?: return@withTimeoutOrNull false
-                    val targetData = if (!episode) {
+                    val targetData = if (!isEpisode) {
                         (load as? MovieLoadResponse)?.dataUrl
                     } else {
                         if (season == null || number == null || season < 0 || number < 0) null
                         else (load as? TvSeriesLoadResponse)?.episodes
                             ?.firstOrNull { it.season == season && it.episode == number }?.data
                     } ?: return@withTimeoutOrNull false
+
                     api.loadLinks(targetData, isCasting, subtitleCallback) { link ->
+                        @Suppress("DEPRECATION")
                         val wrapped = ExtractorLink(
-                            source = "${listing.providerId} • ${link.source}",
-                            name = "${listing.providerId} • ${link.name}",
-                            url = link.url, referer = link.referer, quality = link.quality,
-                            type = link.type, headers = link.headers, extractorData = link.extractorData
+                            source = "[${listing.providerId}] ${link.source}",
+                            name = "[${listing.providerId}] ${link.name}",
+                            url = link.url,
+                            referer = link.referer,
+                            quality = link.quality,
+                            type = link.type,
+                            headers = link.headers,
+                            extractorData = link.extractorData
                         )
                         callback(wrapped)
                         count++
                     }
                 }
-                OneDiagnostics.record(listing.providerId, "play kind=${bits[0]} yielded=$worked links=$count")
+                val pMs = (System.nanoTime() - pStartNs) / 1_000_000
+                OneDiagnostics.record(listing.providerId, "play route=${route.javaClass.simpleName} yielded=$worked links=$count ms=$pMs")
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) {
                 OneDiagnostics.record(listing.providerId, "play ERROR:${e.javaClass.simpleName}")
             }
         }
+
+        val totalMs = (System.nanoTime() - startNs) / 1_000_000
+        OneDiagnostics.log("LOAD_LINKS_RESULT", "yielded=$count links totalMs=$totalMs")
         return count > 0
     }
 }
