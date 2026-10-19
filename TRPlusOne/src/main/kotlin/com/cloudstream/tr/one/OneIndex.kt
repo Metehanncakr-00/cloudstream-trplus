@@ -12,6 +12,7 @@ import java.util.LinkedHashSet
 object OneIndex {
     private val media = LinkedHashMap<String, CanonicalMedia>()
     private val pages = LinkedHashMap<String, LinkedHashSet<String>>()
+    private val aliases = LinkedHashMap<String, String>()
     private var loaded = false
     private var appContext: Context? = null
     private const val MAX_MEDIA = 2500
@@ -54,6 +55,13 @@ object OneIndex {
                 val array = cat.optJSONArray(key) ?: continue
                 pages[key] = LinkedHashSet((0 until array.length()).map { array.optString(it) }.filter { it in media })
             }
+            val aliasObj = root.optJSONObject("aliases")
+            if (aliasObj != null) {
+                for (key in aliasObj.keys()) {
+                    val target = aliasObj.optString(key)
+                    if (target.isNotBlank()) aliases[key] = target
+                }
+            }
         } catch (e: Exception) {
             // Keep an invalid database for diagnosis rather than overwrite it.
             OneDiagnostics.record("index-read", "ERROR:${e.javaClass.simpleName}")
@@ -63,30 +71,46 @@ object OneIndex {
     private fun pageKey(category: String, page: Int) = "$category#$page"
 
     @Synchronized fun page(category: String, page: Int): List<CanonicalMedia> =
-        pages[pageKey(category, page)]?.mapNotNull { media[it] }.orEmpty()
+        pages[pageKey(category, page)]?.mapNotNull { media[aliases[it] ?: it] }?.distinctBy { it.id }.orEmpty()
 
-    @Synchronized fun media(id: String): CanonicalMedia? = media[id]
+    @Synchronized fun media(id: String): CanonicalMedia? {
+        val targetId = aliases[id] ?: id
+        return media[targetId]
+    }
+
+    @Synchronized fun registerAlias(aliasId: String, canonicalId: String) {
+        if (aliasId.isNotBlank() && canonicalId.isNotBlank() && aliasId != canonicalId) {
+            aliases[aliasId] = canonicalId
+        }
+    }
+
+    @Synchronized fun updateMedia(updated: CanonicalMedia) {
+        media[updated.id] = updated
+        persist()
+    }
 
     @Synchronized fun stats(): String {
         val breakdown = media.values.flatMap { it.listings }
             .groupingBy { it.providerId }.eachCount().entries.joinToString(", ") { "${it.key}=${it.value}" }
-        return "Indexed=${media.size}, listings=${media.values.sumOf { it.listings.size }}, pages=${pages.size}; sources: $breakdown"
+        return "Indexed=${media.size}, listings=${media.values.sumOf { it.listings.size }}, pages=${pages.size}, aliases=${aliases.size}; sources: $breakdown"
     }
 
     @Synchronized fun searchLocal(query: String): List<CanonicalMedia> {
         val needle = OneIdentity.normalizedTitle(query, null)
         return if (needle.isBlank()) emptyList() else media.values.filter {
             OneIdentity.normalizedTitle(it.name, it.year).contains(needle)
-        }.take(60)
+        }.distinctBy { it.id }.take(60)
     }
 
     @Synchronized fun ingest(category: String, page: Int, listings: List<ProviderListing>): List<CanonicalMedia> {
         if (listings.isEmpty()) return this.page(category, page)
-        val updated = CanonicalEngine.merge(media.values, listings)
+        val updated = CanonicalEngine.merge(media.values, listings) { alias, canonical ->
+            registerAlias(alias, canonical)
+        }
         media.clear()
         updated.takeLast(MAX_MEDIA).forEach { media[it.id] = it }
         val categoryKey = pageKey(category, page)
-        val ids = listings.map { OneIdentity.key(it) }.filter { it in media }
+        val ids = listings.map { aliases[OneIdentity.key(it)] ?: OneIdentity.key(it) }.filter { it in media }
         val saved = pages.getOrPut(categoryKey) { LinkedHashSet() }
         saved.addAll(ids)
         while (saved.size > MAX_PAGE_ITEMS) saved.remove(saved.first())
@@ -97,10 +121,18 @@ object OneIndex {
 
     @Synchronized fun saveSearch(listings: List<ProviderListing>) {
         if (listings.isEmpty()) return
-        val updated = CanonicalEngine.merge(media.values, listings)
+        val updated = CanonicalEngine.merge(media.values, listings) { alias, canonical ->
+            registerAlias(alias, canonical)
+        }
         media.clear()
         updated.takeLast(MAX_MEDIA).forEach { media[it.id] = it }
         persist()
+    }
+
+    @Synchronized fun clearForTests() {
+        media.clear()
+        pages.clear()
+        aliases.clear()
     }
 
     private fun persist() {
@@ -129,6 +161,9 @@ object OneIndex {
             val pageJson = JSONObject()
             pages.forEach { (key, ids) -> pageJson.put(key, JSONArray(ids.toList())) }
             root.put("pages", pageJson)
+            val aliasJson = JSONObject()
+            aliases.forEach { (k, v) -> aliasJson.put(k, v) }
+            root.put("aliases", aliasJson)
             val atomic = AtomicFile(File(context.filesDir, "trplusone-index-v1.json"))
             val out = atomic.startWrite()
             try {

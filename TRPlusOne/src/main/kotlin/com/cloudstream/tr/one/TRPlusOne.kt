@@ -74,22 +74,27 @@ class TRPlusOne : MainAPI() {
 
     override suspend fun search(query: String, page: Int): SearchResponseList {
         if (query.isBlank()) return newSearchResponseList(emptyList(), hasNext = false)
-        val local = OneIndex.searchLocal(query)
-        if (local.isNotEmpty() && page == 1) {
-            background.launch {
-                val additional = withTimeoutOrNull(8500L) { OneProviders.search(query) }.orEmpty()
-                OneIndex.saveSearch(additional)
+        val startNs = System.nanoTime()
+
+        // 1. Controlled, time-bounded search across all enabled providers
+        val fetched = withTimeoutOrNull(4000L) {
+            OneProviders.search(query)
+        }.orEmpty()
+
+        // 2. Persist newly fetched listings into index (merging onto canonical cards)
+        val results = withContext(Dispatchers.IO) {
+            if (fetched.isNotEmpty()) {
+                OneIndex.saveSearch(fetched)
             }
-            OneDiagnostics.record("search", "LOCAL items=${local.size}")
-            return newSearchResponseList(local.map(::card), hasNext = false)
-        }
-        val fetched = withTimeoutOrNull(8500L) { OneProviders.search(query) }.orEmpty()
-        val merged = withContext(Dispatchers.IO) {
-            OneIndex.saveSearch(fetched)
             OneIndex.searchLocal(query)
         }
-        OneDiagnostics.record("search", "REMOTE items=${merged.size}")
-        return newSearchResponseList(if (page == 1) merged.map(::card) else emptyList(), hasNext = false)
+
+        val durationMs = (System.nanoTime() - startNs) / 1_000_000
+        OneDiagnostics.log(
+            "SEARCH_PROVIDER_RESULTS",
+            "query='$query' remote=${fetched.size} local=${results.size} durationMs=$durationMs"
+        )
+        return newSearchResponseList(if (page == 1) results.map(::card) else emptyList(), hasNext = false)
     }
 
     override suspend fun quickSearch(query: String): List<SearchResponse>? = search(query)
@@ -162,28 +167,76 @@ class TRPlusOne : MainAPI() {
             return null
         }
 
-        val media = OneIndex.media(mediaId)
-        if (media == null) {
+        val initialMedia = OneIndex.media(mediaId)
+        if (initialMedia == null) {
             OneDiagnostics.log("MEDIA_NOT_FOUND", "id=$mediaId")
             return null
         }
-        OneDiagnostics.log("MEDIA_FOUND", "id=${media.id} name=${media.name} kind=${media.kind} listings=${media.listings.size}")
+        OneDiagnostics.log("MEDIA_FOUND", "id=${initialMedia.id} name=${initialMedia.name} kind=${initialMedia.kind} listings=${initialMedia.listings.size}")
 
-        val detailed = withTimeoutOrNull(8500L) { providerDetails(media) }.orEmpty()
+        // Multi-source enrichment: if this card only has a single provider, check other enabled providers on-demand
+        val searchTitle = initialMedia.name
+        val presentProviderIds = initialMedia.listings.map { it.providerId }.toSet()
+        val missingAdapters = OneProviders.enabledAdapters().filter { adapter ->
+            adapter.providerId !in presentProviderIds && adapter.supportedTypes.contains(initialMedia.kind)
+        }
+
+        var activeMedia = initialMedia
+        if (missingAdapters.isNotEmpty() && initialMedia.listings.size < 4) {
+            val supplemental = withTimeoutOrNull(3000L) {
+                coroutineScope {
+                    missingAdapters.map { adapter ->
+                        async(Dispatchers.IO) {
+                            try {
+                                adapter.search(searchTitle)
+                            } catch (_: Throwable) {
+                                emptyList()
+                            }
+                        }
+                    }.awaitAll().flatten()
+                }
+            }.orEmpty()
+
+            val current = initialMedia
+            val verified = supplemental.filter { listing ->
+                CanonicalEngine.isMatch(current, listing)
+            }
+
+            if (verified.isNotEmpty()) {
+                val dedup = (current.listings + verified).distinctBy { it.providerId + "\u0000" + it.url }
+                activeMedia = current.copy(
+                    year = current.year ?: verified.firstNotNullOfOrNull { it.year },
+                    posterUrl = current.posterUrl ?: verified.firstNotNullOfOrNull { it.posterUrl },
+                    listings = dedup
+                )
+                OneIndex.updateMedia(activeMedia)
+                OneDiagnostics.log(
+                    "CANONICAL_MATCH",
+                    "on-demand attached ${verified.map { it.providerId }} to '${activeMedia.name}'"
+                )
+            }
+        }
+
+        OneDiagnostics.log(
+            "MEDIA_PROVIDER_LIST",
+            "id=${activeMedia.id} providers=${activeMedia.listings.map { it.providerId }}"
+        )
+
+        val detailed = withTimeoutOrNull(8500L) { providerDetails(activeMedia) }.orEmpty()
         if (detailed.isEmpty()) {
             OneDiagnostics.log("LOAD_FAILED", "REASON=NO_PROVIDER_DETAIL id=$mediaId")
             return null
         }
 
         val base = detailed.first().second
-        val response = if (media.kind == OneKind.MOVIE) {
+        val response = if (activeMedia.kind == OneKind.MOVIE) {
             val m = detailed.firstNotNullOfOrNull { it.second as? MovieLoadResponse }
                 ?: return null
-            val moviePlayUrl = OneRouteCodec.movieUrl(media.id)
-            newMovieLoadResponse(media.name, url, m.type, moviePlayUrl) {
-                this.posterUrl = m.posterUrl ?: media.posterUrl
+            val moviePlayUrl = OneRouteCodec.movieUrl(activeMedia.id)
+            newMovieLoadResponse(activeMedia.name, url, m.type, moviePlayUrl) {
+                this.posterUrl = m.posterUrl ?: activeMedia.posterUrl
                 this.plot = m.plot
-                this.year = media.year ?: m.year
+                this.year = activeMedia.year ?: m.year
                 this.tags = m.tags
                 this.score = m.score
             }
@@ -194,11 +247,12 @@ class TRPlusOne : MainAPI() {
                     val s = ep.season ?: 1
                     val e = ep.episode ?: 1
                     if (ep.data.isNotBlank()) {
-                        OneEpisodeRegistry.register(media.id, s, e, listing.providerId, ep.data)
+                        OneEpisodeRegistry.register(activeMedia.id, s, e, listing.providerId, ep.data)
+                        OneDiagnostics.log("EPISODE_MATCH", "id=${activeMedia.id} s=$s e=$e provider=${listing.providerId} data=${ep.data}")
                     }
                     val key = "$s:$e"
                     if (key !in episodes) {
-                        val epPlayUrl = OneRouteCodec.episodeUrl(media.id, s, e)
+                        val epPlayUrl = OneRouteCodec.episodeUrl(activeMedia.id, s, e)
                         episodes[key] = newEpisode(epPlayUrl) {
                             this.name = ep.name ?: "${s}. Sezon ${e}. Bölüm"
                             this.season = s
@@ -213,16 +267,17 @@ class TRPlusOne : MainAPI() {
                 OneDiagnostics.log("LOAD_FAILED", "REASON=NO_EPISODES id=$mediaId")
                 return null
             }
+            OneDiagnostics.log("EPISODE_DATA_FOUND", "id=${activeMedia.id} totalEpisodes=${episodes.size}")
             background.launch { OneEpisodeRegistry.persist() }
             newTvSeriesLoadResponse(
-                media.name,
+                activeMedia.name,
                 url,
-                if (media.kind == OneKind.ANIME_SERIES || media.kind == OneKind.ANIME_MOVIE) TvType.Anime else TvType.TvSeries,
+                if (activeMedia.kind == OneKind.ANIME_SERIES || activeMedia.kind == OneKind.ANIME_MOVIE) TvType.Anime else TvType.TvSeries,
                 episodes.values.toList()
             ) {
-                this.posterUrl = base.posterUrl ?: media.posterUrl
+                this.posterUrl = base.posterUrl ?: activeMedia.posterUrl
                 this.plot = base.plot
-                this.year = media.year ?: base.year
+                this.year = activeMedia.year ?: base.year
                 this.tags = base.tags
                 this.score = base.score
             }
@@ -230,7 +285,7 @@ class TRPlusOne : MainAPI() {
 
         val durationMs = (System.nanoTime() - startNs) / 1_000_000
         val epCount = (response as? TvSeriesLoadResponse)?.episodes?.size ?: 1
-        OneDiagnostics.log("LOAD_RESPONSE_READY", "id=${media.id} type=${response.type} episodes=$epCount durationMs=$durationMs")
+        OneDiagnostics.log("LOAD_RESPONSE_READY", "id=${activeMedia.id} type=${response.type} episodes=$epCount durationMs=$durationMs")
         return response
     }
 

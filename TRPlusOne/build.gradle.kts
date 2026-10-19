@@ -1,4 +1,4 @@
-version = 3
+version = 4
 
 dependencies {
     add("cloudstream", "com.lagradost.cloudstream3:cloudstream:pre-release")
@@ -7,7 +7,7 @@ dependencies {
 cloudstream {
     authors = listOf("CloudStreamTR")
     language = "tr"
-    description = "TR+ ONE v3: 9 sağlayıcılı çoklu kaynak birleşik katalog ve oynatma mimarisi"
+    description = "TR+ ONE v4: Çoklu sağlayıcı arama birleştirme, DiziYou oynatma onarımı ve tanılama ekranı"
     status = 1
     tvTypes = listOf("Movie", "TvSeries", "Anime", "AnimeMovie")
 }

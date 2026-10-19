@@ -68,15 +68,59 @@ class TRPlusOnePlugin : Plugin() {
         checkboxes.forEach(group::addView)
         val scroll = ScrollView(context).apply { addView(group) }
         AlertDialog.Builder(context)
-            .setTitle("TR+ ONE — Kaynaklar (Aşama 3 - Grup 1)")
-            .setMessage("Aktif 9 sağlayıcı arasından istediğinizi açıp kapatabilirsiniz.")
+            .setTitle("TR+ ONE v4 — Ayarlar ve Kaynaklar")
+            .setMessage("Aktif sağlayıcıları yönetebilir veya Tanılama ekranından canlı olayları inceleyebilirsiniz.")
             .setView(scroll)
             .setPositiveButton("Kaydet") { _, _ ->
                 checkboxes.forEachIndexed { index, checkbox ->
                     OneSettings.setEnabled(providerList[index], checkbox.isChecked)
                 }
             }
+            .setNeutralButton("Tanılama") { _, _ ->
+                showDiagnosticsDialog(context)
+            }
             .setNegativeButton("İptal", null)
+            .show()
+    }
+
+    private fun showDiagnosticsDialog(context: Context) {
+        val density = context.resources.displayMetrics.density
+        fun dp(px: Int) = (density * px).toInt()
+
+        val logsText = OneDiagnostics.report()
+
+        val textView = android.widget.TextView(context).apply {
+            text = logsText
+            textSize = 12f
+            typeface = android.graphics.Typeface.MONOSPACE
+            setTextColor(Color.WHITE)
+            setTextIsSelectable(true)
+            isFocusable = true
+            isFocusableInTouchMode = true
+            setPadding(dp(12), dp(12), dp(12), dp(12))
+        }
+
+        val scroll = ScrollView(context).apply {
+            addView(textView)
+            isFocusable = true
+            isFocusableInTouchMode = true
+            setBackgroundColor(Color.argb(220, 20, 20, 30))
+        }
+
+        AlertDialog.Builder(context)
+            .setTitle("TR+ ONE — Canlı Tanılama Günlüğü")
+            .setView(scroll)
+            .setPositiveButton("Kopyala") { _, _ ->
+                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as? android.content.ClipboardManager
+                val clip = android.content.ClipData.newPlainText("TR+ ONE Diagnostics", logsText)
+                clipboard?.setPrimaryClip(clip)
+                android.widget.Toast.makeText(context, "Tanılama günlüğü panoya kopyalandı.", android.widget.Toast.LENGTH_SHORT).show()
+            }
+            .setNeutralButton("Temizle") { _, _ ->
+                OneDiagnostics.clear()
+                android.widget.Toast.makeText(context, "Günlükler temizlendi.", android.widget.Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("Kapat", null)
             .show()
     }
 }
