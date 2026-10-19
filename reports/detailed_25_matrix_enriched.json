@@ -1,0 +1,1895 @@
+{
+  "AnimeciX": {
+    "module": "AnimeciX",
+    "version": "111",
+    "className": "AnimeciX",
+    "packageName": "com.cloudstream.tr.animecix",
+    "mainUrl": "https://animecix.tv",
+    "name": "AnimeciX",
+    "hasMainPage": "true",
+    "hasQuickSearch": "false",
+    "supportedTypes": [
+      "Anime"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"Referer\" to \"${mainUrl}/\"",
+      "\"${mainUrl}/secure/titles?type=series&onlyStreamable=true\" to \"Seriler\",",
+      "\"${mainUrl}/secure/titles?type=movie&onlyStreamable=true\" to \"Filmler\","
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [
+      "TauVideoExtractor.kt"
+    ],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "AnimeciX",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "Naruto",
+      "knownDetail": "https://animecix.tv/titles/naruto",
+      "expectedType": "Anime"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": true,
+      "contentType": "Anime",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "a[href*='/titles/'], a[href*='bolum']"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/secure/search/{query}?limit=20",
+        "headers": {
+          "x-e-h": "7Y2ozlO+QysR5w9Q6Tupmtvl9jJp7ThFH8SB+Lo7NvZjgjqRSqOgcT2v4ISM9sP10LmnlYI8WQ==.xrlyOBFS5BHjQ2Lk",
+          "Referer": "https://animecix.tv/"
+        },
+        "jsonKey": "results"
+      },
+      "homepage": {
+        "selectors": [
+          "div.title-card a",
+          "a.poster",
+          "a[href*='/titles/']"
+        ],
+        "requiredUrlPatterns": [
+          "/titles/"
+        ],
+        "excludedUrlPatterns": [
+          "/search",
+          "/profile",
+          "/settings",
+          "/login",
+          "/register",
+          "/dmca"
+        ]
+      }
+    },
+    "disabledReason": "DISABLED_UNSUPPORTED: TauVideo player SPA protected by Cloudflare; tau-video.xyz is not accessible via standard HTTP.",
+    "resolvedCurrentUrl": "https://animecix.tv",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "Animeler": {
+    "module": "Animeler",
+    "version": "22",
+    "className": "Animeler",
+    "packageName": "com.cloudstream.tr.animeler",
+    "mainUrl": "https://animeler.pw",
+    "name": "Animeler",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Anime",
+      "AnimeMovie"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/filter?sort=popular\" to \"Popüler Animeler\",",
+      "\"${mainUrl}/filter?sort=new\" to \"Yeni Animeler\""
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Anime"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "Animeler",
+    "healthTier": "standard",
+    "smokeTest": {
+      "searchQuery": "naruto",
+      "knownDetail": "https://animeler.pw/steinsgate",
+      "expectedType": "Anime"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": true,
+      "contentType": "Anime",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "a[href*=\"/bolum-\"]"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/filter?search={query}",
+        "expectedSelector": "a.anime-card-modern, .anime-grid-modern a, a[href*=\"/naruto\"]",
+        "headers": {
+          "Referer": "https://animeler.pw/"
+        }
+      },
+      "homepage": {
+        "selectors": [
+          "a:has(img[src*=\"animecover\"])",
+          "a[href*=\"/bolum-\"]",
+          "div.col a",
+          "div.anime-card a"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/ara",
+          "/profil",
+          "/giris",
+          "/discord"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://animeler.pw",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "BelgeselX": {
+    "module": "BelgeselX",
+    "version": "112",
+    "className": "BelgeselX",
+    "packageName": "com.cloudstream.tr.belgeselx",
+    "mainUrl": "https://belgeselx.com",
+    "name": "BelgeselX",
+    "hasMainPage": "true",
+    "hasQuickSearch": "false",
+    "supportedTypes": [
+      "Documentary"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/son-eklenenler\" to \"Son Eklenenler\",",
+      "\"${mainUrl}/en-cok-izlenen-belgeseller\" to \"En Çok İzlenenler\",",
+      "\"${mainUrl}/haftanin-trendleri\" to \"Haftanın Trendleri\",",
+      "\"${mainUrl}/konu/turk-tarihi-belgeselleri\" to \"Türk Tarihi\",",
+      "\"${mainUrl}/konu/tarih-belgeselleri\" to \"Tarih\",",
+      "\"${mainUrl}/konu/doga-belgeselleri\" to \"Doğa\","
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "BelgeselX",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "dunya",
+      "knownDetail": "https://belgeselx.com/belgesel/cosmos-bir-uzay-seruveni",
+      "expectedType": "Documentary"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": true,
+      "stealthFallback": true,
+      "contentType": "Documentary",
+      "playerProbe": {
+        "mode": "detail"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/?s={query}",
+        "expectedSelector": "a[href*='/belgesel/'], div.panel a, .video-item a"
+      },
+      "homepage": {
+        "selectors": [
+          "a[href*='/belgesel/']",
+          "div.panel a",
+          ".video-item a"
+        ],
+        "requiredUrlPatterns": [
+          "/belgesel/"
+        ],
+        "excludedUrlPatterns": [
+          "/kategori/",
+          "/tur/",
+          "/iletisim/"
+        ]
+      }
+    },
+    "disabledReason": "DISABLED_DEAD: Catalog pages return soft 404; content unavailable.",
+    "resolvedCurrentUrl": "https://belgeselx.com",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "BlenderOpenMovies": {
+    "module": "BlenderOpenMovies",
+    "version": "6",
+    "className": "BlenderOpenMovies",
+    "packageName": "com.cloudstream.tr.blenderopenmovies",
+    "mainUrl": "BlenderCatalog.BASE",
+    "name": "BlenderOpenMovies",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [],
+    "domainKey": "BlenderOpenMovies",
+    "healthTier": "standard",
+    "smokeTest": {
+      "searchQuery": "Sintel",
+      "knownDetail": "https://video.blender.org/w/0eb052d0-fd51-43e6-aa33-ecdbf77a5d40",
+      "expectedType": "Movie"
+    },
+    "monitoring": {},
+    "disabledReason": null,
+    "resolvedCurrentUrl": "BlenderCatalog.BASE",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "DiziIzle": {
+    "module": "DiziIzle",
+    "version": "8",
+    "className": "DiziIzle",
+    "packageName": "com.cloudstream.tr.diziizle",
+    "mainUrl": "https://www.diziizle.you",
+    "name": "DiziIzle",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "TvSeries"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "override val mainPage = mainPageOf(\"/diziler/\" to \"Türk Dizileri\")"
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "DiziIzle",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "Tuzlu Kahve",
+      "knownDetail": "https://www.diziizle.you/tuzlu-kahve/",
+      "expectedType": "TvSeries"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": false,
+      "contentType": "TvSeries",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "ol.bl-liste > li.bl-satir:not(:has(.bl-etiket-fragman)) > a[href]"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/?ara={query}",
+        "expectedSelector": "li.film-dizi .ad a[href]"
+      },
+      "homepage": {
+        "selectors": [
+          "#content .right ul a[title$=' izle']"
+        ],
+        "excludedUrlPatterns": [
+          "/bolum-",
+          "/player/",
+          "/nostaljik-diziler/"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://www.diziizle.you",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "DiziKorea": {
+    "module": "DiziKorea",
+    "version": "22",
+    "className": "DiziKorea",
+    "packageName": "com.cloudstream.tr.dizikorea",
+    "mainUrl": "https://dizikorea3.com",
+    "name": "DiziKorea",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "AsianDrama"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/\" to \"Son Eklenenler\",",
+      "\"${mainUrl}/kore-dizileri\" to \"Kore Dizileri\",",
+      "\"${mainUrl}/cin-dizileri\" to \"Çin Dizileri\",",
+      "\"${mainUrl}/tayland-dizileri\" to \"Tayland Dizileri\"",
+      "\"s\" to \"\"",
+      "\"Referer\" to \"${host}/\","
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "DiziKorea",
+    "healthTier": "standard",
+    "smokeTest": {
+      "searchQuery": "love",
+      "knownDetail": "https://dizikorea3.com/dizi/flex-x-cop-izle-dq",
+      "expectedType": "AsianDrama"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": true,
+      "contentType": "AsianDrama",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "a[href*=\"/sezon-\"]"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/arama?q={query}",
+        "headers": {
+          "Referer": "https://dizikorea3.com/"
+        }
+      },
+      "homepage": {
+        "selectors": [
+          "a.poster-card",
+          "a[href*=\"/dizi/\"]",
+          "a[href*=\"/film/\"]"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/ara",
+          "/profil",
+          "/giris"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://dizikorea3.com",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "DiziYou": {
+    "module": "DiziYou",
+    "version": "22",
+    "className": "DiziYou",
+    "packageName": "com.cloudstream.tr.diziyou",
+    "mainUrl": "https://www.diziyou.one",
+    "name": "DiziYou",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "TvSeries"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/\" to \"Son Eklenen Bölümler\",",
+      "\"${mainUrl}/dizi-arsivi/?filtrele=tarih&sirala=DESC\" to \"Son Eklenen Diziler\",",
+      "\"${mainUrl}/dizi-arsivi/?filtrele=alfabetik&sirala=ASC\" to \"Dizi Arşivi\",",
+      "\"${mainUrl}/dizi-arsivi/?filtrele=imdb&sirala=DESC&yil=&imdb=7\" to \"Popüler Diziler (IMDb 7+)\""
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "DiziYou",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "arcane",
+      "knownDetail": "https://www.diziyou.one/arcane/",
+      "expectedType": "TvSeries"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": true,
+      "stealthFallback": true,
+      "contentType": "TvSeries",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "a[href*='-sezon-']"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/?s={query}",
+        "expectedSelector": "div.cat-item a, div#list-series a"
+      },
+      "homepage": {
+        "selectors": [
+          "div.cat-item a",
+          "div#list-series a",
+          "a[href*='-sezon-']",
+          "div.bolumust a"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/kategori/",
+          "/tur/"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://www.diziyou.one",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "Dizigecesi": {
+    "module": "Dizigecesi",
+    "version": "22",
+    "className": "Dizigecesi",
+    "packageName": "com.cloudstream.tr.dizigecesi",
+    "mainUrl": "https://dizigecesi.com",
+    "name": "Dizigecesi",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "TvSeries",
+      "Movie"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/diziler\" to \"Popüler Diziler\",",
+      "\"${mainUrl}/filmler\" to \"Yeni Filmler\",",
+      "\"${mainUrl}/trend-diziler\" to \"Trend Diziler\"",
+      "headers = mapOf(\"Referer\" to \"${mainUrl}/\")"
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "VidmolyTrExtractor",
+      "loadExtractor"
+    ],
+    "domainKey": "Dizigecesi",
+    "healthTier": "standard",
+    "smokeTest": {
+      "searchQuery": "spartacus",
+      "knownDetail": "https://dizigecesi.com/dizi/spartacus",
+      "expectedType": "TvSeries"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": true,
+      "contentType": "TvSeries",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "a[href*=\"-sezon/\"]"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/arama?q={query}",
+        "headers": {
+          "Referer": "https://dizigecesi.com/"
+        }
+      },
+      "homepage": {
+        "selectors": [
+          "a.poster-card",
+          "a[href*=\"/dizi/\"]",
+          "a[href*=\"/film/\"]"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/ara",
+          "/profil",
+          "/giris"
+        ]
+      }
+    },
+    "disabledReason": "DISABLED_DEAD: Detail and episode pages return soft 404.",
+    "resolvedCurrentUrl": "https://dizigecesi.com",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "Dizilla": {
+    "module": "Dizilla",
+    "version": "22",
+    "className": "Dizilla",
+    "packageName": "com.cloudstream.tr.dizilla",
+    "mainUrl": "https://dizilla.now",
+    "name": "Dizilla",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "TvSeries"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/\" to \"Son Eklenen Bölümler\",",
+      "\"${mainUrl}/arsiv\" to \"Dizi Arşivi\",",
+      "\"${mainUrl}/yabanci-dizi-izle\" to \"Yabancı Diziler\",",
+      "\"${mainUrl}/anime-izle\" to \"Anime\",",
+      "\"${mainUrl}/kdrama-izle\" to \"Kdrama\",",
+      "\"${mainUrl}/imdb-top-100\" to \"Top 100 Diziler\""
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "PichiveExtractor",
+      "loadExtractor"
+    ],
+    "domainKey": "Dizilla",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "breaking",
+      "knownDetail": "https://dizilla.now/dizi/breaking-bad-2",
+      "expectedType": "TvSeries"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": true,
+      "stealthFallback": true,
+      "contentType": "TvSeries",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "a[href*='-sezon-']"
+      },
+      "search": {
+        "method": "POST_FORM",
+        "path": "/api/bg/searchContent",
+        "headers": {
+          "X-Requested-With": "XMLHttpRequest",
+          "Referer": "https://dizilla.now/"
+        },
+        "payload": {
+          "searchterm": "{query}"
+        }
+      },
+      "homepage": {
+        "selectors": [
+          "div.serie-card a",
+          "a[href*='/dizi/']"
+        ],
+        "requiredUrlPatterns": [
+          "/dizi/"
+        ],
+        "excludedUrlPatterns": [
+          "/iletisim",
+          "/hakkimizda"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://dizilla.now",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "DramaDizilerim": {
+    "module": "DramaDizilerim",
+    "version": "21",
+    "className": "DramaDizilerim",
+    "packageName": "com.cloudstream.tr.dramadizilerim",
+    "mainUrl": "https://dramadizilerim.com",
+    "name": "DramaDizilerim",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "AsianDrama"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/dizi\" to \"Tüm Diziler\","
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [],
+    "domainKey": "DramaDizilerim",
+    "healthTier": "standard",
+    "smokeTest": {
+      "searchQuery": "kral",
+      "knownDetail": "https://dramadizilerim.com/dizi/kole-kral",
+      "expectedType": "AsianDrama"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": true,
+      "contentType": "AsianDrama",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "a[href*=\"/izle/\"]"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/search?q={query}",
+        "headers": {
+          "Referer": "https://dramadizilerim.com/"
+        }
+      },
+      "homepage": {
+        "selectors": [
+          "a.poster-card",
+          "a[href*=\"/dizi/\"]",
+          "a[href*=\"/film/\"]"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/ara",
+          "/profil",
+          "/giris"
+        ]
+      }
+    },
+    "disabledReason": "DISABLED_UNSUPPORTED: Proprietary DramaPlaybackGuard JavaScript barrier prevents media discovery.",
+    "resolvedCurrentUrl": "https://dramadizilerim.com",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "FilmMakinesi": {
+    "module": "FilmMakinesi",
+    "version": "111",
+    "className": "FilmMakinesi",
+    "packageName": "com.cloudstream.tr.filmmakinesi",
+    "mainUrl": "https://filmmakinesi.to",
+    "name": "FilmMakinesi",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "// Let's modify getMainPage and search to resolve it instead.",
+      "\"${mainUrl}/filmler-1/\" to \"Son Eklenen Filmler\",",
+      "\"${mainUrl}/tur/animasyon-fmasd6/film/\" to \"Animasyon Filmleri\",",
+      "\"${mainUrl}/tur/aksiyon-fmy54y/film/\" to \"Aksiyon Filmleri\",",
+      "\"${mainUrl}/yabanci-dizi-izle-1/\" to \"Diziler\",",
+      "\"${mainUrl}/yil/2026-fmfbkb/film/\" to \"2026 Filmleri\""
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "CloseLoadExtractor",
+      "loadExtractor"
+    ],
+    "domainKey": "FilmMakinesi",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "Island",
+      "knownDetail": "https://filmmakinesi.to/film/island-zero-2018/",
+      "expectedType": "Movie"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": true,
+      "stealthFallback": true,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "detail"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/arama/?s={query}",
+        "expectedSelector": "a.item, div.item-relative a.item, a[href*='/film/']"
+      },
+      "homepage": {
+        "selectors": [
+          "a.item",
+          "div.item a",
+          "div.film-box a"
+        ],
+        "requiredUrlPatterns": [
+          "/film/"
+        ],
+        "excludedUrlPatterns": [
+          "/kategori/",
+          "/tur/",
+          "/yil/",
+          "/film-izle/sayfa/"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://filmmakinesi.to",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "FourKHDHub": {
+    "module": "FourKHDHub",
+    "version": "11",
+    "className": "FourKHDHub",
+    "packageName": "com.cloudstream.tr.fourkhdhub",
+    "mainUrl": "https://4khdhub.one",
+    "name": "4KHDHub",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"$mainUrl/\" to \"Ana Sayfa\""
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [],
+    "domainKey": "FourKHDHub",
+    "healthTier": "standard",
+    "smokeTest": {},
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": false,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "detail"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/?s={query}",
+        "expectedSelector": "article, div.post-item"
+      },
+      "homepage": {
+        "selectors": [
+          "article",
+          "div.post-item"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/category/",
+          "/tag/",
+          "/page/"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://4khdhub.one",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "FullHDFilmizlesene": {
+    "module": "FullHDFilmizlesene",
+    "version": "21",
+    "className": "FullHDFilmizlesene",
+    "packageName": "com.cloudstream.tr.fullhdfilmizlesene",
+    "mainUrl": "https://www.fullhdfilmizlesene.now",
+    "name": "FullHDFilmizlesene",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/\" to \"Son Eklenen Filmler\",",
+      "\"${mainUrl}/filmizle/turkce-dublaj-filmler-1\" to \"Türkçe Dublaj Filmler\",",
+      "\"${mainUrl}/filmizle/turkce-altyazili-filmler\" to \"Türkçe Altyazılı Filmler\",",
+      "\"${mainUrl}/filmizle/1080p-filmler-2\" to \"1080p Filmler\",",
+      "\"${mainUrl}/filmizle/aksiyon-filmleri\" to \"Aksiyon Filmleri\"",
+      "headers = mapOf(\"User-Agent\" to userAgent, \"Referer\" to \"${mainUrl}/\")"
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "RapidVidExtractor",
+      "loadExtractor"
+    ],
+    "domainKey": "FullHDFilmizlesene",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "fast",
+      "knownDetail": "https://www.fullhdfilmizlesene.now/film/hizli-ve-ofkeli-10/",
+      "expectedType": "Movie"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": true,
+      "stealthFallback": true,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "detail"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/autocomplete/q.php?q={query}&callback=",
+        "headers": {
+          "Referer": "https://www.fullhdfilmizlesene.now/"
+        },
+        "jsonKey": "baslik"
+      },
+      "homepage": {
+        "selectors": [
+          ".list li.film a.tt",
+          ".list li.film a[href*='/film/']",
+          "a[href*='/film/']"
+        ],
+        "requiredUrlPatterns": [
+          "/film/"
+        ],
+        "excludedUrlPatterns": [
+          "/kategori/",
+          "/tur/",
+          "/iletisim/",
+          "/sayfa/"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://www.fullhdfilmizlesene.now",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "HDFilmCehennemi": {
+    "module": "HDFilmCehennemi",
+    "version": "112",
+    "className": "HDFilmCehennemi",
+    "packageName": "com.cloudstream.tr.hdfilmcehennemi",
+    "mainUrl": "https://www.hdfilmcehennemi.nl",
+    "name": "HDFilmCehennemi",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/\" to \"Son Eklenen Filmler\",",
+      "\"${mainUrl}/tur/animasyon-izle/\" to \"Animasyon Filmleri\",",
+      "\"${mainUrl}/category/film-izle-2/\" to \"Filmler\",",
+      "\"${mainUrl}/yabancidiziizle-5/\" to \"Diziler\",",
+      "\"${mainUrl}/dil/turkce-dublajli-film-izleyin-6/\" to \"Türkçe Dublaj\",",
+      "\"${mainUrl}/dil/turkce-altyazili-filmleri-izleme-sitesi-3/\" to \"Türkçe Altyazılı\""
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [
+      "RapidrameExtractor.kt"
+    ],
+    "calledExtractors": [
+      "RapidrameExtractor",
+      "loadExtractor"
+    ],
+    "domainKey": "HDFilmCehennemi",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "Spider",
+      "knownDetail": "https://www.hdfilmcehennemi.nl/spider-man-brand-new-day/",
+      "expectedType": "Movie"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": true,
+      "stealthFallback": true,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "detail"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/search?q={query}",
+        "headers": {
+          "X-Requested-With": "fetch",
+          "Content-Type": "application/json"
+        },
+        "jsonKey": "results"
+      },
+      "homepage": {
+        "selectors": [
+          "a.poster",
+          "div.card-video a",
+          ".movie-card a"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/kategori/",
+          "/tur/",
+          "/iletisim/",
+          "/sayfa/"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://www.hdfilmcehennemi.nl",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "HDFilmDelisi": {
+    "module": "HDFilmDelisi",
+    "version": "21",
+    "className": "HDFilmDelisi",
+    "packageName": "com.cloudstream.tr.hdfilmdelisi",
+    "mainUrl": "https://hdfilmdelisi.one",
+    "name": "HDFilmDelisi",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/imdb-top-250\" to \"IMDb Top 250\",",
+      "\"${mainUrl}/tur/aksiyon\" to \"Aksiyon Filmleri\",",
+      "\"${mainUrl}/tur/bilim-kurgu\" to \"Bilim Kurgu\",",
+      "\"${mainUrl}/tur/gerilim\" to \"Gerilim\",",
+      "\"${mainUrl}/tur/animasyon\" to \"Animasyon\"",
+      "\"Referer\" to \"https://pl.vixolity.com/\","
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "HDFilmDelisi",
+    "healthTier": "standard",
+    "smokeTest": {
+      "searchQuery": "avatar",
+      "knownDetail": "https://hdfilmdelisi.one/film/saplanti-obsession",
+      "expectedType": "Movie"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": true,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "movie",
+        "episodeSelector": "a[href*=\"/film/\"]"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/?s={query}",
+        "headers": {
+          "Referer": "https://hdfilmdelisi.one/"
+        }
+      },
+      "homepage": {
+        "selectors": [
+          "a.poster-card",
+          "a[href*=\"/dizi/\"]",
+          "a[href*=\"/film/\"]"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/ara",
+          "/profil",
+          "/giris"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://hdfilmdelisi.one",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "JetFilmIzle": {
+    "module": "JetFilmIzle",
+    "version": "22",
+    "className": "JetFilmIzle",
+    "packageName": "com.cloudstream.tr.jetfilmizle",
+    "mainUrl": "https://jetfilmizle.now",
+    "name": "JetFilmIzle",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/\" to \"Son Eklenenler\",",
+      "\"${mainUrl}/tur/aksiyon\" to \"Aksiyon\",",
+      "\"${mainUrl}/tur/bilim-kurgu\" to \"Bilim Kurgu\",",
+      "\"${mainUrl}/tur/komedi\" to \"Komedi\",",
+      "\"${mainUrl}/tur/korku\" to \"Korku\",",
+      "\"${mainUrl}/tur/macera\" to \"Macera\","
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "JetFilmIzle",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "batman",
+      "knownDetail": "https://jetfilmizle.now/film/batman-ninja-vs-yakuza-league",
+      "expectedType": "Movie"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": true,
+      "stealthFallback": true,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "detail"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/arama?q={query}",
+        "expectedSelector": "div.film-card"
+      },
+      "homepage": {
+        "selectors": [
+          "article.movie a",
+          "div.movie-item a"
+        ],
+        "requiredUrlPatterns": [
+          "/film/"
+        ],
+        "excludedUrlPatterns": [
+          "/kategori/",
+          "/tur/"
+        ]
+      }
+    },
+    "disabledReason": "DISABLED_UNSUPPORTED: Site DOM restructured, player extraction unsupported.",
+    "resolvedCurrentUrl": "https://jetfilmizle.now",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "KultFilmler": {
+    "module": "KultFilmler",
+    "version": "54",
+    "className": "KultFilmler",
+    "packageName": "com.cloudstream.tr.kultfilmler",
+    "mainUrl": "https://kultfilmler.net",
+    "name": "KultFilmler",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/\" to \"Son Eklenenler\",",
+      "\"${mainUrl}/film-arsivi/\" to \"Film Arşivi\",",
+      "\"${mainUrl}/dizi-kategori/mini-dizi-izle/\" to \"Diziler\"",
+      "\"s\" to \"\"",
+      "\"Origin\" to \"https://vidpapi.xyz\","
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "KultFilmler",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "Soldier",
+      "knownDetail": "https://kultfilmler.net/soldier-asker/",
+      "expectedType": "Movie"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": true,
+      "stealthFallback": true,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "detail"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/?s={query}",
+        "expectedSelector": "a.mcard, a.dcard, article a"
+      },
+      "homepage": {
+        "selectors": [
+          "a.mcard",
+          "a.dcard",
+          "article a"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/kategori/",
+          "/tur/",
+          "/arsiv/",
+          "/oyuncu/",
+          "/yonetmen/",
+          "/sayfa/"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://kultfilmler.net",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "RareFilmm": {
+    "module": "RareFilmm",
+    "version": "22",
+    "className": "RareFilmm",
+    "packageName": "com.cloudstream.tr.rarefilmm",
+    "mainUrl": "https://rarefilmm.com",
+    "name": "RareFilmm",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/\" to \"Latest Rare Films\",",
+      "\"${mainUrl}/category/rare-films/\" to \"Rare Films\",",
+      "\"${mainUrl}/category/world-cinema/\" to \"World Cinema\"",
+      "// 2. Links to ok.ru, archive.org, mega or other streaming hosts"
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "RareFilmm",
+    "healthTier": "standard",
+    "smokeTest": {
+      "searchQuery": "paris",
+      "knownDetail": "https://rarefilmm.com/2026/07/paris-seveille-1991/",
+      "expectedType": "Movie"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": true,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "movie",
+        "episodeSelector": "article a"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/?s={query}",
+        "headers": {
+          "Referer": "https://rarefilmm.com/"
+        }
+      },
+      "homepage": {
+        "selectors": [
+          "a.poster-card",
+          "a[href*=\"/dizi/\"]",
+          "a[href*=\"/film/\"]"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/ara",
+          "/profil",
+          "/giris"
+        ]
+      }
+    },
+    "disabledReason": "DISABLED_UNSUPPORTED: Media player hosted on OK.ru uses non-standard Russian State CA SSL failing standard TLS verification.",
+    "resolvedCurrentUrl": "https://rarefilmm.com",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "SetFilmIzle": {
+    "module": "SetFilmIzle",
+    "version": "22",
+    "className": "SetFilmIzle",
+    "packageName": "com.cloudstream.tr.setfilmizle",
+    "mainUrl": "https://www.setfilmizle.ltd",
+    "name": "SetFilmIzle",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/film/\" to \"Son Eklenen Filmler\",",
+      "\"${mainUrl}/dizi/\" to \"Son Eklenen Diziler\",",
+      "\"${mainUrl}/tur/aksiyon/\" to \"Aksiyon Filmleri\",",
+      "\"${mainUrl}/tur/bilim-kurgu/\" to \"Bilim Kurgu Filmleri\"",
+      "\"part_key\" to \"\"",
+      "\"Origin\" to \"https://fastplay.mom\""
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "SetFilmIzle",
+    "healthTier": "standard",
+    "smokeTest": {
+      "searchQuery": "avatar",
+      "knownDetail": "https://www.setfilmizle.ltd/film/the-get-out/",
+      "expectedType": "Movie"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": true,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "a[href*=\"-bolum-\"]"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/?s={query}",
+        "expectedSelector": "a[href*='/film/'], a[href*='/dizi/']",
+        "headers": {
+          "Referer": "https://www.setfilmizle.ltd/"
+        }
+      },
+      "homepage": {
+        "selectors": [
+          "a.poster-card",
+          "a[href*=\"/dizi/\"]",
+          "a[href*=\"/film/\"]"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/ara",
+          "/profil",
+          "/giris"
+        ]
+      }
+    },
+    "disabledReason": "DISABLED_UNSUPPORTED: Search 404 and player extraction unsupported.",
+    "resolvedCurrentUrl": "https://www.setfilmizle.ltd",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "SezonlukDizi": {
+    "module": "SezonlukDizi",
+    "version": "22",
+    "className": "SezonlukDizi",
+    "packageName": "com.cloudstream.tr.sezonlukdizi",
+    "mainUrl": "https://sezonlukdizi.cc",
+    "name": "SezonlukDizi",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "TvSeries"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/diziler.asp?siralama_tipi=id\" to \"Son Eklenenler\",",
+      "\"${mainUrl}/diziler.asp?siralama_tipi=trend\" to \"Popüler Diziler\",",
+      "\"${mainUrl}/diziler.asp?siralama_tipi=imdb\" to \"En Yüksek IMDb\"",
+      "\"Referer\" to \"${mainUrl}/\"",
+      "val languages = listOf(\"1\" to false, \"0\" to true) // 1: Altyazılı, 0: Dublaj"
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "SezonlukDizi",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "breaking",
+      "knownDetail": "https://sezonlukdizi.cc/diziler/breaking-bad.html",
+      "expectedType": "TvSeries"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": true,
+      "stealthFallback": true,
+      "contentType": "TvSeries",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "table tr a[href*='-sezon-'], a[href*='-sezon-']"
+      },
+      "search": {
+        "method": "POST_FORM",
+        "path": "/ajax/arama.asp",
+        "payload": {
+          "q": "{query}"
+        },
+        "headers": {
+          "X-Requested-With": "XMLHttpRequest",
+          "Referer": "https://sezonlukdizi.cc/"
+        },
+        "jsonKey": "results.diziler.results"
+      },
+      "homepage": {
+        "selectors": [
+          "div.afis a",
+          "a[href*='/diziler/']"
+        ],
+        "requiredUrlPatterns": [
+          "/diziler/"
+        ],
+        "excludedUrlPatterns": [
+          "/iletisim",
+          "/gizlilik"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://sezonlukdizi.cc",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "SinemaCX": {
+    "module": "SinemaCX",
+    "version": "21",
+    "className": "SinemaCX",
+    "packageName": "com.cloudstream.tr.sinemacx",
+    "mainUrl": "https://sinemacc.com",
+    "name": "SinemaCX",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/\" to \"Son Eklenen Filmler\",",
+      "\"${mainUrl}/dil/turkce-dublaj/\" to \"Türkçe Dublaj\",",
+      "\"${mainUrl}/dil/turkce-altyazi/\" to \"Türkçe Altyazılı\",",
+      "\"${mainUrl}/en-cok-izlenen-filmler/\" to \"En Çok İzlenenler\""
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "FilmizleInExtractor",
+      "loadExtractor"
+    ],
+    "domainKey": "SinemaCX",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "bulvar",
+      "knownDetail": "https://sinemacc.com/film/bulvar-boulevard-2026/",
+      "expectedType": "Movie"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": true,
+      "stealthFallback": true,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "detail"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/?s={query}",
+        "expectedSelector": "div.frag-k a, a[href*='/film/']"
+      },
+      "homepage": {
+        "selectors": [
+          "div.frag-k a",
+          "a[href*='/film/']"
+        ],
+        "requiredUrlPatterns": [
+          "/film/"
+        ],
+        "excludedUrlPatterns": [
+          "/kategori/",
+          "/tur/"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://sinemacc.com",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "StarTV": {
+    "module": "StarTV",
+    "version": "7",
+    "className": "StarTV",
+    "packageName": "com.cloudstream.tr.startv",
+    "mainUrl": "https://www.startv.com.tr",
+    "name": "StarTV",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "TvSeries"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "override val mainPage = mainPageOf(\"/dizi\" to \"Türk Dizileri\")"
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [],
+    "domainKey": "StarTV",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "Tuzlu Kahve",
+      "knownDetail": "https://www.startv.com.tr/dizi/tuzlu-kahve",
+      "expectedType": "TvSeries"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": false,
+      "contentType": "TvSeries",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "a[href*='/bolumler/']"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/dizi",
+        "expectedSelector": "a[href='/dizi/tuzlu-kahve'] img"
+      },
+      "homepage": {
+        "path": "/dizi",
+        "selectors": [
+          "a[href^='/dizi/']"
+        ],
+        "requiredUrlPatterns": [
+          "/dizi/"
+        ],
+        "excludedUrlPatterns": [
+          "/bolumler",
+          "/sahneler",
+          "/fragmanlar"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://www.startv.com.tr",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "WebDramaTurkey": {
+    "module": "WebDramaTurkey",
+    "version": "22",
+    "className": "WebDramaTurkey",
+    "packageName": "com.cloudstream.tr.webdramaturkey",
+    "mainUrl": "https://webdramaturkey2.com",
+    "name": "WebDramaTurkey",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "AsianDrama"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/diziler\" to \"Diziler\",",
+      "\"${mainUrl}/filmler\" to \"Filmler\""
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie",
+      "TvSeries"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "loadExtractor"
+    ],
+    "domainKey": "WebDramaTurkey",
+    "healthTier": "standard",
+    "smokeTest": {
+      "searchQuery": "love",
+      "knownDetail": "https://webdramaturkey2.com/dizi/hidden-love-izle",
+      "expectedType": "AsianDrama"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": true,
+      "contentType": "AsianDrama",
+      "playerProbe": {
+        "mode": "episode",
+        "episodeSelector": "a[href*=\"-bolum\"]"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/arama?q={query}",
+        "headers": {
+          "Referer": "https://webdramaturkey2.com/"
+        }
+      },
+      "homepage": {
+        "selectors": [
+          "a.poster-card",
+          "a[href*=\"/dizi/\"]",
+          "a[href*=\"/film/\"]"
+        ],
+        "requiredUrlPatterns": [
+          "/"
+        ],
+        "excludedUrlPatterns": [
+          "/ara",
+          "/profil",
+          "/giris"
+        ]
+      }
+    },
+    "disabledReason": "DISABLED_UNSUPPORTED: dtpasn.asia obfuscated proprietary player with anti-bot debugger traps.",
+    "resolvedCurrentUrl": "https://webdramaturkey2.com",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "YTS": {
+    "module": "YTS",
+    "version": "61",
+    "className": "YTS",
+    "packageName": "com.cloudstream.tr.yts",
+    "mainUrl": "https://yts.gg",
+    "name": "YTS",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Torrent",
+      "Movie"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/api/v2/list_movies.json?sort_by=download_count\" to \"En Çok İndirilenler\",",
+      "\"${mainUrl}/api/v2/list_movies.json?sort_by=like_count\" to \"En Popüler Filmler\",",
+      "\"${mainUrl}/api/v2/list_movies.json?sort_by=year\" to \"En Yeni Filmler\",",
+      "\"${mainUrl}/api/v2/list_movies.json?quality=2160p\" to \"4K Ultra HD Filmler\"",
+      "// Fall back to resolving as plain string"
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [],
+    "domainKey": "YTS",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "Inception",
+      "knownDetail": "https://yts.gg/api/v2/movie_details.json?movie_id=1606&with_images=true",
+      "expectedType": "Torrent"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": false,
+      "stealthFallback": true,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "detail"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/api/v2/list_movies.json?query_term={query}&limit=20",
+        "jsonKey": "data.movies",
+        "headers": {
+          "Referer": "https://yts.gg/"
+        }
+      },
+      "homepage": {
+        "selectors": [
+          "div.browse-movie-wrap a",
+          "a[href*=\"/movies/\"]"
+        ],
+        "requiredUrlPatterns": [
+          "/movies/"
+        ],
+        "excludedUrlPatterns": [
+          "/browse-movies",
+          "/login",
+          "/register"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://yts.gg",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  },
+  "YesilCamTv": {
+    "module": "YesilCamTv",
+    "version": "32",
+    "className": "YesilCamTv",
+    "packageName": "com.cloudstream.tr.yesilcamtv",
+    "mainUrl": "https://yesilcamtv.com.tr",
+    "name": "YesilCamTv",
+    "hasMainPage": "true",
+    "hasQuickSearch": "true",
+    "supportedTypes": [
+      "Movie"
+    ],
+    "hasGetMainPage": true,
+    "getMainPageSig": "page: Int, request: MainPageRequest",
+    "getMainPageUsesPage": true,
+    "mainPageSample": [
+      "\"${mainUrl}/\" to \"Son Eklenenler\",",
+      "\"${mainUrl}/film-arsivi/\" to \"Film Arşivi\",",
+      "\"${mainUrl}/category/komedi/\" to \"Komedi\",",
+      "\"${mainUrl}/category/dram/\" to \"Dram\",",
+      "\"${mainUrl}/category/aksiyon/\" to \"Aksiyon\",",
+      "\"${mainUrl}/category/macera/\" to \"Macera\","
+    ],
+    "hasSearch": true,
+    "searchSig": "query: String, page: Int",
+    "hasLoad": true,
+    "loadSig": "url: String",
+    "loadReturns": [
+      "Movie"
+    ],
+    "hasLoadLinks": true,
+    "extractors": [],
+    "calledExtractors": [
+      "RumbleExtractor",
+      "loadExtractor"
+    ],
+    "domainKey": "YesilCamTv",
+    "healthTier": "full",
+    "smokeTest": {
+      "searchQuery": "Kabadayi",
+      "knownDetail": "https://yesilcamtv.com.tr/sahte-kabadayi-izle/",
+      "expectedType": "Movie"
+    },
+    "monitoring": {
+      "preferredFetch": "HTTP",
+      "dynamicFallback": true,
+      "stealthFallback": true,
+      "contentType": "Movie",
+      "playerProbe": {
+        "mode": "detail"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/?s={query}",
+        "expectedSelector": ".listmovie, article, div.item, div.post, div.search-result, a[href*='-izle/']"
+      },
+      "homepage": {
+        "selectors": [
+          ".movies-list a",
+          ".listmovie a",
+          "article a[href*='-izle']",
+          "div.item-filmes a"
+        ],
+        "requiredUrlPatterns": [
+          "-izle"
+        ],
+        "excludedUrlPatterns": [
+          "/kategori/",
+          "/category/",
+          "/genre/",
+          "/tag/",
+          "/etiket/",
+          "/sayfa/"
+        ]
+      }
+    },
+    "disabledReason": null,
+    "resolvedCurrentUrl": "https://yesilcamtv.com.tr",
+    "mirrors": [],
+    "domainStatus": "ACTIVE"
+  }
+}

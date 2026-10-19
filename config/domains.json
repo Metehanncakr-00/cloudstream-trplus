@@ -5,8 +5,13 @@
   "providers": {
     "BlenderOpenMovies": {
       "canonical": "https://video.blender.org",
-      "allowedHosts": ["video.blender.org"],
-      "expectedMarkers": ["Blender", "blender_open_movies"],
+      "allowedHosts": [
+        "video.blender.org"
+      ],
+      "expectedMarkers": [
+        "Blender",
+        "blender_open_movies"
+      ],
       "lastChecked": "2026-10-16",
       "status": "active",
       "notes": "Official public PeerTube channel API and same-host Sintel MP4 byte probes verified; device playback and audio language remain unverified."
@@ -521,6 +526,21 @@
       "expectedMarkers": [
         "YTS",
         "yts"
+      ],
+      "lastChecked": null,
+      "status": "active"
+    },
+    "TRPlusOne": {
+      "canonical": "https://trplus.one.invalid",
+      "allowedHosts": [
+        "trplus.one.invalid",
+        "trplusone.internal",
+        "hdfilmcehennemi.nl",
+        "sezonlukdizi.cc",
+        "animecix.tv"
+      ],
+      "expectedMarkers": [
+        "TR+ ONE"
       ],
       "lastChecked": null,
       "status": "active"

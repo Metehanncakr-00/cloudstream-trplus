@@ -1,0 +1,18 @@
+{
+  "project": "TR+ ONE",
+  "phase": "A1",
+  "date": "2026-10-19",
+  "distributionStatus": "SOURCE_PROTOTYPE_NOT_PUBLISHED",
+  "runtimeTest": "NOT_TESTED",
+  "sourceOfTruth": "github.com/Metehanncakr-00/cloudstream-trplus main; three source SHA crosschecks",
+  "providerCountTotalExceptCloudStreamHub": 25,
+  "implementedAdapters": [
+    {"id":"HDFilmCehennemi","catalog":"SOURCE_IMPLEMENTED","search":"SOURCE_IMPLEMENTED","load":"SOURCE_IMPLEMENTED","loadLinks":"SOURCE_IMPLEMENTED","physicalPlayback":"NOT_TESTED"},
+    {"id":"SezonlukDizi","catalog":"SOURCE_IMPLEMENTED","search":"SOURCE_IMPLEMENTED","load":"SOURCE_IMPLEMENTED","loadLinks":"SOURCE_IMPLEMENTED","physicalPlayback":"NOT_TESTED"},
+    {"id":"AnimeciX","catalog":"SOURCE_IMPLEMENTED","search":"SOURCE_IMPLEMENTED","load":"SOURCE_IMPLEMENTED","loadLinks":"SOURCE_IMPLEMENTED","physicalPlayback":"NOT_TESTED","knownCaveat":"Some anime video hosts may block streaming; anime movies represented as episodic anime by provider"}
+  ],
+  "notYetIntegrated": ["Animeler","BelgeselX","BlenderOpenMovies","DiziIzle","DiziKorea","DiziYou","Dizigecesi","Dizilla","DramaDizilerim","FilmMakinesi","FourKHDHub","FullHDFilmizlesene","HDFilmDelisi","JetFilmIzle","KultFilmler","RareFilmm","SetFilmIzle","SinemaCX","StarTV","WebDramaTurkey","YTS","YesilCamTv"],
+  "verifiedRealCatalogItems": 0,
+  "verifiedPlayableItems": 0,
+  "notes": "Zero means not externally verified in this environment, not that sources are actually empty."
+}

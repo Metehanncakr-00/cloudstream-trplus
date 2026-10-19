@@ -7,7 +7,9 @@
       "module": "BlenderOpenMovies",
       "enabled": true,
       "language": "en",
-      "types": ["Movie"],
+      "types": [
+        "Movie"
+      ],
       "domainKey": "BlenderOpenMovies",
       "healthTier": "standard",
       "smokeTest": {
@@ -1677,6 +1679,25 @@
             "/register"
           ]
         }
+      }
+    },
+    {
+      "name": "TR+ ONE",
+      "module": "TRPlusOne",
+      "enabled": true,
+      "language": "tr",
+      "types": [
+        "Movie",
+        "TvSeries",
+        "Anime",
+        "AnimeMovie"
+      ],
+      "domainKey": "TRPlusOne",
+      "healthTier": "standard",
+      "smokeTest": {
+        "searchQuery": "kurtlar",
+        "knownDetail": "https://trplusone.internal/kurtlar-vadisi",
+        "expectedType": "TvSeries"
       }
     }
   ]
