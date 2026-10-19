@@ -492,10 +492,10 @@
     "name": "StarTV"
   },
   {
-    "fileHash": "sha256-cca5d471502ffb4ef3fb54cd00fa6e9ff9275507680cf2053c7778e84f377397",
+    "fileHash": "sha256-f8c4fbb3f159bc420d4fe264d4592f87c66b4a4b2c38b12c76a9aadcb9f2addb",
     "apiVersion": 1,
     "repositoryUrl": "https://github.com/Metehanncakr-00/cloudstream-trplus",
-    "fileSize": 313914,
+    "fileSize": 320703,
     "status": 1,
     "language": "tr",
     "authors": [
@@ -507,9 +507,9 @@
       "Anime",
       "AnimeMovie"
     ],
-    "version": 3,
+    "version": 4,
     "internalName": "TRPlusOne",
-    "description": "TR+ ONE v3: 9 sağlayıcılı çoklu kaynak birleşik katalog ve oynatma mimarisi",
+    "description": "TR+ ONE v4: Çalışan DiziYou kaynağını birleştirme, dinamik arama, takma ad yönlendirmesi ve canlı tanılama ekranı",
     "url": "https://raw.githubusercontent.com/Metehanncakr-00/cloudstream-trplus/builds/TRPlusOne.cs3",
     "name": "TR+ ONE"
   },
