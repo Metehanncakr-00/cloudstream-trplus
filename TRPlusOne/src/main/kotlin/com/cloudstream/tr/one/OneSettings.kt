@@ -36,6 +36,9 @@ object OneDiagnostics {
 
     @Synchronized fun log(event: String, detail: String) {
         record(event, detail)
+        runCatching {
+            android.util.Log.d("TR+ONE", "[$event] $detail")
+        }
     }
 
     @Synchronized fun report(): String = if (logs.isEmpty()) "Henüz ölçüm yok." else logs.joinToString("\n")

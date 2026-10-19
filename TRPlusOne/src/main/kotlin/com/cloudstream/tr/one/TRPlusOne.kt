@@ -119,12 +119,12 @@ class TRPlusOne : MainAPI() {
     private suspend fun providerDetails(media: CanonicalMedia): List<Pair<ProviderListing, LoadResponse>> = coroutineScope {
         media.listings.map { listing ->
             async(Dispatchers.IO) {
-                val api = OneProviders.byId(listing.providerId) ?: return@async null
+                val adapter = OneProviders.byId(listing.providerId) ?: return@async null
                 if (!OneSettings.isEnabled(listing.providerId)) return@async null
                 val startNs = System.nanoTime()
                 OneDiagnostics.log("PROVIDER_LOAD_START", "provider=${listing.providerId} url=${listing.url}")
                 try {
-                    val load = withTimeoutOrNull(4500L) { api.load(listing.url) }
+                    val load = withTimeoutOrNull(4500L) { adapter.loadDetail(listing.url) }
                     val durationMs = (System.nanoTime() - startNs) / 1_000_000
                     if (load != null) {
                         OneDiagnostics.log("PROVIDER_LOAD_SUCCESS", "provider=${listing.providerId} type=${load.javaClass.simpleName} ms=$durationMs")
@@ -189,20 +189,18 @@ class TRPlusOne : MainAPI() {
             }
         } else {
             val episodes = linkedMapOf<String, Episode>()
-            detailed.forEach { (_, data) ->
+            detailed.forEach { (listing, data) ->
                 if (data is TvSeriesLoadResponse) data.episodes.forEach { ep ->
-                    val s = ep.season
-                    val e = ep.episode
-                    // Unknown-number episodes cannot safely route between providers.
-                    if (s == null || e == null) {
-                        OneDiagnostics.record("episodes", "UNKNOWN_NUMBER_SKIPPED id=$mediaId")
-                        return@forEach
+                    val s = ep.season ?: 1
+                    val e = ep.episode ?: 1
+                    if (ep.data.isNotBlank()) {
+                        OneEpisodeRegistry.register(media.id, s, e, listing.providerId, ep.data)
                     }
                     val key = "$s:$e"
                     if (key !in episodes) {
                         val epPlayUrl = OneRouteCodec.episodeUrl(media.id, s, e)
                         episodes[key] = newEpisode(epPlayUrl) {
-                            this.name = ep.name
+                            this.name = ep.name ?: "${s}. Sezon ${e}. Bölüm"
                             this.season = s
                             this.episode = e
                             this.posterUrl = ep.posterUrl
@@ -215,6 +213,7 @@ class TRPlusOne : MainAPI() {
                 OneDiagnostics.log("LOAD_FAILED", "REASON=NO_EPISODES id=$mediaId")
                 return null
             }
+            background.launch { OneEpisodeRegistry.persist() }
             newTvSeriesLoadResponse(
                 media.name,
                 url,
@@ -263,52 +262,120 @@ class TRPlusOne : MainAPI() {
         }
 
         val isEpisode = route is OneRoute.Episode
-        val season = (route as? OneRoute.Episode)?.season
-        val number = (route as? OneRoute.Episode)?.episode
+        val season = (route as? OneRoute.Episode)?.season ?: 1
+        val episode = (route as? OneRoute.Episode)?.episode ?: 1
 
-        var count = 0
-        // Preserve every provider choice; a broken provider must not hide working peers.
+        val providerTargets = mutableMapOf<String, String>()
+        if (isEpisode) {
+            val fromRegistry = OneEpisodeRegistry.get(mediaId, season, episode)
+            if (fromRegistry.isNotEmpty()) {
+                OneDiagnostics.log("EPISODE_DATA_FOUND", "id=$mediaId s=$season e=$episode providers=${fromRegistry.keys}")
+                providerTargets.putAll(fromRegistry)
+            } else {
+                OneDiagnostics.log("EPISODE_DATA_MISSING", "id=$mediaId s=$season e=$episode")
+            }
+        }
+
+        var totalCount = 0
+
         for (listing in media.listings) {
-            val api = OneProviders.byId(listing.providerId) ?: continue
-            if (!OneSettings.isEnabled(listing.providerId)) continue
+            val provId = listing.providerId
+            if (!OneSettings.isEnabled(provId)) continue
+            val adapter = OneProviders.byId(provId) ?: continue
+
+            var targetData = providerTargets[provId]
+
+            if (targetData == null) {
+                try {
+                    val load = withTimeoutOrNull(4500L) { adapter.loadDetail(listing.url) }
+                    if (load != null) {
+                        targetData = if (!isEpisode) {
+                            (load as? MovieLoadResponse)?.dataUrl ?: listing.url
+                        } else {
+                            val eps = (load as? TvSeriesLoadResponse)?.episodes.orEmpty()
+                            val matched = eps.firstOrNull { (it.season ?: 1) == season && (it.episode ?: 1) == episode }
+                            matched?.data?.also { directUrl ->
+                                OneEpisodeRegistry.register(mediaId, season, episode, provId, directUrl)
+                            }
+                        }
+                        if (targetData != null) {
+                            providerTargets[provId] = targetData
+                        }
+                    }
+                } catch (e: CancellationException) { throw e }
+                catch (e: Exception) {
+                    OneDiagnostics.log("EXTRACTOR_FAILED", "provider=$provId stage=FALLBACK_DETAIL error=${e.javaClass.simpleName}")
+                }
+            }
+
+            if (targetData == null) continue
+
             try {
                 val pStartNs = System.nanoTime()
-                val worked = withTimeoutOrNull(6500L) {
-                    val load = api.load(listing.url) ?: return@withTimeoutOrNull false
-                    val targetData = if (!isEpisode) {
-                        (load as? MovieLoadResponse)?.dataUrl
-                    } else {
-                        if (season == null || number == null || season < 0 || number < 0) null
-                        else (load as? TvSeriesLoadResponse)?.episodes
-                            ?.firstOrNull { it.season == season && it.episode == number }?.data
-                    } ?: return@withTimeoutOrNull false
+                var pCount = 0
+                OneDiagnostics.log("PROVIDER_LINKS_START", "provider=$provId url=$targetData")
 
-                    api.loadLinks(targetData, isCasting, subtitleCallback) { link ->
-                        @Suppress("DEPRECATION")
-                        val wrapped = ExtractorLink(
-                            source = "[${listing.providerId}] ${link.source}",
-                            name = "[${listing.providerId}] ${link.name}",
-                            url = link.url,
-                            referer = link.referer,
-                            quality = link.quality,
-                            type = link.type,
-                            headers = link.headers,
-                            extractorData = link.extractorData
-                        )
-                        callback(wrapped)
-                        count++
+                val worked = withTimeoutOrNull(6500L) {
+                    adapter.loadLinks(targetData, isCasting, subtitleCallback) { link ->
+                        val formatted = tagLink(link, provId)
+                        callback(formatted)
+                        pCount++
+                        totalCount++
                     }
-                }
+                } ?: false
+
                 val pMs = (System.nanoTime() - pStartNs) / 1_000_000
-                OneDiagnostics.record(listing.providerId, "play route=${route.javaClass.simpleName} yielded=$worked links=$count ms=$pMs")
+                OneDiagnostics.log("PROVIDER_LINKS_RESULT", "provider=$provId links=$pCount worked=$worked ms=$pMs")
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) {
-                OneDiagnostics.record(listing.providerId, "play ERROR:${e.javaClass.simpleName}")
+                OneDiagnostics.log("EXTRACTOR_FAILED", "provider=$provId error=${e.javaClass.simpleName}")
             }
         }
 
         val totalMs = (System.nanoTime() - startNs) / 1_000_000
-        OneDiagnostics.log("LOAD_LINKS_RESULT", "yielded=$count links totalMs=$totalMs")
-        return count > 0
+        OneDiagnostics.log("PLAYABLE_LINKS_TOTAL", "id=$mediaId links=$totalCount totalMs=$totalMs")
+        return totalCount > 0
+    }
+
+    private fun tagLink(link: ExtractorLink, providerId: String): ExtractorLink {
+        val rawName = link.name
+        val rawSource = link.source
+        val hasDub = rawName.contains("dublaj", ignoreCase = true) || rawName.contains("[dil:0]", ignoreCase = true) || rawSource.contains("dublaj", ignoreCase = true)
+        val hasSub = rawName.contains("altyaz", ignoreCase = true) || rawName.contains("[dil:1]", ignoreCase = true) || rawSource.contains("altyaz", ignoreCase = true)
+
+        val cleanName = rawName
+            .replace(Regex("\\[?$providerId\\]?", RegexOption.IGNORE_CASE), "")
+            .replace(Regex("\\[(?:Türkçe )?(?:Dublaj|Altyazılı?)\\]", RegexOption.IGNORE_CASE), "")
+            .replace(Regex("\\[dil:[01]\\]", RegexOption.IGNORE_CASE), "")
+            .trim()
+
+        val langTag = when {
+            hasDub -> "[Türkçe Dublaj]"
+            hasSub -> "[Türkçe Altyazı]"
+            else -> ""
+        }
+
+        val finalName = buildString {
+            append("[$providerId] ")
+            if (cleanName.isNotBlank()) {
+                append(cleanName)
+                append(" ")
+            }
+            if (langTag.isNotBlank() && !cleanName.contains(langTag, ignoreCase = true)) {
+                append(langTag)
+            }
+        }.replace(Regex("\\s+"), " ").trim()
+
+        @Suppress("DEPRECATION")
+        return ExtractorLink(
+            source = "[$providerId] $rawSource",
+            name = finalName,
+            url = link.url,
+            referer = link.referer,
+            quality = link.quality,
+            type = link.type,
+            headers = link.headers,
+            extractorData = link.extractorData
+        )
     }
 }

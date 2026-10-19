@@ -1,4 +1,4 @@
-version = 2
+version = 3
 
 dependencies {
     add("cloudstream", "com.lagradost.cloudstream3:cloudstream:pre-release")
@@ -7,7 +7,7 @@ dependencies {
 cloudstream {
     authors = listOf("CloudStreamTR")
     language = "tr"
-    description = "TR+ ONE: Üç gerçek sağlayıcıyla bağımsız birleşik katalog prototipi"
+    description = "TR+ ONE v3: 9 sağlayıcılı çoklu kaynak birleşik katalog ve oynatma mimarisi"
     status = 1
     tvTypes = listOf("Movie", "TvSeries", "Anime", "AnimeMovie")
 }
@@ -15,7 +15,17 @@ cloudstream {
 // This is a standalone .cs3. Source files are compiled into ONE's own DEX, not loaded
 // from separately installed extensions. Do not copy provider Plugin registrations.
 val providerSources = tasks.register<Copy>("copyOneProviderSources") {
-    listOf("HDFilmCehennemi", "SezonlukDizi", "AnimeciX").forEach { module ->
+    listOf(
+        "HDFilmCehennemi",
+        "SezonlukDizi",
+        "AnimeciX",
+        "FilmMakinesi",
+        "SinemaCX",
+        "FullHDFilmizlesene",
+        "Dizilla",
+        "DiziYou",
+        "Animeler"
+    ).forEach { module ->
         from(project(":$module").fileTree("src/main/kotlin") {
             exclude("**/*Plugin.kt")
         })
@@ -28,7 +38,15 @@ tasks.matching { it.name.startsWith("compile") && it.name.endsWith("Kotlin") }
 
 android {
     namespace = "com.cloudstream.tr.one"
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
     sourceSets.getByName("main") {
         java.srcDir(providerSources.map { it.destinationDir })
     }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
+    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
 }
